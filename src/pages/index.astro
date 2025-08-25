@@ -11,6 +11,16 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+						.hero-image {
+				width: 100%;
+			}
+			.hero-image img {
+				display: block;
+				margin: 0 auto;
+				border-radius: 0px;
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
@@ -18,7 +28,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 					{IndexHeroImage && <Image layout="constrained" width={1600} height={300} src={IndexHeroImage} alt="" />}
 				</div>
 		<main>
-			<h1 class="">Personal Site of Michael Kumm</h1>
+			<h1 class="">Personal Site of Michael Kumm (mkumm)</h1>
 			<p>Most of my available time is spent programming, solo projects, learning new things, and enjoying Krakow.
 				Most of my professional time is spent programming in Elixir/Phoenix/Tailwind.
 			</p>

@@ -1,0 +1,78 @@
+---
+title: 'When a Hobby Project Breaks'
+description: 'Yesterday, my hobby project experienced an unexpected 8-hour outage. It was an extremely frustrating and humbling experience that sparked deeper reflection: where is the line between a fun little side project and something others depend on?'
+pubDate: 'Jul 26 2025'
+heroImage: '../../assets/blog/hero-when-a-hobby-breaks.png'
+---
+
+
+
+## Intro
+
+Yesterday, my hobby project — [Sprytna.Cards](https://sprytna.cards) — experienced an unexpected 8-hour outage. With only 18 active users, this may sound small, but it was an extremely frustrating and humbling experience. It also sparked some deeper reflection: where is the line between a fun little side project and something others depend on? And what responsibilities come with that shift?
+
+## The Incident
+
+### Context
+
+Sprytna.Cards is hosted on [Fly.io](https://fly.io), a platform I love. Until yesterday, I was literally using their "hobby plan," and my database was running on an unsupported “beta Postgres cluster.” It was cheap and perfect for experimenting — which made sense for what I considered a casual side project.
+
+On the morning of July 25, 2025, I was preparing to deploy a new feature that required a database migration. Although I already had daily backups, I wanted to create one more, just to be safe. So I ran:
+
+```bash
+fly postgres backup create -a <app-name>
+```
+
+> _(Spoiler alert: don’t run this command on an unsupported Postgres cluster.)_
+
+That triggered the beginning of the end: the cluster became unstable and entered a read-only state. Any Fly command I ran afterward returned a message like, “That is only supported on _x_ and _y_ clusters, you have _z_.” There was no recovery path for the cluster I was using.
+
+For hours, I attempted to get help — but quickly learned what “unsupported” really means. Thankfully, I was able to manually back up the data and save it locally. After upgrading my account and service level, I provisioned a managed Postgres cluster, restored the data, updated the app configuration, and brought everything back online.
+
+The result? Sprytna.Cards now runs on a more robust setup with hourly backups, a supported database and app cluster, and — I think — a slight performance boost (but don’t quote me on that).
+
+## The Transition from Hobby to “Something Else”
+
+Sprytna.Cards started as a personal sandbox — a way for me to learn, experiment, and maybe offer something useful to a few friends. But I’m realizing that *doing something useful* isn’t just about writing good code. It’s about showing up — especially when things go wrong.
+
+Eighteen non-paying, enthusiastic users have come to rely on this project. That number might sound small, but their trust makes it feel very real. The truth is, I wasn’t taking that responsibility seriously enough. Sprytna.Cards has outgrown the sandbox.
+
+## Responsibility in the Beta Phase
+
+When you build something new, the goal is often to ship fast and get feedback. You want to learn:
+
+- Is this useful to anyone?
+- What’s missing?
+- Would someone recommend it?
+
+I love Reid Hoffman’s quote: _“If you're not embarrassed by the first version of your product, you’ve launched too late.”_ But there’s a tension between shipping fast and earning trust. How transparent do you need to be about risks, fragility, and limitations?
+
+Being clear about expectations — “this is still a hobby project,” or “this might go down unexpectedly” — matters. But so does recognizing when something has grown beyond that phase. Even in beta, people are trusting you with a piece of their day.
+
+## Apology and Appreciation
+
+To the small but incredibly supportive group using Sprytna.Cards: I’m sorry if you tried to use your card during the outage. I’ve been treating this like a toy, and that’s not fair to you.
+
+I appreciate everyone who has taken the time to try the platform, share feedback, or even use it in real-life situations. While Sprytna.Cards is still in beta — and that comes with risks — I’m no longer treating it like just a hobby.
+
+## What’s Next
+
+As Sprytna.Cards grows from a hobby project into a real beta product, I’m putting more effort into making it dependable. Things can still go wrong — but I’m working hard to reduce the odds.
+
+I am also taking the valuable feedback I received and here is my plan for the next set of features:
+
+- A better onboarding experience with a more intuitive starting point
+- More control over the external links you can associate with your card
+- Improved communication around updates, issues, and progress
+
+
+
+## Final Thoughts
+
+Building Sprytna.Cards has been a deeply rewarding experience. I’ve learned new tech, thought more deeply about design and user experience, and met people I might never have encountered otherwise.
+
+There’s real joy in seeing something you made being used — and real pain when it breaks. Both are part of the process.
+
+For other builders: pay attention to when people start depending on your work. That’s the moment to shift gears — to focus not just on features, but on reliability, communication, and support. Anticipate how you’ll handle things when they go wrong — because eventually, they will.
+
+Thanks for following along.
