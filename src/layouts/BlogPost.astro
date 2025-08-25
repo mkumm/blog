@@ -28,8 +28,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			.hero-image img {
 				display: block;
 				margin: 0 auto;
-				border-radius-bottom: 0px;
-				box-shadow: var(--box-shadow);
+				border-radius: 0px;
 			}
 			.prose {
 				width: 720px;
@@ -59,8 +58,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 	<body>
 		<Header />
-
-							<div class="hero-image">
+				<div class="hero-image">
 					{heroImage && <Image layout="constrained" width={1600} height={300} src={heroImage} alt="" />}
 				</div>
 			<main>
