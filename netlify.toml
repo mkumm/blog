@@ -1,0 +1,8 @@
+[[redirects]]
+  from = "/posts/*"
+  to = "/blogs/:splat"
+  status = 301
+  force = true
+
+[build]
+  trailingSlash = "ignore"
