@@ -23,7 +23,7 @@ On the morning of July 25, 2025, I was preparing to deploy a new feature that re
 fly postgres backup create -a <app-name>
 ```
 
-> _(Spoiler alert: don’t run this command on an unsupported Postgres cluster.)_
+ <p class="bg-yellow-100 px-3 py-1">Don’t run this command on an unsupported Postgres cluster.</p>
 
 That triggered the beginning of the end: the cluster became unstable and entered a read-only state. Any Fly command I ran afterward returned a message like, “That is only supported on _x_ and _y_ clusters, you have _z_.” There was no recovery path for the cluster I was using.
 
