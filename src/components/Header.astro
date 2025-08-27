@@ -3,15 +3,15 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header>
+<header class="bg-white/90 sticky top-0">
 	<nav>
 		<h2><a href="/">{SITE_TITLE}</a></h2>
 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/shorts">Shorts</HeaderLink>
-			<HeaderLink href="/99xof">99xof</HeaderLink>
-			<HeaderLink href="/now">Now</HeaderLink>
+			<div class="hidden"><HeaderLink href="/99xof">99xof</HeaderLink></div>
+			<HeaderLink href="/now">Now Page</HeaderLink>
 		</div>
 		<div class="social-links">
 			<a href="https://linkedin.com/in/mkumm" target="_blank">
@@ -48,7 +48,7 @@ import HeaderLink from './HeaderLink.astro';
 	header {
 		margin: 0;
 		padding: 0 1em;
-		background: white;
+
 		box-shadow: 0 2px 8px rgba(var(--black), 5%);
 	}
 	h2 {
