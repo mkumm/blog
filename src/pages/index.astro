@@ -12,7 +12,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
-						.hero-image {
+			.hero-image {
 				width: 100%;
 			}
 			.hero-image img {
@@ -28,12 +28,37 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 					{IndexHeroImage && <Image layout="constrained" width={1600} height={300} src={IndexHeroImage} alt="" />}
 				</div>
 		<main>
-			<h1 class="">Personal Site of Michael Kumm (mkumm)</h1>
-			<p>Most of my available time is spent programming, solo projects, learning new things, and enjoying Krakow.
-				Most of my professional time is spent programming in Elixir/Phoenix/Tailwind.
+			<p class="text-gray-600" style="margin-bottom: 1em"<i>Personal Site of </i></p>
+			<h2 class="" style="margin-bottom: 0">Michael Kumm</h2>
+			<p class="text-gray-600"><i>(aka mkumm)</i></span></p>
+			<p>Most of my available time is spent: <i>programming</i>, <i>solo projects</i> and <i>experiments</i>, <i>reading and learning new things</i>,
+				and enjoying Krakow!</p>
+				<p>Most of my professional time is spent programming in <b>Elixir</b> and <b>Phoenix</b>.
 			</p>
-			<p>I have a few posts here, the rest of the posts are <a href="/blog">here</a></p>
 
+			<article>
+			<p>My <a href="/blog">Blog</a> is mostly technical and related topics like <a href="/blog/first-hops-with-rabbitmq/">First Hops With RabbitMQ</a> and
+		<a href="/blog/when-hobby-project-breaks/">When a Hobby Project Breaks</a>.
+		</p>
+			</article>
+
+		<article>
+			<p><a href="/shorts">Shorts</a> is more random twitter(x)-like posts. <a href="/shorts/20250621a-affogato/">Where to get great affogato in Krakow</a> and <a href="/shorts/20250822a-building-grit/">my experiments on building <i>Grit</i> for example</a>.
+		</p>
+			</article>
+
+		<article>
+			<p>My <a href="/now">Now Page</a> is inspired from <a href="https://sive.rs/">Derek Siver's</a> <a href="https:/nownownow/about">Now Pages</a>, a short summary on what is current in my life.
+		</p>
+			</article>
+
+		<article>
+			<p>I am working on some loosely coupled ideas on creating personal fundamental change I label as <b>99 <i>x</i> of</b> that will go live on September 1.
+			</p>
+		</article>
+
+		<hr class="pt-3 pb-6"/>
+		<p class="text-sm text-gray-600 center">All photos on the site are my own, available through creative commons license. DM me on <a href="https://x.com/mkumm">twitter</a> or <a href="https://www.instagram.com/mkumm/">instagram</a> for better versions. </p>
 
 		</main>
 		<Footer />

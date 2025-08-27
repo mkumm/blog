@@ -1,0 +1,55 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import IndexHeroImage from '../assets/pages/hero-99xof.png';
+import { Image } from 'astro:assets';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			.hero-image {
+				width: 100%;
+			}
+			.hero-image img {
+				display: block;
+				margin: 0 auto;
+				border-radius: 0px;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+				<div class="hero-image">
+					{IndexHeroImage && <Image layout="constrained" width={1600} height={300} src={IndexHeroImage} alt="" />}
+				</div>
+		<main>
+			<h1 class="">99 <i>x</i> of <i>____</i></h1>
+			<p>
+        A loose coupling of ideas centered around on what it takes to fundamentally change.
+			</p>
+      <p><i>Section coming soon</i></p>
+      <div class="hidden">
+      <h2>Main Ideas</h2>
+      <p>If it take 21 days to build a habit, I think it takes 100 to fundamentally change a personal trait or build a foundation towards mastery of a new skill. 100 can be temporal (days, hours, ...)or units (workouts, paintings, meals) iterations with some caveats.</p>
+      <p>It is the milestone that our mind uses to decide if this thing is important or we can dismiss it as an anomaly to otherwise set of skills and habits.</p>
+      <p>100 keeps coming up as a milestone. </p>
+
+      <h2>Paper and Pen Tools (all you need)</h2>
+      <h3>Habit Tracking</h3>
+      <h3></h3>
+
+      <h2>Personal Experiments</h2>
+
+      <h3><b>99</b> <i>days</i> <b>of</b> <i></i>building grit</i></h3>
+      </div>
+
+
+		</main>
+		<Footer />
+	</body>
+</html>
