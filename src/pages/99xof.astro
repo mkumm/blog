@@ -14,39 +14,48 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		<style>
 			.hero-image {
 				width: 100%;
+				max-width: 100vw;
 			}
 			.hero-image img {
 				display: block;
 				margin: 0 auto;
 				border-radius: 0px;
+				width: 100%;
+				height: auto;
+				max-height: 300px;
+				object-fit: cover;
+			}
+			@media (max-width: 720px) {
+				.hero-image img {
+					max-height: 160px;
+				}
 			}
 		</style>
 	</head>
 	<body>
 		<Header />
 				<div class="hero-image">
-					{IndexHeroImage && <Image layout="constrained" width={1600} height={300} src={IndexHeroImage} alt="" />}
+					{IndexHeroImage && <Image layout="constrained" src={IndexHeroImage} alt="" />}
 				</div>
 		<main>
-			<h1 class="">99 <i>x</i> of <i>____</i></h1>
+			<div class="mb-6">
+			<h1 class="">99 <i><span class="cursive">x of </span></i></h1>
+			<h2>Foundational changes</h2>
+			</div>
 			<p>
-        A loose coupling of ideas centered around on what it takes to fundamentally change.
+			What follows is my collection &mdash; a loose coupling of ideas, experiments, and experiences on the challenges and possible breakthroughs in creating fundamental personal change.
 			</p>
-      <p><i>Section coming soon</i></p>
-      <div class="hidden">
+
+
       <h2>Main Ideas</h2>
-      <p>If it take 21 days to build a habit, I think it takes 100 to fundamentally change a personal trait or build a foundation towards mastery of a new skill. 100 can be temporal (days, hours, ...)or units (workouts, paintings, meals) iterations with some caveats.</p>
-      <p>It is the milestone that our mind uses to decide if this thing is important or we can dismiss it as an anomaly to otherwise set of skills and habits.</p>
-      <p>100 keeps coming up as a milestone. </p>
+      <p>If it take 21-ish days to build a habit, I think it takes 100 <i>somethings</i> to fundamentally change a personal trait or build a foundation towards mastery of a new skill. 100 can be temporal (days, hours, ...) or units (workouts, paintings, meals) with some caveats, I think this general rule holds true.</p>
+      <p>100 seems to be the milestone that our mind uses to decide if <i>a</i> thing is important or we can dismiss it as an anomaly to otherwise set of skills and habits.</p>
 
-      <h2>Paper and Pen Tools (all you need)</h2>
-      <h3>Habit Tracking</h3>
-      <h3></h3>
 
-      <h2>Personal Experiments</h2>
+			<h2>Personal Experiments</h2>
+			<p><i>Content coming by September 1, 2025</i></p>
 
-      <h3><b>99</b> <i>days</i> <b>of</b> <i></i>building grit</i></h3>
-      </div>
+
 
 
 		</main>

@@ -1,6 +1,7 @@
 ---
 import NowHeroImage from '../assets/pages/hero-now.png';
 import Layout from '../layouts/BlogPost.astro';
+import PersonLink from '../components/PersonLink.astro'
 ---
 
 <Layout
@@ -12,7 +13,7 @@ import Layout from '../layouts/BlogPost.astro';
 
 	<h2>What I'm Doing Now</h2>
 	<p>This is a <a href="https://nownownow.com/about">now page</a>.
-		<a href="https://sive.rs/">Derek Sivers</a> has inspired
+		<PersonLink img_src="/profiles/sivers.png" name="Derek Sivers" link="https://sive.rs/" /> has inspired
 		<a href="https://nownownow.com/">a growing number of "nowers"</a>
 		[to create these. If you have your own site, you should consider adding a <b>Now page</b> too.</p>
 	<p>
@@ -65,9 +66,7 @@ import Layout from '../layouts/BlogPost.astro';
 	I'm finally learning to speak Polish. Progress is slow, but I'm really enjoying it.
 	If you're also interested in learning Polish, I highly recommend
 	<a href="https://e-polish.eu/polish-for-foreigners">Glossa</a> and they work with students worldwide.
-	A special thank you to <a href="https://e-polish.eu/en/polish_teachers_online/magdalena_wygladacz">Magdalena</a>,
-	my ever patient (and professional) teacher!
-
+	A special thank you to <PersonLink img_src="/profiles/magda.png" name="Magdalena Wyglądacz" link="https://e-polish.eu/en/polish_teachers_online/magdalena_wygladacz" />, my ever patient (and professional) teacher!
 </p>
 
 </Layout>

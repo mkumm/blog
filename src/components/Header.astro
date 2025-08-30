@@ -3,8 +3,8 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header class="bg-white/90">
-	<nav>
+<header class="bg-white">
+	<nav class="">
 		<h2><a href="/">{SITE_TITLE}</a></h2>
 		<button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-controls="main-nav" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'); document.getElementById('main-nav').classList.toggle('open');">
 			<span class="sr-only">Menu</span>
@@ -14,8 +14,8 @@ import HeaderLink from './HeaderLink.astro';
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/shorts">Shorts</HeaderLink>
-			<div class="hidden"><HeaderLink href="/99xof">99xof</HeaderLink></div>
-			<HeaderLink href="/now">Now Page</HeaderLink>
+			<HeaderLink href="/99xof">99xof</HeaderLink>
+			<HeaderLink href="/now">Now</HeaderLink>
 		</div>
 		<div class="social-links">
 			<a href="https://linkedin.com/in/mkumm" target="_blank">

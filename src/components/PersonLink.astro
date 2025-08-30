@@ -1,0 +1,14 @@
+---
+interface Props {
+  img_src: string;
+  name: string;
+  link: string;
+}
+
+const { img_src, name, link } = Astro.props;
+---
+
+
+
+  <a href={link}> <img src={img_src} class="w-6 h-6 rounded-full inline hover:scale-150 transition" alt={"profile " + name} /></a>
+   <a href={link}>{name}</a>

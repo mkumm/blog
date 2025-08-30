@@ -5,6 +5,7 @@ import Header from '../components/Header.astro';
 import IndexHeroImage from '../assets/pages/hero-index.png';
 import { Image } from 'astro:assets';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import PersonLink from '../components/PersonLink.astro';
 ---
 
 <!doctype html>
@@ -58,7 +59,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 			</article>
 
 		<article>
-			<p>My <a href="/now">Now Page</a> is inspired from <a href="https://sive.rs/">Derek Siver's</a> <a href="https:/nownownow/about">Now Pages</a>, a short summary on what is current in my life.
+			<p>My <a href="/now">Now Page</a> is inspired from <PersonLink img_src="/profiles/sivers.png" name="Derek Sivers" link="https://sive.rs/" /> <a href="https://nownownow.com/about">Now Pages</a>, a short summary on what is current in my life.
 		</p>
 			</article>
 
