@@ -93,7 +93,7 @@ const posts = (await getCollection('shorts')).sort(
 	<body>
 		<Header />
     <div class="hero-image">
-			{IndexHeroImage && <Image layout="constrained"  src={IndexHeroImage} alt="" />}
+			{IndexHeroImage && <Image layout="constrained"  src={IndexHeroImage} alt="hero image" loading="eager"/>}
 		</div>
 		<main>
 			<section>
