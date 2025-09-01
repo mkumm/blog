@@ -206,3 +206,5 @@ hr {
 .cursive {
 	font-family: cursive, "DancingScript", sans-serif;
 }
+
+main.xof article {@apply mt-12;}
