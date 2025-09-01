@@ -1,0 +1,19 @@
+---
+interface Props {
+  label: string;
+  url: string;
+  status: string
+}
+
+const { status, label, url } = Astro.props;
+---
+<div class="pl-6 py-1 font-semibold">{url ? (
+    <span> <a href={url} >{label}</a></span>
+  ) : (
+    <span class="text-neutral-400 italic">{label}</span>
+  )}
+
+  {status ? (<span class="ml-1 inline-block text-neutral-400 text-xs border rounded px-1 font-light"> {status}</span>) : (<span></span>)}
+
+
+</div>
