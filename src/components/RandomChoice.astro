@@ -3,7 +3,7 @@
 ---
 
 <button id="random-choice-btn" class="random-choice-button">
-  Randomly choose one for me!
+  Choose Randomly
 </button>
 
 <style>
@@ -14,7 +14,7 @@
     font-size: 1rem;
     font-weight: 600;
     color: white;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #196ee5 0%, #092049 100%);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -35,13 +35,14 @@
 <style is:global>
   .highlighted-choice {
     animation: highlight 1.5s ease-in-out;
-
+    font-weight: bold;
     border-radius: 8px;
     border-left: 4px solid #667eea;
     padding: 6px 12px;
     background-color: rgba(102, 126, 234, 0.1);
     transition: all 1.0s ease;
   }
+
 
   @keyframes highlight {
     0% {
@@ -50,7 +51,7 @@
     }
     25% {
       background-color: rgba(102, 126, 234, 0.3);
-      transform: scale(1.02);
+      transform: scale(1.10);
     }
     50% {
       background-color: rgba(102, 126, 234, 0.2);
@@ -88,7 +89,8 @@
       // Scroll to the selected heading
       selectedHeading.scrollIntoView({
         behavior: 'smooth',
-        block: 'center'
+        block: 'start',
+        inline: 'nearest'
       });
 
       // Add highlight animation
