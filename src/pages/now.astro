@@ -1,85 +1,121 @@
 ---
-import NowHeroImage from '../assets/pages/hero-now.png';
-import Layout from '../layouts/BlogPost.astro';
-import PersonLink from '../components/PersonLink.astro'
+import NowHeroImage from "../assets/pages/hero-now.png";
+import Layout from "../layouts/BlogPost.astro";
+import PersonLink from "../components/PersonLink.astro";
 ---
 
 <Layout
 	title="Now Page"
 	description="My NOW page inspired by Derek Sivers"
-	pubDate={new Date('October 09 2025')}
+	pubDate={new Date("October 09 2025")}
 	heroImage={NowHeroImage}
 >
-
 	<h2>What I'm Doing Now</h2>
 	<p>
 		This is a <a href="https://nownownow.com/about">now page</a>.
-		<PersonLink img_src="/profiles/sivers.png" name="Derek Sivers" link="https://sive.rs/" /> has inspired
+		<PersonLink
+			img_src="/profiles/sivers.png"
+			name="Derek Sivers"
+			link="https://sive.rs/"
+		/> has inspired
 		<a href="https://nownownow.com/">a growing number of "nowers"</a>
-		to create these. If you have your own site, you should consider adding a <b>Now page</b> too.
+		to create these. If you have your own site, you should consider adding a
+		<b>Now page</b> too.
 	</p>
 
 	<h2>Open Office Hours</h2>
-	<p>If you know me - let's catch up! If you don't know me, let's meet!</p>
-
-	<div class="w-full mb-6">
-		<a href="https://fantastical.app/sprytna/virtual-coffee-30-minutes" 
-		   class="bg-accent mx-auto rounded px-3 py-1 mb-6 hover:bg-yellow-100 transition-all">
+	<p>
+		If you know me - let's catch up! If you don't know me, let's meet! <br
+		/>
+		<a
+			href="https://fantastical.app/sprytna/virtual-coffee-30-minutes"
+			class="bg-accent rounded px-3 py-1 hover:bg-yellow-100 transition-all"
+		>
 			☕ Schedule 30-Minute Virtual Coffee
-		</a>
-	</div>
+		</a>.
+	</p>
 
-	<div class="w-full mb-6">
-		If you are in Krakow... <br />
-		<a href="shorts/20251003a-where-to-meet/" 
-		   class="bg-accent mx-auto rounded px-3 py-1 mb-6 hover:bg-yellow-100 transition-all">
+	<p>
+		If you are in (or visiting) Krakow... <br />
+		<a
+			href="shorts/20251003a-where-to-meet/"
+			class="bg-accent mx-auto rounded px-3 py-1 mb-6 hover:bg-yellow-100 transition-all"
+		>
 			Choose a place to meet IRL
 		</a>
 		or feel free to suggest your favorite spot.
-	</div>
-
-	<h2>Working at DraftKings</h2>
-	<p>
-		I'm currently working at <a href="https://www.draftkings.com/">DraftKings</a>, where I get to
-		write <b>Elixir</b> for one of the largest online sportsbooks and casinos—two things
-		I'm passionate about (Elixir and Gaming). I'm fortunate to work with some of the brightest and most supportive
-		people in the Elixir community.
 	</p>
 
-	<h2>Poland</h2>
-	<p>
-		I've been mostly in Kraków, Poland for nearly four years, and I really love it.
-		Our apartment is modest, but the location is fantastic—we're just a few hundred yards from a
-		beer garden, my gym, a farmer's market, two regular grocery stores, and a tram stop.
-		The city center is just 20 minutes away, and cheap round-trip flights put most of Europe
-		within easy reach.
-	</p>
-	<p>I still maintain my home in Michigan and travel back often.</p>
 
-	<h2>Solo Projects - Sprytna</h2>
-	
-	<h3>Sprytna Cards</h3>
-	<p>
-		I was inspired by people building useful little products, so I decided to try it myself.
-		In about three months (and under $100), I launched <a href="https://sprytna.cards/">Sprytna.Cards</a>
-		to beta. It is now out of beta but there are still some key features to add before I start promoting it. 
-	</p>
-	
-	<h3>Greenway App</h3>
-	<p>Still in private/secure mode, it was built for people (or groups) to track property expenses, especially for rentals.</p>
+<h2>Working at DraftKings</h2>
+<p>
+	I'm currently working at <a href="https://www.draftkings.com/">DraftKings</a
+	>, where I get to write <b>Elixir</b> for one of the largest online sportsbooks
+	and casinos—two things I'm passionate about (Elixir and Gaming). I'm fortunate
+	to work with some of the brightest and most supportive people in the Elixir community.
+</p>
 
-	<h3>AnyOneWillDo</h3>
-	<p>Just a random picker - not a dating app - I repeat - NOT A DATING APP! :) </p>
+<h2>Poland</h2>
+<p>
+	I've been mostly in Kraków, Poland for nearly four years, and I really love
+	it. Our apartment is modest, but the location is fantastic—we're just a few
+	hundred yards from a beer garden, my gym, a farmer's market, two regular
+	grocery stores, and a tram stop. The city center is just 20 minutes away,
+	and cheap round-trip flights put most of Europe within easy reach.
+</p>
+<p>I still maintain my home in Michigan and travel back often.</p>
 
-	<h3>Sprytna League</h3>
-	<p>A fun take on choosing the points your team will score each week. If your team scores at least as many points as you predeict, you get the points you guessed (not more). If your team doesn't score as many points as you guessed, you get 0 points for the week. You can see a sample page <a href="https://sprytnaleague.com">sprytnaleague.com</a> while I build out the platform.</p>
+<h2>Nauka języka polskiego (Learning Polish)</h2>
+<p>
+	I'm finally learning to speak Polish. Progress is slow, but I'm really
+	enjoying it. If you're also interested in learning Polish, I highly
+	recommend
+	<a href="https://e-polish.eu/polish-for-foreigners">Glossa</a> and they work
+	with students worldwide. A special thank you to <PersonLink
+		img_src="/profiles/magda.png"
+		name="Magdalena Wyglądacz"
+		link="https://e-polish.eu/en/polish_teachers_online/magdalena_wygladacz"
+	/>, my ever patient (and professional) teacher!
+</p>
 
-	<h2>Nauka języka polskiego (Learning Polish)</h2>
-	<p>
-		I'm finally learning to speak Polish. Progress is slow, but I'm really enjoying it.
-		If you're also interested in learning Polish, I highly recommend
-		<a href="https://e-polish.eu/polish-for-foreigners">Glossa</a> and they work with students worldwide.
-		A special thank you to <PersonLink img_src="/profiles/magda.png" name="Magdalena Wyglądacz" link="https://e-polish.eu/en/polish_teachers_online/magdalena_wygladacz" />, my ever patient (and professional) teacher!
-	</p>
+<h2>Solo Projects</h2>
+
+<dl>
+	<dt>Sprytna Cards</dt>
+	<dd>	I was inspired by people building useful little products, so I decided to
+	try it myself. In about three months (and under $100), I launched <a
+		href="https://sprytna.cards/">Sprytna.Cards</a
+	>
+	to beta. It is now out of beta but there are still some key features to add before
+	I start promoting it.</dd>
+
+	<dt>Greenway App</dt>
+<dd>
+	Still in private/secure mode, it was built for people (or groups) to track
+	property expenses, especially for rentals.
+</dd>
+
+<dt>AnyOneWillDo</dt>
+<dd>Just a random picker - not a dating app - I repeat - NOT A DATING APP! :)</dd>
+
+<dt>Sprytna League</dt>
+<dd>
+	A fun take on choosing the points your team will score each week. If your
+	team scores at least as many points as you predeict, you get the points you
+	guessed (not more). If your team doesn't score as many points as you
+	guessed, you get 0 points for the week. You can see a sample page <a
+		href="https://sprytnaleague.com">sprytnaleague.com</a
+	> while I build out the platform.
+</dd>
+</dl>
+
+
+
+
+
+
+
+
+
 
 </Layout>

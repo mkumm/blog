@@ -133,6 +133,9 @@ li > ol {
 	margin-bottom: 0.75em;
 }
 
+dt {margin-top: 1em; font-weight: 600;}
+dd {margin-left: 1em;}
+
 /* Prose container adjustments */
 .prose ul,
 .prose ol { margin-left: 1.5em; }
