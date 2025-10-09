@@ -1,0 +1,104 @@
+---
+// RandomChoice component - randomly selects and scrolls to an h2 heading
+---
+
+<button id="random-choice-btn" class="random-choice-button">
+  Randomly choose one for me!
+</button>
+
+<style>
+  .random-choice-button {
+    display: block;
+    margin: 2rem auto;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .random-choice-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .random-choice-button:active {
+    transform: translateY(0);
+  }
+</style>
+
+<style is:global>
+  .highlighted-choice {
+    animation: highlight 1.5s ease-in-out;
+
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    padding: 6px 12px;
+    background-color: rgba(102, 126, 234, 0.1);
+    transition: all 1.0s ease;
+  }
+
+  @keyframes highlight {
+    0% {
+      background-color: transparent;
+      transform: scale(1);
+    }
+    25% {
+      background-color: rgba(102, 126, 234, 0.3);
+      transform: scale(1.02);
+    }
+    50% {
+      background-color: rgba(102, 126, 234, 0.2);
+    }
+    100% {
+      background-color: rgba(102, 126, 234, 0.1);
+      transform: scale(1);
+    }
+  }
+</style>
+
+<script>
+  function setupRandomChoice() {
+    const button = document.getElementById('random-choice-btn');
+
+    if (!button) return;
+
+    button.addEventListener('click', () => {
+      // Get all h2 headings in the main content (after this button)
+      // Find the article or main content container
+      const contentContainer = document.querySelector('article') || document.querySelector('main') || document.body;
+      const headings = Array.from(contentContainer.querySelectorAll('h2'));
+
+      if (headings.length === 0) return;
+
+      // Remove previous highlight if any
+      document.querySelectorAll('.highlighted-choice').forEach(el => {
+        el.classList.remove('highlighted-choice');
+      });
+
+      // Select a random heading
+      const randomIndex = Math.floor(Math.random() * headings.length);
+      const selectedHeading = headings[randomIndex];
+
+      // Scroll to the selected heading
+      selectedHeading.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+
+      // Add highlight animation
+      selectedHeading.classList.add('highlighted-choice');
+    });
+  }
+
+  // Run on page load
+  setupRandomChoice();
+
+  // Re-run after view transitions (if using Astro view transitions)
+  document.addEventListener('astro:page-load', setupRandomChoice);
+</script>
