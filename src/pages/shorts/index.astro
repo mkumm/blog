@@ -100,7 +100,7 @@ const posts = (await getCollection('shorts')).sort(
 				<ul class="">
 					{
 						posts.map((post) => (
-							<li class="bg-slate-100 p-3 rounded-lg hover:shadow-xl hover:border-slate-100 hover:bg-slate-50 transition-all">
+							<li class="bg-slate-50 p-3 rounded-lg hover:shadow hover:border-slate-100  transition-all">
 
 								<a href={`/shorts/${post.id}/`} class="flex">
                 <div class="flex flex-row relative">
@@ -110,7 +110,7 @@ const posts = (await getCollection('shorts')).sort(
 									)}
 
                   <div class="ml-3">
-									<h4 class="title">{post.data.title}</h4>
+									<h4 class="font-semibold">{post.data.title}</h4>
                   <p class="text-gray-500 text-sm m-0 leading-3.5 sm:leading-4 mt-2">{post.data.description}</p>
 									<p class="date absolute bottom-0">
 										<FormattedDate date={post.data.pubDate} />

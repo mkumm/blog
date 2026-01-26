@@ -3,7 +3,7 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header class="bg-white">
+<header class="">
 	<nav class="">
 		<h2><a href="/">{SITE_TITLE}</a></h2>
 		<button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-controls="main-nav" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'); document.getElementById('main-nav').classList.toggle('open');">
@@ -52,7 +52,6 @@ import HeaderLink from './HeaderLink.astro';
 header {
 	margin: 0;
 	padding: 0 1em;
-	box-shadow: 0 2px 8px rgba(var(--black), 5%);
 }
 h2 {
 	margin: 0;
