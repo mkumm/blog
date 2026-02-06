@@ -10,5 +10,15 @@ const { img_src, name, link } = Astro.props;
 
 
 
-  <a href={link}> <img src={img_src} class="w-6 h-6 rounded-full inline hover:scale-150 transition" alt={"profile " + name} /></a>
+  <a href={link}> <img src={img_src} class="inline-img w-6 h-6 rounded-full inline hover:scale-150 transition" alt={"profile " + name} /></a>
    <a href={link}>{name}</a>
+
+<style>
+  .inline-img {
+    display: inline !important;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    margin: 0 !important;
+    max-width: 1.5rem !important;
+  }
+</style>

@@ -97,12 +97,18 @@ nav {
 }
 .mobile-nav-toggle svg { display: block; }
 @media (max-width: 720px) {
+	header {
+		padding: 0.75em 1em;
+	}
+	h2 {
+		font-size: 1.1rem;
+	}
 	.internal-links {
 		position: absolute;
 		top: 100%;
 		left: 0;
 		right: 0;
-		background: white;
+		background: rgba(249, 243, 237, 0.98);
 		flex-direction: column;
 		gap: 0;
 		box-shadow: 0 2px 8px rgba(var(--black), 8%);
@@ -117,6 +123,10 @@ nav {
 	}
 	.social-links {
 		display: none;
+	}
+	nav a {
+		padding: 0.875em 1em;
+		font-size: 0.9rem;
 	}
 }
 nav a {

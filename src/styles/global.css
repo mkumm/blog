@@ -171,8 +171,24 @@ li > ol {
 	margin-bottom: 0.75em;
 }
 
-dt {margin-top: 1em; font-weight: 600;}
-dd {margin-left: 1em;}
+dl {
+	margin: 1.5em 0;
+}
+dt {
+	margin-top: 1.5em;
+	margin-bottom: 0.5em;
+	font-weight: 700;
+	font-size: 1.1em;
+	color: rgb(var(--black));
+}
+dt:first-child {
+	margin-top: 0;
+}
+dd {
+	margin-left: 1.5em;
+	margin-bottom: 1em;
+	line-height: 1.6;
+}
 
 /* Prose container adjustments */
 .prose ul,
@@ -220,10 +236,73 @@ hr {
 }
 @media (max-width: 720px) {
 	body {
-		font-size: 18px;
+		font-size: 17px;
+		line-height: 1.6;
 	}
 	main {
-		padding: 1rem;
+		padding: 1rem 1rem;
+		width: 100%;
+	}
+	h1 {
+		font-size: 1.75rem;
+		margin-bottom: 1rem;
+	}
+	h2 {
+		font-size: 1.5rem;
+		margin: 1.5rem 0 0.75rem 0;
+	}
+	h3 {
+		font-size: 1.25rem;
+		margin: 1.25rem 0 0.5rem 0;
+	}
+	p {
+		margin-bottom: 1.25em;
+	}
+	.prose p {
+		margin-bottom: 1.5em;
+		font-size: 1rem;
+	}
+	/* Reduce padding on mobile for better use of screen space */
+	blockquote {
+		padding: 0 0 0 1rem;
+		margin: 1rem 0;
+		font-size: 1.1em;
+	}
+	pre {
+		padding: 0.75rem;
+		margin: 1rem -1rem;
+		border-radius: 0;
+		font-size: 0.75rem;
+		overflow-x: auto;
+		line-height: 1.4;
+	}
+	pre code {
+		font-size: 0.75rem;
+	}
+	code {
+		font-size: 0.85rem;
+		padding: 1px 4px;
+	}
+	/* Better mobile list spacing */
+	ul, ol {
+		margin-left: 1rem;
+	}
+	/* Better mobile dt/dd spacing */
+	dt {
+		margin-top: 1.25em;
+		font-size: 1em;
+	}
+	dd {
+		margin-left: 0.75em;
+		margin-bottom: 0.75em;
+	}
+	/* Edge-to-edge images on mobile */
+	img {
+		margin-left: -1rem;
+		margin-right: -1rem;
+		width: calc(100% + 2rem);
+		max-width: calc(100% + 2rem);
+		border-radius: 0;
 	}
 }
 
