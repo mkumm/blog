@@ -18,6 +18,7 @@
 	/* Warm, earthy accent colors - terracotta/rust tones */
 	--accent: #c17456;
 	--accent-dark: #a05a3f;
+	--accent-rgb: 193, 116, 86;
 
 	/* Darker, crisper text with warm undertones */
 	--black: 30, 25, 20;
