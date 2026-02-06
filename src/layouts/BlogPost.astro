@@ -46,6 +46,11 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				}
 			}
 			@media (max-width: 720px) {
+				main {
+					width: 100%;
+					max-width: 100%;
+					margin: 0;
+				}
 				.hero-image {
 					padding: 0;
 					margin-bottom: 0;
@@ -60,18 +65,12 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			}
 			.prose {
 				width: 800px;
-				max-width: calc(100% - 2em);
+				max-width: 100%;
 				margin: auto;
-				padding: 0 1rem;
+				padding: 0;
 				color: rgb(var(--gray-dark));
 				font-size: 18px;
 				line-height: 1.7;
-			}
-			@media (max-width: 720px) {
-				.prose {
-					padding: 0 1rem;
-					max-width: 100%;
-				}
 			}
 			.title {
 				margin-bottom: 2em;
