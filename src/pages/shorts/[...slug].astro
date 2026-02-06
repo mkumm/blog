@@ -3,18 +3,30 @@ import { type CollectionEntry, getCollection, render } from 'astro:content';
 import ShortsPost from '../../layouts/ShortsPost.astro';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('shorts');
-	return posts.map((post) => ({
+	const posts = (await getCollection('shorts')).sort(
+		(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+	);
+
+	return posts.map((post, index) => ({
 		params: { slug: post.id },
-		props: post,
+		props: {
+			post,
+			prevPost: index < posts.length - 1 ? posts[index + 1] : null,
+			nextPost: index > 0 ? posts[index - 1] : null,
+		},
 	}));
 }
-type Props = CollectionEntry<'shorts'>;
 
-const post = Astro.props;
+interface Props {
+	post: CollectionEntry<'shorts'>;
+	prevPost: CollectionEntry<'shorts'> | null;
+	nextPost: CollectionEntry<'shorts'> | null;
+}
+
+const { post, prevPost, nextPost } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<ShortsPost {...post.data}>
+<ShortsPost {...post.data} prevPost={prevPost} nextPost={nextPost}>
 	<Content />
 </ShortsPost>
