@@ -7,17 +7,32 @@
 /* Tailwind (v4 syntax via @tailwindcss/vite). Must appear before other rules */
 @import "tailwindcss";
 
+/* Ensure consistent box-sizing across all browsers */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
 :root {
-	--accent: #064495be;
-	--accent-dark: #0750cfec;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
+	/* Warm, earthy accent colors - terracotta/rust tones */
+	--accent: #c17456;
+	--accent-dark: #a05a3f;
+
+	/* Darker, crisper text with warm undertones */
+	--black: 30, 25, 20;
+	--gray: 100, 90, 85;
+	--gray-light: 240, 235, 230;
+	--gray-dark: 50, 45, 40;
+
+	/* Warm cream/beige backgrounds */
+	--bg-primary: #fef9f5;
+	--bg-secondary: #f9f3ed;
+
 	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
 	--box-shadow:
-		0 1px 2px rgba(var(--gray), 25%), 0 2px 12px rgba(var(--gray), 33%), 0 3px 10px
-		rgba(var(--gray), 33%);
+		0 1px 2px rgba(var(--gray), 18%), 0 2px 8px rgba(var(--gray), 22%), 0 3px 8px
+		rgba(var(--gray), 22%);
 }
 @font-face {
 	font-family: "Atkinson";
@@ -45,7 +60,7 @@ body {
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background: #ffffff;
+	background: var(--bg-primary);
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	color: rgb(var(--gray-dark));
