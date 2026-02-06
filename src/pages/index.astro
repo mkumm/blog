@@ -16,19 +16,32 @@ import PersonLink from "../components/PersonLink.astro";
 			.hero-image {
 				width: 100%;
 				max-width: 100vw;
+				background: linear-gradient(to bottom, rgb(var(--gray-light), 0.15), transparent);
+				padding: 2rem 0;
+				margin-bottom: 1rem;
 			}
 			.hero-image img {
 				display: block;
 				margin: 0 auto;
-				border-radius: 0px;
+				border-radius: 0;
 				width: 100%;
+				max-width: 1200px;
 				height: auto;
-				max-height: 300px;
+				max-height: 400px;
 				object-fit: cover;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+			@media (min-width: 1250px) {
+				.hero-image img {
+					border-radius: 8px;
+				}
 			}
 			@media (max-width: 720px) {
+				.hero-image {
+					padding: 1rem 0.5rem;
+				}
 				.hero-image img {
-					max-height: 160px;
+					max-height: 200px;
 				}
 			}
 		</style>

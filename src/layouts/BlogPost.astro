@@ -25,43 +25,71 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			.hero-image {
 				width: 100%;
 				max-width: 100vw;
+				background: linear-gradient(to bottom, rgb(var(--gray-light), 0.15), transparent);
+				padding: 2rem 0;
+				margin-bottom: 1rem;
 			}
 			.hero-image img {
 				display: block;
 				margin: 0 auto;
-				border-radius: 0px;
+				border-radius: 0;
 				width: 100%;
+				max-width: 1200px;
 				height: auto;
-				max-height: 300px;
+				max-height: 400px;
 				object-fit: cover;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+			@media (min-width: 1250px) {
+				.hero-image img {
+					border-radius: 8px;
+				}
 			}
 			@media (max-width: 720px) {
+				.hero-image {
+					padding: 1rem 0.5rem;
+				}
 				.hero-image img {
-					max-height: 160px;
+					max-height: 200px;
 				}
 			}
 			.prose {
-				width: 720px;
+				width: 800px;
 				max-width: calc(100% - 2em);
 				margin: auto;
 				padding: 0.5rem;
 				color: rgb(var(--gray-dark));
+				font-size: 18px;
+				line-height: 1.7;
 			}
 			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
+				margin-bottom: 2em;
+				padding: 1.5em 0 1em 0;
 				text-align: center;
-				line-height: 1;
+				line-height: 1.2;
 			}
 			.title h1 {
-				margin: 0 0 0.5em 0;
+				margin: 0.5em 0;
+				font-size: 2.5rem;
+				font-weight: 700;
+				line-height: 1.2;
 			}
 			.date {
-				margin-bottom: 0.5em;
+				margin-bottom: 0;
 				color: rgb(var(--gray));
+				font-size: 0.875rem;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
 			}
 			.last-updated-on {
 				font-style: italic;
+				font-size: 0.875rem;
+				margin-top: 0.5em;
+			}
+			@media (max-width: 720px) {
+				.title h1 {
+					font-size: 1.75rem;
+				}
 			}
 		</style>
 	</head>
