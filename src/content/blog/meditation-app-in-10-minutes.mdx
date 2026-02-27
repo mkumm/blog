@@ -1,0 +1,61 @@
+---
+title: "Build a Meditation App in 10 Minutes"
+description: "Starting with Claude and nearly no iOS app creation experience, I got a meditation app running on my phone in 30 minutes. You can do it in 10"
+pubDate: "Feb 27 2026"
+heroImage: "../../assets/blog/hero-meditation-app-in-ten.png"
+---
+
+_When my meditation app started degrading features unless I donated more money, I decided to see what options I had to create my own iOS app for self-use. On that journey, I discovered React Native with Expo Go._
+
+## Backstory
+
+My meditation practice is simple, and I just wanted a “dumb” timer. The first app I was using was great, but it went social and tried to add guided meditations and logs, and it kept pestering me to use its new features. The next app was simple, but during meditation I would get “support me” notifications that interfered with the end of my session. And yes, I had supported the app in the past — but that didn’t matter.
+
+I had “new meditation app” on my todo list for a while. This morning, I had the idea to use AI to create a meditation app for my iPhone.
+
+## First Step
+
+I simply created a new directory, launched claude, and typed
+
+```txt
+I need a meditation timer for my iPhone.
+The available apps are terrible.
+For this first version, let's make a simple timer with the
+most basic UI.
+I should be able to select a length and have the timer play
+a "gong" to start and a "gong" to end.
+what questions do you have for me?
+```
+
+Claude came back with a few clarifying questions and we settled on...
+
+1. React Native
+2. Expo with Expo Go (I had never heard of these before)
+
+After a few minutes of building, I got the new code with this summary:
+
+```
+Done. Here's how to run it on your iPhone:
+
+  1. Install Expo Go on your iPhone from the App Store
+  2. In your terminal, from this directory run: npx expo start
+  3. Scan the QR code with your iPhone camera
+
+  What's built:
+  - Dark, minimal UI with a warm gold accent
+  - Scroll wheel picker (1–120 minutes, snaps to selection)
+  - "Begin" plays the gong and starts the countdown
+  - Screen stays awake throughout
+  - End gong fires automatically when time is up
+  - "End Session" lets you stop early
+```
+
+After feeding a few dependency error messages back into Claude, I was able to fully test my new meditation app on my iPhone. I will need to renew my Apple Developer account if I want the app to run natively on my phone, but this was a mind-blowing head start.
+
+<div class="w-64 mx-auto">
+![meditation app](/blog/meditation-app-ten-min/meditation-app-screenshot.png)
+</div>
+
+## <span class="line-through">Second Step</span> not needed
+
+Basically with supporting tech like [Expo](https://expo.dev/) and [ReactNative](https://reactnative.dev/) - along with an AI agent of your choice - it is astounding what can be done with just a little curiosity and time.
