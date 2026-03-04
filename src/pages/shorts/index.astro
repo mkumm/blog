@@ -71,13 +71,30 @@ const posts = (await getCollection('shorts')).sort(
 				margin: 0;
 				padding: 0;
 			}
+			@keyframes fadeInUp {
+				from { opacity: 0; transform: translateY(20px); }
+				to   { opacity: 1; transform: translateY(0); }
+			}
 			ul li {
 				width: 100%;
 				background: rgb(var(--gray-light), 0.2);
 				border-radius: 8px;
 				transition: all 0.2s ease;
 				border: 1px solid rgb(var(--gray-light), 0.5);
+				animation: fadeInUp 0.4s ease both;
 			}
+			ul li:nth-child(1) { animation-delay: 0.05s; }
+			ul li:nth-child(2) { animation-delay: 0.1s; }
+			ul li:nth-child(3) { animation-delay: 0.15s; }
+			ul li:nth-child(4) { animation-delay: 0.2s; }
+			ul li:nth-child(5) { animation-delay: 0.25s; }
+			ul li:nth-child(6) { animation-delay: 0.3s; }
+			ul li:nth-child(7) { animation-delay: 0.35s; }
+			ul li:nth-child(8) { animation-delay: 0.4s; }
+			ul li:nth-child(9) { animation-delay: 0.45s; }
+			ul li:nth-child(10) { animation-delay: 0.5s; }
+			ul li:nth-child(11) { animation-delay: 0.55s; }
+			ul li:nth-child(12) { animation-delay: 0.6s; }
 			ul li:hover {
 				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 				border-color: rgb(var(--gray-light));

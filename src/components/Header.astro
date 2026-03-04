@@ -111,7 +111,13 @@ nav {
 .menu-social-links {
 	display: none;
 }
-.mobile-nav-toggle svg { display: block; }
+.mobile-nav-toggle svg {
+	display: block;
+	transition: transform 0.3s ease;
+}
+.mobile-nav-toggle[aria-expanded="true"] svg {
+	transform: rotate(90deg);
+}
 /* Social icon sizing */
 .social-links,
 .social-links a {
@@ -149,10 +155,16 @@ nav {
 		gap: 0;
 		box-shadow: 0 2px 8px rgba(var(--black), 8%);
 		z-index: 10;
-		display: none;
+		max-height: 0;
+		opacity: 0;
+		overflow: hidden;
+		visibility: hidden;
+		transition: max-height 0.3s ease, opacity 0.2s ease, visibility 0.3s;
 	}
 	.internal-links.open {
-		display: flex;
+		max-height: 500px;
+		opacity: 1;
+		visibility: visible;
 	}
 	.internal-links.open .menu-social-links {
 		display: flex;
