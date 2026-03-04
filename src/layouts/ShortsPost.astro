@@ -18,7 +18,27 @@ const { title, description, pubDate, updatedDate, heroImage, prevPost, nextPost 
 
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} image={heroImage} />
+		<BaseHead title={title} description={description} image={heroImage} ogType="article" pubDate={pubDate} updatedDate={updatedDate} />
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "BlogPosting",
+			"headline": title,
+			"description": description,
+			"datePublished": pubDate.toISOString(),
+			"dateModified": (updatedDate ?? pubDate).toISOString(),
+			"author": {
+				"@type": "Person",
+				"name": "Michael Kumm",
+				"url": "https://mkumm.com"
+			},
+			"publisher": {
+				"@type": "Person",
+				"name": "Michael Kumm",
+				"url": "https://mkumm.com"
+			},
+			"url": Astro.url.href,
+			"mainEntityOfPage": Astro.url.href
+		})} />
 		<style>
 			main {
 				width: calc(100% - 2em);
@@ -169,7 +189,7 @@ const { title, description, pubDate, updatedDate, heroImage, prevPost, nextPost 
 	<body>
 		<Header />
 				<div class="hero-image">
-					{heroImage && <Image layout="constrained"  src={heroImage} alt="" />}
+					{heroImage && <Image layout="constrained" src={heroImage} alt={title} loading="eager" />}
 				</div>
 			<main>
 			<article>

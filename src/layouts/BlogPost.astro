@@ -15,7 +15,27 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={title} description={description} ogType="article" pubDate={pubDate} updatedDate={updatedDate} />
+	<script type="application/ld+json" set:html={JSON.stringify({
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		"headline": title,
+		"description": description,
+		"datePublished": pubDate.toISOString(),
+		"dateModified": (updatedDate ?? pubDate).toISOString(),
+		"author": {
+			"@type": "Person",
+			"name": "Michael Kumm",
+			"url": "https://mkumm.com"
+		},
+		"publisher": {
+			"@type": "Person",
+			"name": "Michael Kumm",
+			"url": "https://mkumm.com"
+		},
+		"url": Astro.url.href,
+		"mainEntityOfPage": Astro.url.href
+	})} />
 		<style>
 			main {
 				width: calc(100% - 2em);
@@ -107,7 +127,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 	<body>
 		<Header />
 				<div class="hero-image">
-					{heroImage && <Image layout="constrained"  src={heroImage} alt={"image: " + title } loading="eager"/>}
+					{heroImage && <Image layout="constrained" src={heroImage} alt={title} loading="eager" />}
 				</div>
 			<main>
 			<article>
