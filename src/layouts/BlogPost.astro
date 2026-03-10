@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import FallbackImage from '../assets/hero-backup.png';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
@@ -21,6 +22,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		"@type": "BlogPosting",
 		"headline": title,
 		"description": description,
+		"image": new URL((heroImage ?? FallbackImage).src, Astro.site).href,
 		"datePublished": pubDate.toISOString(),
 		"dateModified": (updatedDate ?? pubDate).toISOString(),
 		"author": {
@@ -29,13 +31,13 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			"url": "https://mkumm.com"
 		},
 		"publisher": {
-			"@type": "Person",
+			"@type": "Organization",
 			"name": "Michael Kumm",
 			"url": "https://mkumm.com"
 		},
 		"url": Astro.url.href,
 		"mainEntityOfPage": Astro.url.href
-	})} />
+	})}></script>
 		<style>
 			main {
 				width: calc(100% - 2em);

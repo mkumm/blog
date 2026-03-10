@@ -12,7 +12,7 @@ import PersonLink from "../components/PersonLink.astro";
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<script type="application/ld+json">{JSON.stringify({
+		<script type="application/ld+json" set:html={JSON.stringify({
 			"@context": "https://schema.org",
 			"@type": "Person",
 			"name": "Michael Kumm",
@@ -24,7 +24,7 @@ import PersonLink from "../components/PersonLink.astro";
 				"https://linkedin.com/in/mkumm",
 				"https://github.com/mkumm"
 			]
-		})}</script>
+		})}></script>
 		<style>
 			.hero-image {
 				width: 100%;
