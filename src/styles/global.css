@@ -266,10 +266,13 @@ hr {
 }
 
 @media (max-width: 720px) {
+	html,
+	body {
+		overflow-x: hidden;
+	}
 	body {
 		font-size: 17px;
 		line-height: 1.7;
-		overflow-x: hidden;
 	}
 	main {
 		padding: 1.5rem 1rem;
@@ -301,7 +304,7 @@ hr {
 	ul, ol { margin-left: 1rem; }
 	dt { margin-top: 1.25em; font-size: 1em; }
 	dd { margin-left: 0.75em; margin-bottom: 0.75em; }
-	img {
+	main img {
 		margin-left: -1rem;
 		margin-right: -1rem;
 		width: calc(100% + 2rem);
