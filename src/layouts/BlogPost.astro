@@ -9,142 +9,120 @@ import Header from '../components/Header.astro';
 
 import '../styles/global.css'
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & { readingTime?: number };
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, readingTime } = Astro.props;
 ---
 
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} ogType="article" pubDate={pubDate} updatedDate={updatedDate} />
-	<script type="application/ld+json" set:html={JSON.stringify({
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": title,
-		"description": description,
-		"image": new URL((heroImage ?? FallbackImage).src, Astro.site).href,
-		"datePublished": pubDate.toISOString(),
-		"dateModified": (updatedDate ?? pubDate).toISOString(),
-		"author": {
-			"@type": "Person",
-			"name": "Michael Kumm",
-			"url": "https://mkumm.com"
-		},
-		"publisher": {
-			"@type": "Organization",
-			"name": "Michael Kumm",
-			"url": "https://mkumm.com"
-		},
-		"url": Astro.url.href,
-		"mainEntityOfPage": Astro.url.href
-	})}></script>
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "BlogPosting",
+			"headline": title,
+			"description": description,
+			"image": new URL((heroImage ?? FallbackImage).src, Astro.site).href,
+			"datePublished": pubDate.toISOString(),
+			"dateModified": (updatedDate ?? pubDate).toISOString(),
+			"author": {
+				"@type": "Person",
+				"name": "Michael Kumm",
+				"url": "https://mkumm.com"
+			},
+			"publisher": {
+				"@type": "Organization",
+				"name": "Michael Kumm",
+				"url": "https://mkumm.com"
+			},
+			"url": Astro.url.href,
+			"mainEntityOfPage": Astro.url.href
+		})}></script>
 		<style>
 			main {
 				width: calc(100% - 2em);
 				max-width: 100%;
 				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-				max-width: 100vw;
-				background: linear-gradient(to bottom, rgb(var(--gray-light), 0.15), transparent);
-				padding: 2rem 0;
-				margin-bottom: 1rem;
+				padding: 0;
 			}
 			.hero-image img {
 				display: block;
-				margin: 0 auto;
-				border-radius: 0;
 				width: 100%;
-				max-width: 1200px;
-				height: auto;
-				max-height: 400px;
+				max-height: 460px;
 				object-fit: cover;
-				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-			}
-			@media (min-width: 1250px) {
-				.hero-image img {
-					border-radius: 8px;
-				}
+				border-radius: 0;
 			}
 			@media (max-width: 720px) {
-				main {
-					width: 100%;
-					max-width: 100%;
-					margin: 0;
-				}
-				.hero-image {
-					padding: 0;
-					margin-bottom: 0;
-					background: none;
-				}
-				.hero-image img {
-					max-height: 200px;
-					border-radius: 0;
-					box-shadow: none;
-					max-width: 100vw;
-				}
+				.hero-image img { max-height: 240px; }
 			}
 			.prose {
-				width: 800px;
-				max-width: 100%;
-				margin: auto;
-				padding: 0;
+				width: 700px;
+				max-width: calc(100% - 2rem);
+				margin: 0 auto;
+				padding: 3rem 0 4rem;
 				color: rgb(var(--gray-dark));
-				font-size: 18px;
-				line-height: 1.7;
 			}
-			.title {
-				margin-bottom: 2em;
-				padding: 1.5em 0 1em 0;
+			.post-header {
+				margin-bottom: 2.5rem;
 				text-align: center;
-				line-height: 1.2;
 			}
-			.title h1 {
-				margin: 0.5em 0;
+			.post-header .date {
+				display: block;
+				margin-bottom: 0.75rem;
+			}
+			.post-header h1 {
+				margin: 0 0 1.5rem 0;
 				font-size: 2.5rem;
-				font-weight: 700;
-				line-height: 1.2;
+				line-height: 1.15;
 			}
-			.date {
-				margin-bottom: 0;
-				color: rgb(var(--gray));
-				font-size: 0.875rem;
-				text-transform: uppercase;
-				letter-spacing: 0.05em;
+			.post-header hr {
+				margin: 0;
+				border-top-color: rgb(var(--gray-light));
 			}
 			.last-updated-on {
 				font-style: italic;
-				font-size: 0.875rem;
-				margin-top: 0.5em;
+				font-size: 0.825rem;
+				margin-top: 0.4em;
+				color: rgb(var(--gray));
 			}
+			.post-meta {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 0.75rem;
+				margin-bottom: 0.75rem;
+				color: rgb(var(--gray));
+				font-size: 0.8rem;
+				text-transform: uppercase;
+				letter-spacing: 0.07em;
+				font-weight: 500;
+			}
+			.post-meta .sep { opacity: 0.4; }
 			@media (max-width: 720px) {
-				.title h1 {
-					font-size: 1.75rem;
+				.prose {
+					padding: 1.5rem 1rem 3rem;
+					max-width: 100%;
 				}
+				.post-header h1 { font-size: 1.75rem; }
 			}
 		</style>
 	</head>
 
 	<body>
 		<Header />
-				<div class="hero-image">
-					{heroImage && <Image layout="constrained" src={heroImage} alt={title} loading="eager" />}
-				</div>
-			<main>
+		{heroImage && (
+			<div class="hero-image">
+				<Image layout="constrained" src={heroImage} alt={title} loading="eager" />
+			</div>
+		)}
+		<main>
 			<article>
-
 				<div class="prose">
-					<div class="title">
-						<div class="date">
+					<div class="post-header">
+						<div class="post-meta">
 							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
+							{readingTime && <><span class="sep">·</span><span>{readingTime} min read</span></>}
+							{updatedDate && <><span class="sep">·</span><span style="font-style:italic">Updated <FormattedDate date={updatedDate} /></span></>}
 						</div>
 						<h1>{title}</h1>
 						<hr />

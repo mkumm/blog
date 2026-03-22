@@ -3,36 +3,52 @@ const today = new Date();
 ---
 
 <footer>
-	<div class="text-sm">
-	<p><a href="https://creativecommons.org">Creative Commons</a> &copy; {today.getFullYear()} by <a href="https://creativecommons.org">Michael Kumm</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></p>
-	<img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" class="inline w-6">
-	<img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" class="inline w-6">
+	<div class="footer-inner">
+		<div class="footer-cc">
+			<img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" class="cc-icon">
+			<img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" class="cc-icon">
+			<span>
+				<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+				&mdash; Michael Kumm &copy; {today.getFullYear()}
+			</span>
+		</div>
 	</div>
 </footer>
+
 <style>
-	footer {
-		padding: 2em 1em 6em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
-		text-align: center;
-	}
-	footer img {
-		display: inline;
-		width: 1.5rem;
-		margin: 0;
-		border-radius: 0;
-	}
-	.social-links {
-		display: flex;
-		justify-content: center;
-		gap: 1em;
-		margin-top: 1em;
-	}
-	.social-links a {
-		text-decoration: none;
-		color: rgb(var(--gray));
-	}
-	.social-links a:hover {
-		color: rgb(var(--gray-dark));
-	}
+footer {
+	margin-top: auto;
+	border-top: 1px solid rgb(var(--gray-light));
+	background: var(--bg-secondary);
+}
+.footer-inner {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 1.5rem 1.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.footer-cc {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: rgb(var(--gray));
+	font-size: 0.825rem;
+}
+.cc-icon {
+	width: 1.1rem;
+	height: 1.1rem;
+	display: inline-block;
+	margin: 0;
+	border-radius: 0;
+}
+.footer-cc a {
+	color: rgb(var(--gray));
+	text-decoration: underline;
+	text-decoration-color: rgba(var(--gray), 0.4);
+}
+.footer-cc a:hover {
+	color: var(--accent);
+}
 </style>
