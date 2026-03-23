@@ -1,7 +1,6 @@
 // @ts-check
 
 import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
@@ -9,9 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://mkumm.com',
-  integrations: [mdx(), sitemap({
-    filter: (page) => !page.startsWith('https://mkumm.com/demo/'),
-  })],
+  integrations: [mdx()],
 
   vite: {
     plugins: [tailwindcss()],
