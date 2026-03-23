@@ -4,6 +4,12 @@ const today = new Date();
 
 <footer>
 	<div class="footer-inner">
+		<nav class="footer-nav">
+			<a href="/">Home</a>
+			<a href="/blog/">Blog</a>
+			<a href="/shorts/">Shorts</a>
+			<a href="/now/">Now</a>
+		</nav>
 		<div class="footer-cc">
 			<img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" class="cc-icon">
 			<img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" class="cc-icon">
@@ -26,8 +32,21 @@ footer {
 	margin: 0 auto;
 	padding: 1.5rem 1.5rem;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	gap: 1rem;
+}
+.footer-nav {
+	display: flex;
+	gap: 1.5rem;
+}
+.footer-nav a {
+	font-size: 0.875rem;
+	color: rgb(var(--gray));
+	text-decoration: none;
+}
+.footer-nav a:hover {
+	color: var(--accent);
 }
 .footer-cc {
 	display: flex;

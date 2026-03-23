@@ -16,7 +16,19 @@ const posts = (await getCollection('shorts')).sort(
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={`Shorts — ${SITE_TITLE}`} description="Short-form posts — photos, observations, and quick notes from day to day." />
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "ItemList",
+			"name": "Shorts — Michael Kumm",
+			"url": "https://mkumm.com/shorts/",
+			"itemListElement": posts.map((post, i) => ({
+				"@type": "ListItem",
+				"position": i + 1,
+				"url": `https://mkumm.com/shorts/${post.id}/`,
+				"name": post.data.title,
+			}))
+		})}></script>
 		<style>
 			main {
 				width: 1060px;

@@ -9,7 +9,9 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://mkumm.com',
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap({
+    filter: (page) => !page.startsWith('https://mkumm.com/demo/'),
+  })],
 
   vite: {
     plugins: [tailwindcss()],

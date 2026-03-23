@@ -25,6 +25,17 @@ import PersonLink from "../components/PersonLink.astro";
 				"https://github.com/mkumm"
 			]
 		})}></script>
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "WebSite",
+			"name": "Michael Kumm",
+			"url": "https://mkumm.com",
+			"description": SITE_DESCRIPTION,
+			"author": {
+				"@type": "Person",
+				"name": "Michael Kumm"
+			}
+		})}></script>
 		<style>
 			.hero-image {
 				width: 100%;

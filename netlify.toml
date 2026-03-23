@@ -1,4 +1,10 @@
 [[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/posts/*"
   to = "/blog/:splat"
   status = 301

@@ -1,6 +1,7 @@
 ---
 import NowHeroImage from "../assets/pages/hero-now.png";
 import { Image } from "astro:assets";
+import { SITE_TITLE } from "../consts";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -11,8 +12,8 @@ import PersonLink from "../components/PersonLink.astro";
 <html lang="en">
 	<head>
 		<BaseHead
-			title="Now Page"
-			description="What I'm doing now — inspired by Derek Sivers' now page movement."
+			title={`Now — ${SITE_TITLE}`}
+			description="What I'm focused on right now — inspired by Derek Sivers' now page movement."
 		/>
 		<style>
 			.hero-image img {

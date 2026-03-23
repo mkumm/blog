@@ -18,7 +18,19 @@ const posts = (await getCollection('blog'))
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={`Blog — ${SITE_TITLE}`} description="Writing on software, systems, Elixir, and things I find interesting." />
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "ItemList",
+			"name": "Blog — Michael Kumm",
+			"url": "https://mkumm.com/blog/",
+			"itemListElement": posts.map((post, i) => ({
+				"@type": "ListItem",
+				"position": i + 1,
+				"url": `https://mkumm.com/blog/${post.id}/`,
+				"name": post.data.title,
+			}))
+		})}></script>
 		<style>
 			main {
 				width: 1020px;
