@@ -20,5 +20,9 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# short drafts (drop zone for new-short script)
+_drafts/*
+!_drafts/.gitkeep
+
 # jetbrains setting folder
 .idea/
