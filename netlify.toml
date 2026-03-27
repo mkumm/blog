@@ -11,4 +11,4 @@
   force = true
 
 [build]
-  trailingSlash = "ignore"
+  trailingSlash = "always"

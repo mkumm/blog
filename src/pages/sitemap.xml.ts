@@ -2,7 +2,7 @@ import { getCollection } from 'astro:content';
 
 const SITE = 'https://mkumm.com';
 
-const staticRoutes = ['/', '/blog', '/shorts', '/now'];
+const staticRoutes = ['/', '/blog/', '/shorts/', '/now/'];
 
 export async function GET() {
   const blogPosts = await getCollection('blog');
