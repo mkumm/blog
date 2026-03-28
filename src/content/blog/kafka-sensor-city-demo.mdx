@@ -1,0 +1,376 @@
+---
+title: 'Kafka Sensor City Demo'
+description: 'A sandbox for learning some key points about Kafka, using simulated intersection traffic sensors'
+pubDate: 'Mar 28 2026'
+heroImage: '../../assets/blog/hero-kafka-sensor-city-demo.png'
+---
+
+A fully orchestrated event streaming pipeline running on your laptop. Simulates
+hundreds of road sensors across a fictional city, filters and aggregates the
+stream, and displays live traffic state on a web dashboard.
+
+Built to demonstrate **why Kafka exists** and **how it differs from a message
+queue like RabbitMQ** — through working code you can actually run.
+
+![Dashboard screenshot showing green and red intersection dots across 5 districts](/blog/kafka-sensor-city-demo/dashboard.png)
+
+[Source Code Github](https://github.com/mkumm/kafka-sensor-city)
+
+---
+
+## What's running
+
+<svg viewBox="0 0 700 510" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:1.5rem auto;font-family:ui-monospace,'SFMono-Regular',monospace">
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#888"/>
+    </marker>
+    <style>{`
+      .svc{fill:#fdf0e8;stroke:#c17456;stroke-width:1.5}
+      .topic{fill:#eef3f8;stroke:#6b8fa8;stroke-width:1.5}
+      .out{fill:#edf8f0;stroke:#6ba882;stroke-width:1.5}
+      .svc-name{fill:#3d1a08;font-size:13px;font-weight:700}
+      .svc-sub{fill:#7a5040;font-size:10.5px}
+      .topic-name{fill:#1a2a3d;font-size:12px;font-weight:700}
+      .out-name{fill:#1a3826;font-size:12px;font-weight:700}
+      .out-sub{fill:#3a6848;font-size:10.5px}
+      .col-hdr{fill:#aaa;font-size:10px;font-weight:600;letter-spacing:1.5px;font-family:system-ui,sans-serif}
+      .arr{fill:none;stroke:#ccc;stroke-width:1.5;marker-end:url(#ah)}
+      @media(prefers-color-scheme:dark){
+        .svc{fill:#2d1508;stroke:#d08060}
+        .topic{fill:#0e1a24;stroke:#7ab0cc}
+        .out{fill:#0e2018;stroke:#7acc9a}
+        .svc-name{fill:#f5c8a8}
+        .svc-sub{fill:#c09080}
+        .topic-name{fill:#b8d0e8}
+        .out-name{fill:#b8e8c8}
+        .out-sub{fill:#80c0a0}
+        .col-hdr{fill:#555}
+        .arr{stroke:#555}
+      }
+    `}</style>
+  </defs>
+
+  <text x="145" y="14" text-anchor="middle" class="col-hdr">SERVICES</text>
+  <text x="555" y="14" text-anchor="middle" class="col-hdr">KAFKA TOPICS</text>
+
+  <rect x="20" y="22" width="250" height="50" rx="8" class="svc"/>
+  <text x="145" y="45" text-anchor="middle" class="svc-name">sensor-simulator</text>
+  <text x="145" y="61" text-anchor="middle" class="svc-sub">C# · simulates road sensors</text>
+
+  <rect x="430" y="22" width="250" height="50" rx="5" class="topic"/>
+  <text x="555" y="51" text-anchor="middle" class="topic-name">raw-sensor-events</text>
+
+  <path d="M270,47 H428" class="arr"/>
+  <path d="M555,72 V117 H145 V162" class="arr"/>
+
+  <rect x="20" y="162" width="250" height="50" rx="8" class="svc"/>
+  <text x="145" y="185" text-anchor="middle" class="svc-name">filter-service</text>
+  <text x="145" y="201" text-anchor="middle" class="svc-sub">C# · filters intersection events</text>
+
+  <rect x="430" y="162" width="250" height="50" rx="5" class="topic"/>
+  <text x="555" y="191" text-anchor="middle" class="topic-name">intersection-events</text>
+
+  <path d="M270,187 H428" class="arr"/>
+  <path d="M555,212 V257 H145 V302" class="arr"/>
+
+  <rect x="20" y="302" width="250" height="50" rx="8" class="svc"/>
+  <text x="145" y="325" text-anchor="middle" class="svc-name">aggregator-service</text>
+  <text x="145" y="341" text-anchor="middle" class="svc-sub">C# · 30s rolling windows</text>
+
+  <rect x="430" y="302" width="250" height="50" rx="5" class="topic"/>
+  <text x="555" y="331" text-anchor="middle" class="topic-name">signal-state-changes</text>
+
+  <path d="M270,327 H428" class="arr"/>
+  <path d="M555,352 V397 H145 V442" class="arr"/>
+
+  <rect x="20" y="442" width="250" height="50" rx="8" class="svc"/>
+  <text x="145" y="465" text-anchor="middle" class="svc-name">dashboard-service</text>
+  <text x="145" y="481" text-anchor="middle" class="svc-sub">C# / ASP.NET · SignalR</text>
+
+  <rect x="430" y="442" width="250" height="50" rx="8" class="out"/>
+  <text x="555" y="465" text-anchor="middle" class="out-name">browser</text>
+  <text x="555" y="481" text-anchor="middle" class="out-sub">live dashboard</text>
+
+  <path d="M270,467 H428" class="arr"/>
+</svg>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem">
+  <thead>
+    <tr>
+      <th style="text-align:left;padding:6px 10px;border-bottom:2px solid var(--border-color, #ddd);white-space:nowrap">Service</th>
+      <th style="text-align:left;padding:6px 10px;border-bottom:2px solid var(--border-color, #ddd);white-space:nowrap">Language</th>
+      <th style="text-align:left;padding:6px 10px;border-bottom:2px solid var(--border-color, #ddd)">Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding:6px 10px;border-bottom:1px solid var(--border-color, #eee);white-space:nowrap"><code>sensor-simulator</code></td>
+      <td style="padding:6px 10px;border-bottom:1px solid var(--border-color, #eee);white-space:nowrap">C#</td>
+      <td style="padding:6px 10px;border-bottom:1px solid var(--border-color, #eee)">Produces fake sensor events to <code>raw-sensor-events</code></td>
+    </tr>
+    <tr>
+      <td style="padding:6px 10px;border-bottom:1px solid var(--border-color, #eee);white-space:nowrap"><code>filter-service</code></td>
+      <td style="padding:6px 10px;border-bottom:1px solid var(--border-color, #eee);white-space:nowrap">C#</td>
+      <td style="padding:6px 10px;border-bottom:1px solid var(--border-color, #eee)">Drops non-intersection events, forwards the rest</td>
+    </tr>
+    <tr>
+      <td style="padding:6px 10px;border-bottom:1px solid var(--border-color, #eee);white-space:nowrap"><code>aggregator-service</code></td>
+      <td style="padding:6px 10px;border-bottom:1px solid var(--border-color, #eee);white-space:nowrap">C#</td>
+      <td style="padding:6px 10px;border-bottom:1px solid var(--border-color, #eee)">Maintains rolling 30s windows, publishes state changes</td>
+    </tr>
+    <tr>
+      <td style="padding:6px 10px;white-space:nowrap"><code>dashboard-service</code></td>
+      <td style="padding:6px 10px;white-space:nowrap">C# / ASP.NET Core</td>
+      <td style="padding:6px 10px">Consumes state changes, pushes to browser via SignalR</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Prerequisites
+
+Install these before you begin:
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) — for building images
+- [minikube](https://minikube.sigs.k8s.io/docs/start/) — local Kubernetes cluster
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) — Kubernetes CLI
+- [Helm](https://helm.sh/docs/intro/install/) — not required by this demo but useful to have
+- [.NET 10 SDK](https://dotnet.microsoft.com/download) — to build the C# services
+
+On a Mac with Homebrew:
+
+```bash
+brew install minikube kubectl
+brew install --cask docker
+```
+
+Download the .NET 10 SDK from [dot.net](https://dotnet.microsoft.com/download).
+
+---
+
+## Project structure
+
+```
+.
+├── k8s/
+│   ├── kafka/
+│   │   └── kafka.yaml               # Kafka StatefulSet + Service + ConfigMap
+│   ├── sensor-simulator.yaml
+│   ├── filter-service.yaml
+│   ├── aggregator-service.yaml
+│   └── dashboard-service.yaml
+├── SensorSimulator/
+│   ├── Program.cs
+│   ├── SensorEvent.cs
+│   ├── CitySimulator.cs
+│   └── Dockerfile
+├── FilterService/
+│   ├── Program.cs
+│   └── Dockerfile
+├── AggregatorService/
+│   ├── Program.cs
+│   ├── SignalState.cs
+│   └── Dockerfile
+└── DashboardService/
+    ├── Program.cs
+    ├── TrafficHub.cs
+    ├── IntersectionStateStore.cs
+    ├── wwwroot/
+    │   └── index.html
+    └── Dockerfile
+```
+
+---
+
+## Getting started
+
+### 1. Start minikube
+
+```bash
+minikube start
+kubectl get nodes
+```
+
+You should see one node with `STATUS = Ready`.
+
+### 2. Deploy Kafka
+
+```bash
+kubectl apply -f k8s/kafka/kafka.yaml
+kubectl get pods -n kafka --watch
+```
+
+Wait for `kafka-0` to show `1/1 Running`. Then create the three topics:
+
+```bash
+kubectl exec -it kafka-client -n kafka -- /bin/bash
+```
+
+Inside the pod:
+
+```bash
+export PATH=$PATH:/opt/kafka/bin
+
+kafka-topics.sh --bootstrap-server kafka:9092 --create --topic raw-sensor-events --partitions 6 --replication-factor 1
+kafka-topics.sh --bootstrap-server kafka:9092 --create --topic intersection-events --partitions 4 --replication-factor 1
+kafka-topics.sh --bootstrap-server kafka:9092 --create --topic signal-state-changes --partitions 4 --replication-factor 1
+
+kafka-topics.sh --bootstrap-server kafka:9092 --list
+```
+
+Exit the pod with `exit`.
+
+### 3. Point Docker at minikube
+
+This is required before every build so images land inside minikube rather than
+your Mac's local Docker:
+
+```bash
+eval $(minikube docker-env)
+```
+
+### 4. Build and deploy all services
+
+Run each block in order:
+
+```bash
+# Sensor simulator
+cd SensorSimulator
+docker build -t sensor-simulator:latest .
+cd ..
+kubectl apply -f k8s/sensor-simulator.yaml
+
+# Filter service
+cd FilterService
+docker build -t filter-service:latest .
+cd ..
+kubectl apply -f k8s/filter-service.yaml
+
+# Aggregator service
+cd AggregatorService
+docker build -t aggregator-service:latest .
+cd ..
+kubectl apply -f k8s/aggregator-service.yaml
+
+# Dashboard service
+cd DashboardService
+docker build -t dashboard-service:latest .
+cd ..
+kubectl apply -f k8s/dashboard-service.yaml
+```
+
+Check everything is running:
+
+```bash
+kubectl get pods -n kafka
+```
+
+You should see five pods all showing `1/1 Running`:
+
+```
+NAME                                 READY   STATUS    RESTARTS
+aggregator-service-xxx               1/1     Running   0
+dashboard-service-xxx                1/1     Running   0
+filter-service-xxx                   1/1     Running   0
+kafka-0                              1/1     Running   0
+sensor-simulator-xxx                 1/1     Running   0
+```
+
+### 5. Open the dashboard
+
+```bash
+minikube service dashboard-service -n kafka
+```
+
+Your browser will open automatically. You should see the city map appear within
+a few seconds as intersections are discovered from the event stream.
+
+---
+
+## The demo moment — replaying events
+
+This is the clearest way to see what makes Kafka different from RabbitMQ.
+
+While the pipeline is running, scale the dashboard down to zero:
+
+```bash
+kubectl scale deployment/dashboard-service -n kafka --replicas=0
+```
+
+Wait 30 seconds — state changes are piling up in `signal-state-changes` unread.
+Now bring it back:
+
+```bash
+kubectl scale deployment/dashboard-service -n kafka --replicas=1
+minikube service dashboard-service -n kafka
+```
+
+The dashboard replays every missed state change and catches up to the present.
+In RabbitMQ, those messages would have been lost the moment the consumer
+disconnected.
+
+---
+
+## Watching the pipeline
+
+Follow logs for each service in separate terminals:
+
+```bash
+# What the simulator is producing
+kubectl logs -n kafka deployment/sensor-simulator --follow
+
+# Filter pass/drop rates
+kubectl logs -n kafka deployment/filter-service --follow
+
+# State changes being published
+kubectl logs -n kafka deployment/aggregator-service --follow
+
+# What the dashboard is broadcasting
+kubectl logs -n kafka deployment/dashboard-service --follow
+```
+
+---
+
+## Key Kafka concepts demonstrated
+
+| Concept | Where you see it |
+|---|---|
+| **Topics as durable logs** | Restarting a consumer replays missed events |
+| **Consumer groups** | Four independent services reading the same broker |
+| **Partition keys** | `districtId` ensures ordered delivery per district |
+| **Offset tracking** | Each service picks up exactly where it left off |
+| **Event-time vs processing-time** | `timestampUtc` from the sensor, not the broker |
+| **State transitions** | Aggregator publishes changes, not raw readings |
+
+---
+
+## Teardown
+
+```bash
+minikube delete
+```
+
+This removes the entire VM, cluster, and all data.
+
+---
+
+## Why not RabbitMQ?
+
+RabbitMQ is a message broker — it delivers messages from A to B and deletes them
+once consumed. It is excellent for job queues, RPC patterns, and transient
+notifications.
+
+Kafka is an event log — it appends events durably and lets any number of
+consumers read them independently, at their own pace, from any point in history.
+It is the right choice when you need replay, fan-out to independent consumers,
+or long-term event retention.
+
+This demo uses Kafka because the dashboard, the aggregator, and a hypothetical
+ML model can all consume the same raw sensor stream without any of them knowing
+the others exist. Add a new consumer tomorrow and it can read six months of
+history. That is not possible with RabbitMQ.
+
+---
+[Source Code Github](https://github.com/mkumm/kafka-sensor-city)

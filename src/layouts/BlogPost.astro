@@ -79,6 +79,12 @@ const { title, description, pubDate, updatedDate, heroImage, readingTime } = Ast
 				margin: 0;
 				border-top-color: rgb(var(--gray-light));
 			}
+			.prose :global(.mermaid) {
+				overflow-x: auto;
+			}
+			.prose :global(.mermaid svg) {
+				max-width: none;
+			}
 			.last-updated-on {
 				font-style: italic;
 				font-size: 0.825rem;
@@ -132,5 +138,11 @@ const { title, description, pubDate, updatedDate, heroImage, readingTime } = Ast
 			</article>
 		</main>
 		<Footer />
+		<script>
+			import mermaid from 'mermaid';
+			const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+			mermaid.initialize({ startOnLoad: false, theme: isDark ? 'dark' : 'default' });
+			mermaid.run();
+		</script>
 	</body>
 </html>
