@@ -56,12 +56,12 @@ const { title, description, image = FallbackImage, ogType = 'website', pubDate, 
 {updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:site" content="@mkumm" />
-<meta property="twitter:creator" content="@mkumm" />
-<meta property="twitter:url" content={canonicalURL} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image.src, Astro.url)} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@mkumm" />
+<meta name="twitter:creator" content="@mkumm" />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(image.src, Astro.url)} />
 <script defer data-domain="mkumm.com" src="https://plausible.io/js/script.outbound-links.js"></script>
 <ClientRouter />

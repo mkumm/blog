@@ -20,7 +20,7 @@ const { title, description, pubDate, updatedDate, heroImage, prevPost, nextPost,
 
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} image={heroImage} ogType="article" pubDate={pubDate} updatedDate={updatedDate} />
+		<BaseHead title={title} description={description} image={heroImage ?? FallbackImage} ogType="article" pubDate={pubDate} updatedDate={updatedDate} />
 		<script type="application/ld+json" set:html={JSON.stringify({
 			"@context": "https://schema.org",
 			"@type": "BlogPosting",
