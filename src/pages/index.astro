@@ -4,8 +4,14 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import IndexHeroImage from "../assets/pages/hero-index.png";
 import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import FormattedDate from "../components/FormattedDate.astro";
 import PersonLink from "../components/PersonLink.astro";
+
+const recentShorts = (await getCollection('shorts'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
 ---
 
 <!doctype html>
@@ -91,6 +97,71 @@ import PersonLink from "../components/PersonLink.astro";
 					height: 72px;
 				}
 			}
+			.recent-shorts {
+				margin-top: 2.5rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			.recent-shorts-header {
+				display: flex;
+				align-items: baseline;
+				justify-content: space-between;
+				margin-bottom: 0.75rem;
+			}
+			.recent-shorts-header h2 {
+				font-size: 1rem;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+				font-weight: 600;
+				margin: 0;
+				color: rgb(var(--gray));
+			}
+			.recent-shorts-header a {
+				font-size: 0.875rem;
+				font-weight: 500;
+				color: rgb(var(--gray));
+				text-decoration: none;
+			}
+			.recent-shorts-header a:hover {
+				color: var(--accent);
+			}
+			.shorts-list {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			.shorts-list li {
+				padding: 0.65rem 0;
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.shorts-list li:first-child {
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			.shorts-list a {
+				display: flex;
+				gap: 1rem;
+				align-items: baseline;
+				text-decoration: none;
+				color: inherit;
+			}
+			.shorts-list a:hover .short-title {
+				color: var(--accent);
+			}
+			.short-date {
+				font-size: 0.75rem;
+				text-transform: uppercase;
+				letter-spacing: 0.07em;
+				font-weight: 500;
+				color: rgb(var(--gray));
+				white-space: nowrap;
+				flex-shrink: 0;
+			}
+			.short-title {
+				font-family: 'Lora', Georgia, serif;
+				font-weight: 600;
+				color: rgb(var(--black));
+				transition: color 0.15s ease;
+			}
 			.page-footer-note {
 				margin-top: 3rem;
 				padding-top: 1.5rem;
@@ -174,6 +245,23 @@ import PersonLink from "../components/PersonLink.astro";
 				privacy-first tools, expat life in Krakow, cask ales—drop me a line at
 				<a href="mailto:hello@mkumm.com">hello@mkumm.com</a>.
 			</p>
+
+			<div class="recent-shorts">
+				<div class="recent-shorts-header">
+					<h2>Recent Shorts</h2>
+					<a href="/shorts/">See all →</a>
+				</div>
+				<ul class="shorts-list">
+					{recentShorts.map((post) => (
+						<li>
+							<a href={`/shorts/${post.id}/`}>
+								<span class="short-date"><FormattedDate date={post.data.pubDate} /></span>
+								<span class="short-title">{post.data.title}</span>
+							</a>
+						</li>
+					))}
+				</ul>
+			</div>
 
 			<p class="page-footer-note">
 				All photos on this site are my own, available under a Creative Commons license.

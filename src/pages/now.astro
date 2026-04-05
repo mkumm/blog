@@ -1,11 +1,17 @@
 ---
 import NowHeroImage from "../assets/pages/hero-now.png";
 import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 import { SITE_TITLE } from "../consts";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
 import PersonLink from "../components/PersonLink.astro";
+
+const recentShorts = (await getCollection('shorts'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
 ---
 
 <!doctype html>
@@ -49,6 +55,52 @@ import PersonLink from "../components/PersonLink.astro";
 			@media (max-width: 720px) {
 				main { width: 100%; max-width: 100%; padding: 1.5rem 1rem; }
 			}
+			.shorts-list {
+				list-style: none;
+				padding: 0;
+				margin: 0 0 1rem 0;
+			}
+			.shorts-list li {
+				padding: 0.75rem 0;
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.shorts-list li:first-child {
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			.shorts-list a {
+				display: flex;
+				gap: 1rem;
+				align-items: baseline;
+				text-decoration: none;
+				color: inherit;
+			}
+			.shorts-list a:hover .short-title {
+				color: var(--accent);
+			}
+			.short-date {
+				font-size: 0.78rem;
+				text-transform: uppercase;
+				letter-spacing: 0.07em;
+				font-weight: 500;
+				color: rgb(var(--gray));
+				white-space: nowrap;
+				flex-shrink: 0;
+			}
+			.short-title {
+				font-family: 'Lora', Georgia, serif;
+				font-weight: 600;
+				color: rgb(var(--black));
+				transition: color 0.15s ease;
+			}
+			.short-description {
+				font-size: 0.9rem;
+				color: rgb(var(--gray));
+				margin: 0.2rem 0 0 0;
+			}
+			.see-all {
+				font-size: 0.95rem;
+				font-weight: 500;
+			}
 		</style>
 	</head>
 	<body>
@@ -59,7 +111,7 @@ import PersonLink from "../components/PersonLink.astro";
 		<main>
 			<div class="page-header">
 				<h1>Now Page</h1>
-				<p>A snapshot of what I'm focused on at this point in my life.</p>
+				<p>A snapshot of what I'm focused on — last updated April 5, 2026.</p>
 			</div>
 
 			<p>
@@ -74,24 +126,12 @@ import PersonLink from "../components/PersonLink.astro";
 				<b>Now page</b> too.
 			</p>
 
-			<h2>Open Office Hours</h2>
-			<p>
-				If you know me — let's catch up. If you don't, let's meet.
-				If you're in (or visiting) Krakow,
-				<a href="/shorts/20251003a-where-to-meet/">here are some good spots to meet IRL</a>.
-			</p>
-
-			<h2>Working at DraftKings</h2>
-			<p>
-				I write code (mostly Elixir) at <a href="https://www.draftkings.com/">DraftKings</a>,
-				one of the largest online sportsbooks and casinos. I get to work with some of the most
-				supportive and talented people of my career.
-			</p>
-
 			<h2>Poland</h2>
 			<p>
-				I am an American with residency in Poland. I mostly work from our modest apartment but also
-				have access to a co-working space near the city center in Krakow.
+				I am an American with residency in Poland, living in Krakow. I mostly work from our
+				modest apartment but also have access to a co-working space near the city center.
+				Krakow keeps surprising me — lately I've been catching live events and wandering into
+				things I wouldn't have found anywhere else.
 			</p>
 			<p>I still maintain my home in Michigan and travel back often.</p>
 
@@ -107,29 +147,55 @@ import PersonLink from "../components/PersonLink.astro";
 				/>, my ever patient (and professional) teacher!
 			</p>
 
+			<h2>Reading</h2>
+			<p>
+				Currently working through the <a href="https://www.amazon.com/Penguin-Book-Polish-Short-Stories-ebook/dp/B0CW1G1QR5/">Penguin Book of Polish Short Stories</a> — my favorite read of 2025 (yes, I'm still savoring it). As an American in Poland, it gave me real insight into Polish thinking and culture in a way that years of daily life here hadn't quite managed. My Polish partner reluctantly agrees with most of my takeaways. Penguin publishes similar collections for other nations; Japanese stories may be next.
+			</p>
+
+			<h2>Working at DraftKings</h2>
+			<p>
+				I write code (mostly Elixir, Phoenix, LiveView, Surface, and RabbitMQ) at <a href="https://www.draftkings.com/">DraftKings</a>,
+				one of the largest online sportsbooks and casinos. Right now I'm also leaning into new
+				opportunities to learn — C#, AI integration, and Kafka are all on my plate. Some of the
+				most supportive and talented people I've worked with in my career.
+			</p>
+
 			<h2>Solo Projects</h2>
 			<dl>
-				<dt>Sprytna Cards</dt>
-				<dd>I was inspired by people building useful little products, so I decided to try it myself.
-				In about three months (and under $100), I launched <a href="https://sprytna.cards/">Sprytna.Cards</a>
-				to beta. It is now out of beta but there are still some key features to add before I start promoting it.</dd>
-
-				<dt>Greenway App</dt>
-				<dd>Still in private/secure mode, it was built for people (or groups) to track property expenses,
-				especially for rentals.</dd>
-
 				<dt>Any One Will Do</dt>
-				<dd>A randomizer like many others, but with the ability to add meta data for convenience.
-				Like presentation links for presenters. <a href="https://anyonewilldo.com">Any One Will Do</a>.
-				Although it sounds like it, it is not a dating app! :)</dd>
+				<dd>A randomizer built with the features I actually wanted: no ads, random group formation,
+				and a cleaner experience. We just hit our 30-day launch milestone — still learning and
+				iterating. <a href="https://anyonewilldo.com">anyonewilldo.com</a></dd>
 
-				<dt>Sprytna League</dt>
-				<dd>A fun take on choosing the points your team will score each week. If your team scores at
-				least as many points as you predict, you get the points you guessed (not more). If your team
-				doesn't score as many points as you guessed, you get 0 points for the week. You can see a
-				sample page at <a href="https://sprytnaleague.com">sprytnaleague.com</a> while I build out
-				the platform.</dd>
+				<dt>Sprytna Cards</dt>
+				<dd>Six months in, with about half of all users still active. The focus has shifted to
+				providing the platform behind NFC cards — and we now offer custom printing for users in
+				reasonable shipping locations. <a href="https://sprytna.cards/">sprytna.cards</a></dd>
+
+				<dt>Sprytna Maps</dt>
+				<dd>A way to share your city with people who matter — build a personal map of your
+				favorite spots and send it to friends visiting your town.
+				<a href="https://sprytnamaps.com">sprytnamaps.com</a></dd>
 			</dl>
+
+			<h2>Personal Writing</h2>
+			<p>
+				My <a href="/shorts/">Shorts</a> are the more personal corner of this site — quick notes,
+				observations, and things from daily life in Krakow, side projects, and whatever catches
+				my attention. Think of it as a personal blog in compact form.
+			</p>
+			<ul class="shorts-list">
+				{recentShorts.map((post) => (
+					<li>
+						<a href={`/shorts/${post.id}/`}>
+							<span class="short-date"><FormattedDate date={post.data.pubDate} /></span>
+							<span class="short-title">{post.data.title}</span>
+						</a>
+						{post.data.description && <p class="short-description">{post.data.description}</p>}
+					</li>
+				))}
+			</ul>
+			<a href="/shorts/" class="see-all">See all shorts →</a>
 		</main>
 		<Footer />
 	</body>
