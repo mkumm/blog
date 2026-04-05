@@ -97,6 +97,15 @@ const recentShorts = (await getCollection('shorts'))
 				color: rgb(var(--gray));
 				margin: 0.2rem 0 0 0;
 			}
+			.spotify-stack {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+			.spotify-stack iframe {
+				border-radius: 12px;
+				display: block;
+			}
 			.see-all {
 				font-size: 0.95rem;
 				font-weight: 500;
@@ -151,6 +160,34 @@ const recentShorts = (await getCollection('shorts'))
 			<p>
 				Currently working through the <a href="https://www.amazon.com/Penguin-Book-Polish-Short-Stories-ebook/dp/B0CW1G1QR5/">Penguin Book of Polish Short Stories</a> — my favorite read of 2025 (yes, I'm still savoring it). As an American in Poland, it gave me real insight into Polish thinking and culture in a way that years of daily life here hadn't quite managed. My Polish partner reluctantly agrees with most of my takeaways. Penguin publishes similar collections for other nations; Japanese stories may be next.
 			</p>
+
+			<h2>Listening To</h2>
+			<div class="spotify-stack">
+				<iframe
+					src="https://open.spotify.com/embed/playlist/4fC03AYhutXbLhxtv6zkB6?utm_source=generator"
+					width="100%"
+					height="152"
+					frameborder="0"
+					allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+					loading="lazy"
+				></iframe>
+				<iframe
+					src="https://open.spotify.com/embed/album/31kDP6XF3s8dIt0iGFS4PX?utm_source=generator"
+					width="100%"
+					height="152"
+					frameborder="0"
+					allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+					loading="lazy"
+				></iframe>
+				<iframe
+					src="https://open.spotify.com/embed/track/5D2mifjXdi8gHxXfkzJFYh?utm_source=generator"
+					width="100%"
+					height="152"
+					frameborder="0"
+					allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+					loading="lazy"
+				></iframe>
+			</div>
 
 			<h2>Working at DraftKings</h2>
 			<p>
