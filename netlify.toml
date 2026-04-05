@@ -1,3 +1,10 @@
+# Specific post that lives in shorts, not blog — must come before /posts/* catch-all
+[[redirects]]
+  from = "/posts/recipe-spicy-sausage-and-rice/"
+  to = "/shorts/20240610a-spicy-sausage-and-rice/"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/posts/*"
   to = "/blog/:splat"
@@ -7,6 +14,79 @@
 [[redirects]]
   from = "/writings/*"
   to = "/blog/:splat"
+  status = 301
+  force = true
+
+# Old RSS feed location
+[[redirects]]
+  from = "/index.xml"
+  to = "/rss.xml"
+  status = 301
+  force = true
+
+# www + old RSS feed
+[[redirects]]
+  from = "https://www.mkumm.com/index.xml"
+  to = "https://mkumm.com/rss.xml"
+  status = 301
+  force = true
+
+# www → apex catch-all
+[[redirects]]
+  from = "https://www.mkumm.com/*"
+  to = "https://mkumm.com/:splat"
+  status = 301
+  force = true
+
+# Deleted post — no known destination
+[[redirects]]
+  from = "/99xof"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/99xof/"
+  to = "/"
+  status = 301
+  force = true
+
+# Old tag pages — redirect to blog index
+[[redirects]]
+  from = "/tags/*"
+  to = "/blog/"
+  status = 301
+  force = true
+
+# Old now sub-pages
+[[redirects]]
+  from = "/now/regular-exercise/"
+  to = "/now/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/now/typora/"
+  to = "/shorts/20250713a-typora-markdown-editor/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/now/single-blade-shaving/"
+  to = "/shorts/20240824a-single-blade-shaving/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/now/shorts/20251003a-where-to-meet/"
+  to = "/shorts/20251003a-where-to-meet/"
+  status = 301
+  force = true
+
+# Renamed short (date corrected in slug)
+[[redirects]]
+  from = "/shorts/20250713a-newest-batch-of-cards/"
+  to = "/shorts/20250717a-newest-batch-of-cards/"
   status = 301
   force = true
 
