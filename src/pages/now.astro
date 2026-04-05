@@ -97,18 +97,74 @@ const recentShorts = (await getCollection('shorts'))
 				color: rgb(var(--gray));
 				margin: 0.2rem 0 0 0;
 			}
-			.spotify-stack {
-				display: flex;
-				flex-direction: column;
-				gap: 0.5rem;
-			}
-			.spotify-stack iframe {
-				border-radius: 12px;
-				display: block;
-			}
-			.see-all {
+.see-all {
 				font-size: 0.95rem;
 				font-weight: 500;
+			}
+			.finished-list {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			.finished-list li {
+				padding: 0.85rem 0;
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.finished-list li:first-child {
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			.finished-header {
+				display: flex;
+				align-items: center;
+				gap: 0.65rem;
+				margin-bottom: 0.3rem;
+			}
+			.finished-title {
+				font-family: 'Lora', Georgia, serif;
+				font-weight: 600;
+				color: rgb(var(--black));
+				text-decoration: none;
+			}
+			.finished-title:hover {
+				color: var(--accent);
+			}
+			.badge {
+				font-size: 0.7rem;
+				font-weight: 700;
+				text-transform: uppercase;
+				letter-spacing: 0.06em;
+				padding: 0.15rem 0.5rem;
+				border-radius: 999px;
+				flex-shrink: 0;
+			}
+			.badge.recommend {
+				background: #d4edda;
+				color: #2d6a3f;
+			}
+			.badge.skip {
+				background: rgb(var(--gray-light));
+				color: rgb(var(--gray));
+			}
+			.badge.reading {
+				background: #dbeafe;
+				color: #1e40af;
+			}
+			@media (prefers-color-scheme: dark) {
+				.badge.reading {
+					background: #1e3a5f;
+					color: #93c5fd;
+				}
+			}
+			@media (prefers-color-scheme: dark) {
+				.badge.recommend {
+					background: #1a3d25;
+					color: #6fcf97;
+				}
+			}
+			.finished-review {
+				font-size: 0.9rem;
+				color: rgb(var(--gray));
+				margin: 0;
 			}
 		</style>
 	</head>
@@ -157,37 +213,74 @@ const recentShorts = (await getCollection('shorts'))
 			</p>
 
 			<h2>Reading</h2>
-			<p>
-				Currently working through the <a href="https://www.amazon.com/Penguin-Book-Polish-Short-Stories-ebook/dp/B0CW1G1QR5/">Penguin Book of Polish Short Stories</a> — my favorite read of 2025 (yes, I'm still savoring it). As an American in Poland, it gave me real insight into Polish thinking and culture in a way that years of daily life here hadn't quite managed. My Polish partner reluctantly agrees with most of my takeaways. Penguin publishes similar collections for other nations; Japanese stories may be next.
-			</p>
+			<ul class="finished-list">
+				<li>
+					<div class="finished-header">
+						<a href="https://www.amazon.com/Penguin-Book-Polish-Short-Stories-ebook/dp/B0CW1G1QR5/" class="finished-title">Penguin Book of Polish Short Stories</a>
+						<span class="badge reading">Reading</span>
+					</div>
+					<p class="finished-review">My favorite read of 2025 — still savoring it. As an American in Poland, it gave me real insight into Polish thinking and culture. My Polish partner reluctantly agrees with most of my takeaways.</p>
+				</li>
+				<li>
+					<div class="finished-header">
+						<a href="https://www.amazon.com/Edge-Art-Risking-Everything/dp/1594204128" class="finished-title">The Edge of Art: Risking Everything</a>
+						<span class="badge reading">Reading</span>
+					</div>
+				</li>
+				<li>
+					<div class="finished-header">
+						<a href="https://www.amazon.com/Bird-Bird-Some-Instructions-Writing/dp/0679435204" class="finished-title">Bird by Bird</a>
+						<span class="badge reading">Reading</span>
+					</div>
+				</li>
+			</ul>
+
+			<h2>Just Finished</h2>
+			<ul class="finished-list">
+				<li>
+					<div class="finished-header">
+						<a href="https://www.amazon.com/Cursed-Bunny-Bora-Chung-ebook/dp/B0CLL1MSS1" class="finished-title">Cursed Bunny</a>
+						<span class="badge recommend">Recommend</span>
+					</div>
+					<p class="finished-review">A great collection of short stories — think Black Mirror in book form.</p>
+				</li>
+				<li>
+					<div class="finished-header">
+						<a href="https://www.amazon.com/Greenlights-Matthew-McConaughey/dp/0593139135" class="finished-title">Greenlights</a>
+						<span class="badge recommend">Recommend</span>
+					</div>
+					<p class="finished-review">Far more entertaining than I was expecting.</p>
+				</li>
+				<li>
+					<div class="finished-header">
+						<a href="https://www.amazon.com/Polostan-One-Bomb-Light/dp/0062334492" class="finished-title">Polostan</a>
+						<span class="badge recommend">Recommend</span>
+					</div>
+					<p class="finished-review">Give me anything Neal Stephenson.</p>
+				</li>
+			</ul>
 
 			<h2>Listening To</h2>
-			<div class="spotify-stack">
-				<iframe
-					src="https://open.spotify.com/embed/playlist/4fC03AYhutXbLhxtv6zkB6?utm_source=generator"
-					width="100%"
-					height="152"
-					frameborder="0"
-					allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-					loading="lazy"
-				></iframe>
-				<iframe
-					src="https://open.spotify.com/embed/album/31kDP6XF3s8dIt0iGFS4PX?utm_source=generator"
-					width="100%"
-					height="152"
-					frameborder="0"
-					allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-					loading="lazy"
-				></iframe>
-				<iframe
-					src="https://open.spotify.com/embed/track/5D2mifjXdi8gHxXfkzJFYh?utm_source=generator"
-					width="100%"
-					height="152"
-					frameborder="0"
-					allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-					loading="lazy"
-				></iframe>
-			</div>
+			<ul class="finished-list">
+				<li>
+					<div class="finished-header">
+						<a href="https://open.spotify.com/playlist/4fC03AYhutXbLhxtv6zkB6" class="finished-title">Goldberg Variations</a>
+					</div>
+					<p class="finished-review">Lang Lang</p>
+				</li>
+				<li>
+					<div class="finished-header">
+						<a href="https://open.spotify.com/album/31kDP6XF3s8dIt0iGFS4PX" class="finished-title">Vinyl Confessions</a>
+					</div>
+					<p class="finished-review">Kansas</p>
+				</li>
+				<li>
+					<div class="finished-header">
+						<a href="https://open.spotify.com/album/36LXzRarDP8TU8K0REGpt6" class="finished-title">Lazaretto</a>
+					</div>
+					<p class="finished-review">Jack White</p>
+				</li>
+			</ul>
 
 			<h2>Working at DraftKings</h2>
 			<p>
