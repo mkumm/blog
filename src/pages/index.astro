@@ -4,14 +4,7 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import IndexHeroImage from "../assets/pages/hero-index.png";
 import { Image } from "astro:assets";
-import { getCollection } from "astro:content";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
-import FormattedDate from "../components/FormattedDate.astro";
-import PersonLink from "../components/PersonLink.astro";
-
-const recentShorts = (await getCollection('shorts'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 3);
 ---
 
 <!doctype html>
@@ -81,86 +74,99 @@ const recentShorts = (await getCollection('shorts'))
 				min-width: 0;
 			}
 			.intro-text h1 {
-				margin: 0 0 0.25rem 0;
+				font-size: 1.4rem;
+				margin: 0 0 0.1rem 0;
 			}
 			.intro-tagline {
-				font-size: 0.9rem;
+				font-size: 0.925rem;
 				color: rgb(var(--gray));
 				margin: 0;
 				font-weight: 500;
+				line-height: 1.4;
 			}
 			@media (max-width: 540px) {
-				.intro { gap: 1rem; }
+				.intro {
+					flex-direction: column;
+					align-items: center;
+					text-align: center;
+					gap: 0.75rem;
+				}
 				.intro-photo {
-					width: 72px !important;
-					max-width: 72px !important;
-					height: 72px;
+					width: 80px !important;
+					max-width: 80px !important;
+					height: 80px;
+				}
+				.tech-tags {
+					justify-content: center;
 				}
 			}
-			.recent-shorts {
-				margin-top: 2.5rem;
-				padding-top: 1.5rem;
-				border-top: 1px solid rgb(var(--gray-light));
+			.nav-links {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 0.75rem;
+				margin: 1.75rem 0;
 			}
-			.recent-shorts-header {
-				display: flex;
-				align-items: baseline;
-				justify-content: space-between;
-				margin-bottom: 0.75rem;
-			}
-			.recent-shorts-header h2 {
-				font-size: 1rem;
-				text-transform: uppercase;
-				letter-spacing: 0.08em;
-				font-weight: 600;
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			.recent-shorts-header a {
-				font-size: 0.875rem;
-				font-weight: 500;
-				color: rgb(var(--gray));
-				text-decoration: none;
-			}
-			.recent-shorts-header a:hover {
-				color: var(--accent);
-			}
-			.shorts-list {
-				list-style: none;
-				padding: 0;
-				margin: 0;
-			}
-			.shorts-list li {
-				padding: 0.65rem 0;
-				border-bottom: 1px solid rgb(var(--gray-light));
-			}
-			.shorts-list li:first-child {
-				border-top: 1px solid rgb(var(--gray-light));
-			}
-			.shorts-list a {
-				display: flex;
-				gap: 1rem;
-				align-items: baseline;
+			.nav-link-card {
+				display: block;
+				padding: 0.875rem 1rem;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 8px;
 				text-decoration: none;
 				color: inherit;
+				transition: border-color 0.15s ease, background 0.15s ease;
 			}
-			.shorts-list a:hover .short-title {
-				color: var(--accent);
+			.nav-link-card:hover {
+				border-color: var(--accent);
+				background: rgba(193, 116, 86, 0.04);
 			}
-			.short-date {
-				font-size: 0.75rem;
-				text-transform: uppercase;
-				letter-spacing: 0.07em;
-				font-weight: 500;
-				color: rgb(var(--gray));
-				white-space: nowrap;
-				flex-shrink: 0;
-			}
-			.short-title {
+			.nav-link-card .card-title {
+				display: block;
 				font-family: 'Lora', Georgia, serif;
 				font-weight: 600;
+				font-size: 1rem;
 				color: rgb(var(--black));
-				transition: color 0.15s ease;
+				margin-bottom: 0.2rem;
+			}
+			.nav-link-card .card-desc {
+				display: block;
+				font-size: 0.8rem;
+				color: rgb(var(--gray));
+				line-height: 1.4;
+			}
+			@media (max-width: 540px) {
+				.nav-links { grid-template-columns: 1fr; }
+			}
+.tech-tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.3rem;
+				margin: 0.5rem 0 0;
+			}
+			.tech-tag {
+				font-size: 0.65rem;
+				font-weight: 500;
+				padding: 0.15rem 0.45rem;
+				border-radius: 999px;
+				background: rgb(var(--gray-light));
+				color: rgb(var(--gray));
+				letter-spacing: 0.03em;
+				text-transform: uppercase;
+			}
+			.contact-callout {
+				margin: 1.75rem 0;
+				padding: 1rem 1.25rem;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 8px;
+				border-left: 3px solid var(--accent);
+				font-size: 0.9rem;
+				color: rgb(var(--gray-dark));
+			}
+			.contact-callout a {
+				color: var(--accent);
+				font-weight: 500;
+			}
+			.contact-callout a:hover {
+				text-decoration: underline;
 			}
 			.page-footer-note {
 				margin-top: 3rem;
@@ -192,76 +198,49 @@ const recentShorts = (await getCollection('shorts'))
 				<div class="intro-text">
 					<h1>Michael Kumm</h1>
 					<p class="intro-tagline">Senior Software Engineer <br />Krakow, PL & Detroit, MI</p>
+					<div class="tech-tags">
+						{["Elixir", "Phoenix", "LiveView", "AI Tooling", "Surface"].map(tag => (
+							<span class="tech-tag">{tag}</span>
+						))}
+					</div>
 				</div>
 			</div>
 
 			<p>
-				I'm a senior software engineer specializing in <strong>Elixir</strong>,
-				<strong>Phoenix</strong>, and <strong>functional programming</strong>. I like
-				building systems that are elegant under pressure—recently that's meant
-				<strong>LiveView</strong> interfaces, <strong>AI automation</strong> tooling,
-				and diving deep into <strong>Kafka</strong> and event streaming. I've also
-				been expanding into <strong>C#</strong> and finding that good ideas
-				travel well across languages.
-			</p>
-			<p>
-				Outside of work I build things for the fun of it. I care about software that
-				respects users—ad-free, privacy-first, and as close to free as possible.
-				<a href="https://sprytna.com"><strong>Sprytna.com</strong></a> is a hub for my
-				current projects; the latest is <a href="https://anyonewilldo.com"><strong>AnyOneWillDo</strong></a>,
-				a randomizer with a twist. I also make retro games in
-				<a href="https://www.lexaloffle.com/pico-8.php"><strong>PICO-8</strong></a> and
-				spend a perhaps unreasonable amount of time in <strong>Neovim</strong>.
-			</p>
-			<p>
-				Lately I've been drawn back to fundamentals—<strong>parsers, protocols,
-				event sourcing, low-level systems</strong>—even building a computer from
-				virtual chips. The deeper you go, the more interesting it gets.
+				I'm a senior software engineer who likes building systems that are elegant
+				under pressure—recently that's meant <strong>LiveView</strong> interfaces,
+				<strong>AI automation</strong> tooling, and diving deep into event streaming.
+				Outside of work I build things for the fun of it—privacy-first, ad-free, as
+				close to free as possible. <a href="https://sprytna.com"><strong>Sprytna.com</strong></a>
+				is a hub for those projects.
 			</p>
 			<p>
 				Away from the keyboard I split my time between <strong>Krakow and Michigan</strong>,
-				walk a lot, take photos, and am slowly (very slowly) learning <strong>Polish</strong>.
+				walk a lot, take photos, and am slowly learning <strong>Polish</strong>.
 				I have a soft spot for <strong>cask ales</strong> and a long-standing fascination
 				with <strong>probability and games of chance</strong>.
 			</p>
 
-			<p>
-				My <a href="/blog/">Blog</a> is mostly technical—things like
-				<a href="/blog/first-hops-with-rabbitmq/">First Hops With RabbitMQ</a> and
-				<a href="/blog/when-hobby-project-breaks/">When a Hobby Project Breaks</a>.
-				<a href="/shorts/">Shorts</a> is more casual and personal.
-				My <a href="/now/">Now Page</a>, inspired by <PersonLink
-					img_src="/profiles/sivers.png"
-					name="Derek Sivers"
-					link="https://sive.rs/"
-				/><a href="https://nownownow.com/about">the now page movement</a>, is a
-				snapshot of what I'm currently focused on.
-			</p>
-
-			<p>
-				If any of this resonates—<strong>Elixir</strong>, event streaming, building
-				privacy-first tools, expat life in Krakow, cask ales—drop me a line at
-				<a href="mailto:hello@mkumm.com">hello@mkumm.com</a>.
-			</p>
-
-			<div class="recent-shorts">
-				<div class="recent-shorts-header">
-					<h2>Recent Shorts</h2>
-					<a href="/shorts/">See all →</a>
-				</div>
-				<ul class="shorts-list">
-					{recentShorts.map((post) => (
-						<li>
-							<a href={`/shorts/${post.id}/`}>
-								<span class="short-date"><FormattedDate date={post.data.pubDate} /></span>
-								<span class="short-title">{post.data.title}</span>
-							</a>
-						</li>
-					))}
-				</ul>
+			<div class="nav-links">
+				<a href="/blog/" class="nav-link-card">
+					<span class="card-title">Blog</span>
+					<span class="card-desc">Technical deep-dives and longer essays</span>
+				</a>
+				<a href="/shorts/" class="nav-link-card">
+					<span class="card-title">Shorts</span>
+					<span class="card-desc">Casual notes and personal observations</span>
+				</a>
+				<a href="/now/" class="nav-link-card">
+					<span class="card-title">Now</span>
+					<span class="card-desc">What I'm currently focused on</span>
+				</a>
 			</div>
 
-			<p class="page-footer-note">
+			<div class="contact-callout">
+				If any of this resonates—Elixir, event streaming, privacy-first tools, expat life in Krakow, cask ales—drop me a line at <a href="mailto:hello@mkumm.com">hello@mkumm.com</a>.
+			</div>
+
+<p class="page-footer-note">
 				All photos on this site are my own, available under a Creative Commons license.
 				DM me on <a href="https://x.com/mkumm">Twitter</a> or
 				<a href="https://www.instagram.com/mkumm/">Instagram</a> for full-resolution versions.
