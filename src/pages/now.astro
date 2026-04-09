@@ -101,31 +101,31 @@ const recentShorts = (await getCollection('shorts'))
 				font-size: 0.95rem;
 				font-weight: 500;
 			}
-			.finished-list {
+			.item-list {
 				list-style: none;
 				padding: 0;
 				margin: 0;
 			}
-			.finished-list li {
+			.item-list li {
 				padding: 0.85rem 0;
 				border-bottom: 1px solid rgb(var(--gray-light));
 			}
-			.finished-list li:first-child {
+			.item-list li:first-child {
 				border-top: 1px solid rgb(var(--gray-light));
 			}
-			.finished-header {
+			.item-header {
 				display: flex;
 				align-items: center;
 				gap: 0.65rem;
 				margin-bottom: 0.3rem;
 			}
-			.finished-title {
+			.item-title {
 				font-family: 'Lora', Georgia, serif;
 				font-weight: 600;
 				color: rgb(var(--black));
 				text-decoration: none;
 			}
-			.finished-title:hover {
+			.item-title:hover {
 				color: var(--accent);
 			}
 			.badge {
@@ -161,7 +161,7 @@ const recentShorts = (await getCollection('shorts'))
 					color: #6fcf97;
 				}
 			}
-			.finished-review {
+			.item-note {
 				font-size: 0.9rem;
 				color: rgb(var(--gray));
 				margin: 0;
@@ -213,72 +213,79 @@ const recentShorts = (await getCollection('shorts'))
 			</p>
 
 			<h2>Reading</h2>
-			<ul class="finished-list">
+			<ul class="item-list">
 				<li>
-					<div class="finished-header">
-						<a href="https://www.amazon.com/Penguin-Book-Polish-Short-Stories-ebook/dp/B0CW1G1QR5/" class="finished-title">Penguin Book of Polish Short Stories</a>
+					<div class="item-header">
+						<a href="https://craftinginterpreters.com/" class="item-title">Crafting Interpreters</a>
 						<span class="badge reading">Reading</span>
 					</div>
-					<p class="finished-review">My favorite read of 2025 — still savoring it. As an American in Poland, it gave me real insight into Polish thinking and culture. My Polish partner reluctantly agrees with most of my takeaways.</p>
+					<p class="item-note">As a functional programmer for the last 6 years, I have lost any imperative/OO instincts. Hoping to go down some rabbit holes working through this book.</p>
 				</li>
 				<li>
-					<div class="finished-header">
-						<a href="https://www.amazon.com/Edge-Art-Risking-Everything/dp/1594204128" class="finished-title">The Edge of Art: Risking Everything</a>
+					<div class="item-header">
+						<a href="https://www.amazon.com/Penguin-Book-Polish-Short-Stories-ebook/dp/B0CW1G1QR5/" class="item-title">Penguin Book of Polish Short Stories</a>
+						<span class="badge reading">Reading</span>
+					</div>
+					<p class="item-note">My favorite read of 2025 — still savoring it. As an American in Poland, it gave me real insight into Polish thinking and culture. My Polish partner reluctantly agrees with most of my takeaways.</p>
+				</li>
+				<li>
+					<div class="item-header">
+						<a href="https://www.amazon.com/Edge-Art-Risking-Everything/dp/1594204128" class="item-title">The Edge of Art: Risking Everything</a>
 						<span class="badge reading">Reading</span>
 					</div>
 				</li>
 				<li>
-					<div class="finished-header">
-						<a href="https://www.amazon.com/Bird-Bird-Some-Instructions-Writing/dp/0679435204" class="finished-title">Bird by Bird</a>
+					<div class="item-header">
+						<a href="https://www.amazon.com/Bird-Bird-Some-Instructions-Writing/dp/0679435204" class="item-title">Bird by Bird</a>
 						<span class="badge reading">Reading</span>
 					</div>
 				</li>
 			</ul>
 
 			<h2>Just Finished</h2>
-			<ul class="finished-list">
+			<ul class="item-list">
 				<li>
-					<div class="finished-header">
-						<a href="https://www.amazon.com/Cursed-Bunny-Bora-Chung-ebook/dp/B0CLL1MSS1" class="finished-title">Cursed Bunny</a>
+					<div class="item-header">
+						<a href="https://www.amazon.com/Cursed-Bunny-Bora-Chung-ebook/dp/B0CLL1MSS1" class="item-title">Cursed Bunny</a>
 						<span class="badge recommend">Recommend</span>
 					</div>
-					<p class="finished-review">A great collection of short stories — think Black Mirror in book form.</p>
+					<p class="item-note">A great collection of short stories — think Black Mirror in book form.</p>
 				</li>
 				<li>
-					<div class="finished-header">
-						<a href="https://www.amazon.com/Greenlights-Matthew-McConaughey/dp/0593139135" class="finished-title">Greenlights</a>
+					<div class="item-header">
+						<a href="https://www.amazon.com/Greenlights-Matthew-McConaughey/dp/0593139135" class="item-title">Greenlights</a>
 						<span class="badge recommend">Recommend</span>
 					</div>
-					<p class="finished-review">Far more entertaining than I was expecting.</p>
+					<p class="item-note">Far more entertaining than I was expecting.</p>
 				</li>
 				<li>
-					<div class="finished-header">
-						<a href="https://www.amazon.com/Polostan-One-Bomb-Light/dp/0062334492" class="finished-title">Polostan</a>
+					<div class="item-header">
+						<a href="https://www.amazon.com/Polostan-One-Bomb-Light/dp/0062334492" class="item-title">Polostan</a>
 						<span class="badge recommend">Recommend</span>
 					</div>
-					<p class="finished-review">Give me anything Neal Stephenson.</p>
+					<p class="item-note">Give me anything Neal Stephenson.</p>
 				</li>
 			</ul>
 
 			<h2>Listening To</h2>
-			<ul class="finished-list">
+			<ul class="item-list">
 				<li>
-					<div class="finished-header">
-						<a href="https://open.spotify.com/playlist/4fC03AYhutXbLhxtv6zkB6" class="finished-title">Goldberg Variations</a>
+					<div class="item-header">
+						<a href="https://open.spotify.com/playlist/4fC03AYhutXbLhxtv6zkB6" class="item-title">Goldberg Variations</a>
 					</div>
-					<p class="finished-review">Lang Lang</p>
+					<p class="item-note">Lang Lang</p>
 				</li>
 				<li>
-					<div class="finished-header">
-						<a href="https://open.spotify.com/album/31kDP6XF3s8dIt0iGFS4PX" class="finished-title">Vinyl Confessions</a>
+					<div class="item-header">
+						<a href="https://open.spotify.com/album/31kDP6XF3s8dIt0iGFS4PX" class="item-title">Vinyl Confessions</a>
 					</div>
-					<p class="finished-review">Kansas</p>
+					<p class="item-note">Kansas</p>
 				</li>
 				<li>
-					<div class="finished-header">
-						<a href="https://open.spotify.com/album/36LXzRarDP8TU8K0REGpt6" class="finished-title">Lazaretto</a>
+					<div class="item-header">
+						<a href="https://open.spotify.com/album/36LXzRarDP8TU8K0REGpt6" class="item-title">Lazaretto</a>
 					</div>
-					<p class="finished-review">Jack White</p>
+					<p class="item-note">Jack White</p>
 				</li>
 			</ul>
 
