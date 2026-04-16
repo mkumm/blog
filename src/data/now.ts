@@ -24,7 +24,7 @@ export const books: Book[] = [
 		image: '/now/crafting-interpreters.png',
 		note: 'As a functional programmer for the last 6 years, I have lost any imperative/OO instincts. Hoping to go down some rabbit holes working through this book.',
 		status: 'reading',
-		progress: 2,
+		progress: 7,
 	},
 	{
 		title: 'Penguin Book of Polish Short Stories',
@@ -77,6 +77,7 @@ export const books: Book[] = [
 		image: '/now/cursed-bunny.png',
 		note: 'A great collection of short stories — think Black Mirror in book form.',
 		status: 'finished',
+		progress: 100,
 		rating: 4,
 	},
 	{
@@ -86,6 +87,7 @@ export const books: Book[] = [
 		image: '/now/greenlights.png',
 		note: 'Far more entertaining than I was expecting.',
 		status: 'finished',
+		progress: 100,
 		rating: 4,
 	},
 	{
@@ -95,6 +97,7 @@ export const books: Book[] = [
 		image: '/now/polostan.png',
 		note: 'Give me anything Neal Stephenson.',
 		status: 'finished',
+		progress: 100,
 		rating: 4.5,
 	},
 ];
