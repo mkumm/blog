@@ -216,6 +216,24 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				color: rgb(var(--gray));
 				margin: 0;
 			}
+			@media (max-width: 720px) {
+				.item-thumb {
+					width: 56px;
+					max-width: 56px;
+					margin-left: 0;
+					margin-right: 0;
+					border-radius: 3px;
+				}
+				.item-thumb.book {
+					height: 78px;
+				}
+				.item-thumb.music {
+					height: 56px;
+				}
+				.item-row {
+					gap: 0.65rem;
+				}
+			}
 		</style>
 	</head>
 	<body>
