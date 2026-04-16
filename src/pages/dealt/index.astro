@@ -509,6 +509,7 @@
     var GAMES = {
       jb96: {
         label:'9/6 JB', rtp:'99.5',
+        evDrawAll: 0.336020,
         pays:{ ROYAL_FLUSH:250,STR_FLUSH:50,FOUR_ACES:25,FOUR_2_4:25,FOUR_5_K:25,FULL_HOUSE:9,FLUSH:6,STRAIGHT:4,THREE_KIND:3,TWO_PAIR:2,JACKS_BETTER:1 },
         rows:[
           {keys:'ROYAL_FLUSH',           label:'ROYAL FLUSH'},
@@ -524,6 +525,7 @@
       },
       jb85: {
         label:'8/5 JB', rtp:'97.3',
+        evDrawAll: 0.332614,
         pays:{ ROYAL_FLUSH:250,STR_FLUSH:50,FOUR_ACES:25,FOUR_2_4:25,FOUR_5_K:25,FULL_HOUSE:8,FLUSH:5,STRAIGHT:4,THREE_KIND:3,TWO_PAIR:2,JACKS_BETTER:1 },
         rows:[
           {keys:'ROYAL_FLUSH',           label:'ROYAL FLUSH'},
@@ -539,6 +541,7 @@
       },
       bonus: {
         label:'BONUS', rtp:'99.2',
+        evDrawAll: 0.334461,
         pays:{ ROYAL_FLUSH:250,STR_FLUSH:50,FOUR_ACES:80,FOUR_2_4:40,FOUR_5_K:25,FULL_HOUSE:8,FLUSH:5,STRAIGHT:4,THREE_KIND:3,TWO_PAIR:2,JACKS_BETTER:1 },
         rows:[
           {keys:'ROYAL_FLUSH', label:'ROYAL FLUSH'},
@@ -556,6 +559,7 @@
       },
       dblbonus: {
         label:'DBL BONUS', rtp:'100.2',
+        evDrawAll: 0.305508,
         pays:{ ROYAL_FLUSH:250,STR_FLUSH:50,FOUR_ACES:160,FOUR_2_4:80,FOUR_5_K:50,FULL_HOUSE:10,FLUSH:7,STRAIGHT:5,THREE_KIND:3,TWO_PAIR:1,JACKS_BETTER:1 },
         rows:[
           {keys:'ROYAL_FLUSH', label:'ROYAL FLUSH'},
@@ -633,10 +637,17 @@
       return d;
     }
 
+    function cryptoRandInt(max) {
+      var limit = Math.floor(0x100000000 / max) * max;
+      var buf = new Uint32Array(1);
+      do { crypto.getRandomValues(buf); } while (buf[0] >= limit);
+      return buf[0] % max;
+    }
+
     function shuffle(arr) {
       var a = arr.slice();
       for (var i = a.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
+        var j = cryptoRandInt(i + 1);
         var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
       }
       return a;
@@ -853,14 +864,15 @@
       var drawCount = 5 - heldCount;
 
       if (drawCount === 5) {
-        el.textContent = 'EV  \u2014\u2014\u2014';
-        el.className = 'ev-line ev-dim';
+        var ev5 = GAMES[currentGameKey].evDrawAll;
+        el.textContent = 'EV  ' + (ev5 * bet).toFixed(4);
+        el.className = 'ev-line';
         return;
       }
 
       var doCalc = function() {
         var ev = calcEV();
-        var evDisplay = (ev * bet).toFixed(2);
+        var evDisplay = (ev * bet).toFixed(4);
         el.textContent = 'EV  ' + evDisplay;
         el.className = 'ev-line' + (ev >= 2 ? ' ev-good' : ev >= 1 ? ' ev-pos' : '');
       };
