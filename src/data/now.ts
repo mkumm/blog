@@ -50,7 +50,7 @@ export const books: Book[] = [
 		image: '/now/overcoming-binge-eating.png',
 		note: "The first half was brutally slow - second half is picking up",
 		status: 'reading',
-		progress: 55,
+		progress: 62,
 	},
 		{
 		title: 'I heart logs',
@@ -59,7 +59,7 @@ export const books: Book[] = [
 		image: '/now/i-heart-logs.png',
 		note: "Opening my mind to Kafka",
 		status: 'reading',
-		progress: 65,
+		progress: 55,
 	},
 	{
 		title: 'Bird by Bird',
@@ -68,7 +68,7 @@ export const books: Book[] = [
 		image: '/now/bird-by-bird.png',
 		note: "Finally getting around to reading this classic. Fits well with my ongoing zen aspirations",
 		status: 'reading',
-		progress: 60,
+		progress: 22,
 	},
 	{
 		title: 'Cursed Bunny',
