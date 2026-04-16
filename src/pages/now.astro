@@ -8,10 +8,29 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import PersonLink from "../components/PersonLink.astro";
+import { books, albums } from "../data/now";
 
 const recentShorts = (await getCollection('shorts'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 	.slice(0, 3);
+
+const readingBooks = books.filter(b => b.status === 'reading');
+const finishedBooks = books.filter(b => b.status === 'finished');
+
+function progressBar(pct: number): { filled: string; empty: string } {
+	const total = 20;
+	const n = Math.round(pct * total / 100);
+	return { filled: '█'.repeat(n), empty: '░'.repeat(total - n) };
+}
+
+function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
+	return Array.from({ length: 5 }, (_, i) => {
+		const pos = i + 1;
+		if (rating >= pos) return 'full';
+		if (rating >= pos - 0.5) return 'half';
+		return 'empty';
+	});
+}
 ---
 
 <!doctype html>
@@ -113,6 +132,28 @@ const recentShorts = (await getCollection('shorts'))
 			.item-list li:first-child {
 				border-top: 1px solid rgb(var(--gray-light));
 			}
+			.item-row {
+				display: flex;
+				gap: 0.85rem;
+				align-items: flex-start;
+			}
+			.item-thumb {
+				width: 72px;
+				flex-shrink: 0;
+				border-radius: 3px;
+				object-fit: cover;
+				display: block;
+			}
+			.item-thumb.book {
+				height: 100px;
+			}
+			.item-thumb.music {
+				height: 72px;
+			}
+			.item-content {
+				flex: 1;
+				min-width: 0;
+			}
 			.item-header {
 				display: flex;
 				align-items: center;
@@ -128,38 +169,47 @@ const recentShorts = (await getCollection('shorts'))
 			.item-title:hover {
 				color: var(--accent);
 			}
-			.badge {
-				font-size: 0.7rem;
-				font-weight: 700;
-				text-transform: uppercase;
-				letter-spacing: 0.06em;
-				padding: 0.15rem 0.5rem;
-				border-radius: 999px;
-				flex-shrink: 0;
+			.progress-bar {
+				display: flex;
+				align-items: center;
+				gap: 0.35rem;
+				margin-top: 0.35rem;
+				font-family: 'Courier New', Courier, monospace;
+				font-size: 0.78rem;
+				line-height: 1;
 			}
-			.badge.recommend {
-				background: #d4edda;
-				color: #2d6a3f;
+			.progress-filled {
+				color: var(--accent);
 			}
-			.badge.skip {
-				background: rgb(var(--gray-light));
+			.progress-empty {
+				color: rgb(var(--gray-light));
+			}
+			.progress-pct {
 				color: rgb(var(--gray));
+				font-size: 0.72rem;
 			}
-			.badge.reading {
-				background: #dbeafe;
-				color: #1e40af;
+			.star-display {
+				display: inline-flex;
+				gap: 0.05rem;
+				margin-top: 0.35rem;
+				font-size: 1rem;
+				line-height: 1;
 			}
-			@media (prefers-color-scheme: dark) {
-				.badge.reading {
-					background: #1e3a5f;
-					color: #93c5fd;
-				}
+			.star {
+				position: relative;
+				display: inline-block;
+				color: rgb(var(--gray-light));
 			}
-			@media (prefers-color-scheme: dark) {
-				.badge.recommend {
-					background: #1a3d25;
-					color: #6fcf97;
-				}
+			.star.full {
+				color: var(--accent);
+			}
+			.star.half::after {
+				content: '★';
+				position: absolute;
+				left: 0;
+				top: 0;
+				clip-path: inset(0 50% 0 0);
+				color: var(--accent);
 			}
 			.item-note {
 				font-size: 0.9rem;
@@ -176,7 +226,7 @@ const recentShorts = (await getCollection('shorts'))
 		<main>
 			<div class="page-header">
 				<h1>Now Page</h1>
-				<p>A snapshot of what I'm focused on — last updated April 5, 2026.</p>
+				<p>A snapshot of what I'm focused on — last updated April 16, 2026.</p>
 			</div>
 
 			<p>
@@ -212,82 +262,7 @@ const recentShorts = (await getCollection('shorts'))
 				/>, my ever patient (and professional) teacher!
 			</p>
 
-			<h2>Reading</h2>
-			<ul class="item-list">
-				<li>
-					<div class="item-header">
-						<a href="https://craftinginterpreters.com/" class="item-title">Crafting Interpreters</a>
-						<span class="badge reading">Reading</span>
-					</div>
-					<p class="item-note">As a functional programmer for the last 6 years, I have lost any imperative/OO instincts. Hoping to go down some rabbit holes working through this book.</p>
-				</li>
-				<li>
-					<div class="item-header">
-						<a href="https://www.amazon.com/Penguin-Book-Polish-Short-Stories-ebook/dp/B0CW1G1QR5/" class="item-title">Penguin Book of Polish Short Stories</a>
-						<span class="badge reading">Reading</span>
-					</div>
-					<p class="item-note">My favorite read of 2025 — still savoring it. As an American in Poland, it gave me real insight into Polish thinking and culture. My Polish partner reluctantly agrees with most of my takeaways.</p>
-				</li>
-				<li>
-					<div class="item-header">
-						<a href="https://www.amazon.com/Edge-Art-Risking-Everything/dp/1594204128" class="item-title">The Edge of Art: Risking Everything</a>
-						<span class="badge reading">Reading</span>
-					</div>
-				</li>
-				<li>
-					<div class="item-header">
-						<a href="https://www.amazon.com/Bird-Bird-Some-Instructions-Writing/dp/0679435204" class="item-title">Bird by Bird</a>
-						<span class="badge reading">Reading</span>
-					</div>
-				</li>
-			</ul>
 
-			<h2>Just Finished</h2>
-			<ul class="item-list">
-				<li>
-					<div class="item-header">
-						<a href="https://www.amazon.com/Cursed-Bunny-Bora-Chung-ebook/dp/B0CLL1MSS1" class="item-title">Cursed Bunny</a>
-						<span class="badge recommend">Recommend</span>
-					</div>
-					<p class="item-note">A great collection of short stories — think Black Mirror in book form.</p>
-				</li>
-				<li>
-					<div class="item-header">
-						<a href="https://www.amazon.com/Greenlights-Matthew-McConaughey/dp/0593139135" class="item-title">Greenlights</a>
-						<span class="badge recommend">Recommend</span>
-					</div>
-					<p class="item-note">Far more entertaining than I was expecting.</p>
-				</li>
-				<li>
-					<div class="item-header">
-						<a href="https://www.amazon.com/Polostan-One-Bomb-Light/dp/0062334492" class="item-title">Polostan</a>
-						<span class="badge recommend">Recommend</span>
-					</div>
-					<p class="item-note">Give me anything Neal Stephenson.</p>
-				</li>
-			</ul>
-
-			<h2>Listening To</h2>
-			<ul class="item-list">
-				<li>
-					<div class="item-header">
-						<a href="https://open.spotify.com/playlist/4fC03AYhutXbLhxtv6zkB6" class="item-title">Goldberg Variations</a>
-					</div>
-					<p class="item-note">Lang Lang</p>
-				</li>
-				<li>
-					<div class="item-header">
-						<a href="https://open.spotify.com/album/31kDP6XF3s8dIt0iGFS4PX" class="item-title">Vinyl Confessions</a>
-					</div>
-					<p class="item-note">Kansas</p>
-				</li>
-				<li>
-					<div class="item-header">
-						<a href="https://open.spotify.com/album/36LXzRarDP8TU8K0REGpt6" class="item-title">Lazaretto</a>
-					</div>
-					<p class="item-note">Jack White</p>
-				</li>
-			</ul>
 
 			<h2>Working at DraftKings</h2>
 			<p>
@@ -333,6 +308,68 @@ const recentShorts = (await getCollection('shorts'))
 				))}
 			</ul>
 			<a href="/shorts/" class="see-all">See all shorts →</a>
+
+			<h2>Books and Music</h2>
+
+			<h3>Currently Reading</h3>
+			<ul class="item-list">
+				{readingBooks.map(book => (
+					<li>
+						<div class="item-row">
+							<img src={book.image} class="item-thumb book" alt={`${book.title} cover`} />
+							<div class="item-content">
+								<div class="item-header">
+									<a href={book.url} class="item-title">{book.title}</a>
+								</div>
+								{book.note && <p class="item-note">{book.note}</p>}
+								<div class="progress-bar">
+									<span class="progress-filled">{progressBar(book.progress!).filled}</span><span class="progress-empty">{progressBar(book.progress!).empty}</span>
+									<span class="progress-pct">{book.progress}%</span>
+								</div>
+							</div>
+						</div>
+					</li>
+				))}
+			</ul>
+
+			<h3>Just Finished</h3>
+			<ul class="item-list">
+				{finishedBooks.map(book => (
+					<li>
+						<div class="item-row">
+							<img src={book.image} class="item-thumb book" alt={`${book.title} cover`} />
+							<div class="item-content">
+								<div class="item-header">
+									<a href={book.url} class="item-title">{book.title}</a>
+								</div>
+								<div class="star-display">
+									{starSegments(book.rating!).map(s => (
+										<span class={`star ${s}`}>{s === 'full' ? '★' : '☆'}</span>
+									))}
+								</div>
+								{book.note && <p class="item-note">{book.note}</p>}
+							</div>
+						</div>
+					</li>
+				))}
+			</ul>
+
+			<h3>Currently Listening</h3>
+			<ul class="item-list">
+				{albums.map(album => (
+					<li>
+						<div class="item-row">
+							<img src={album.image} class="item-thumb music" alt={`${album.title} album art`} />
+							<div class="item-content">
+								<div class="item-header">
+									<a href={album.url} class="item-title">{album.title}</a>
+								</div>
+								<p class="item-note">{album.artist}</p>
+							</div>
+						</div>
+					</li>
+				))}
+			</ul>
 		</main>
 		<Footer />
 	</body>
