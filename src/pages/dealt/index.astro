@@ -499,6 +499,14 @@
     var COLORS = ['dark', 'red', 'red', 'dark'];
     var RANKS  = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
 
+    // Pre-calculated probabilities for drawing 5 fresh cards (C(52,5) basis)
+    var DRAW_ALL_PROBS = {
+      ROYAL_FLUSH:  4/2598960,  STR_FLUSH:    36/2598960,
+      FOUR_ACES:    48/2598960, FOUR_2_4:    144/2598960, FOUR_5_K:   432/2598960,
+      FULL_HOUSE: 3744/2598960, FLUSH:       5108/2598960, STRAIGHT: 10200/2598960,
+      THREE_KIND:54912/2598960, TWO_PAIR:  123552/2598960, JACKS_BETTER:337920/2598960
+    };
+
     var HAND_LABELS = {
       ROYAL_FLUSH:'ROYAL FLUSH', STR_FLUSH:'STR FLUSH',
       FOUR_ACES:'FOUR ACES',     FOUR_2_4:'FOUR 2-4',  FOUR_5_K:'FOUR 5-K',
@@ -584,6 +592,9 @@
     var credits        = 100;
     var bet            = 1;
     var currentGameKey = 'jb96';
+    var lastProbs      = {};
+    var lastWinKey     = null;
+    var showProbs      = false;
     // phases: 'idle' | 'holding' | 'result' | 'gameover'
     var phase          = 'idle';
 
@@ -764,15 +775,22 @@
 
     // ── Pay Table ──────────────────────────────────────────────
     function renderPayTable(winKey) {
+      lastWinKey = winKey;
       var game     = GAMES[currentGameKey];
       var rowCount = Math.ceil(game.rows.length / 2);
       var html = game.rows.map(function(row) {
         var keys   = row.keys.split(',');
-        var payout = (game.pays[keys[0]] || 0) * bet;
         var active = winKey && keys.indexOf(winKey) !== -1;
+        var valText;
+        if (showProbs && Object.keys(lastProbs).length) {
+          var prob = keys.reduce(function(sum, k) { return sum + (lastProbs[k] || 0); }, 0);
+          valText = prob > 0 ? fmtProb(prob) : '—';
+        } else {
+          valText = (game.pays[keys[0]] || 0) * bet;
+        }
         return '<div class="pt-row' + (active ? ' active' : '') + '" data-keys="' + row.keys + '">'
              + '<span class="pt-name">' + row.label + '</span>'
-             + '<span class="pt-val">' + payout + '</span>'
+             + '<span class="pt-val">' + valText + '</span>'
              + '</div>';
       }).join('');
       var el = document.getElementById('paytable');
@@ -842,18 +860,33 @@
       }
     }
 
+    function fmtProb(p) {
+      var pct = p * 100;
+      if (pct >= 1)    return pct.toFixed(2) + '%';
+      if (pct >= 0.01) return pct.toFixed(3) + '%';
+      return pct.toFixed(4) + '%';
+    }
+
     function calcEV() {
       var heldCards = hand.filter(function(_, i) { return held[i]; });
       var drawCount = 5 - heldCards.length;
+      lastProbs = {};
 
-      if (drawCount === 0) return evaluate(hand).payout;
+      if (drawCount === 0) {
+        var r0 = evaluate(hand);
+        if (r0.key) lastProbs[r0.key] = 1;
+        return r0.payout;
+      }
 
       var total = 0, count = 0;
       forEachCombo(deck, drawCount, function(idx) {
         var drawn = idx.map(function(i) { return deck[i]; });
-        total += evaluate(heldCards.concat(drawn)).payout;
+        var r = evaluate(heldCards.concat(drawn));
+        total += r.payout;
+        if (r.key) lastProbs[r.key] = (lastProbs[r.key] || 0) + 1;
         count++;
       });
+      Object.keys(lastProbs).forEach(function(k) { lastProbs[k] /= count; });
       return total / count;
     }
 
@@ -865,8 +898,10 @@
 
       if (drawCount === 5) {
         var ev5 = GAMES[currentGameKey].evDrawAll;
+        lastProbs = DRAW_ALL_PROBS;
         el.textContent = 'EV  ~' + (ev5 * bet).toFixed(4);
         el.className = 'ev-line';
+        if (showProbs) renderPayTable(lastWinKey);
         return;
       }
 
@@ -875,6 +910,7 @@
         var evDisplay = (ev * bet).toFixed(4);
         el.textContent = 'EV  ' + evDisplay;
         el.className = 'ev-line' + (ev >= 2 ? ' ev-good' : ev >= 1 ? ' ev-pos' : '');
+        if (showProbs) renderPayTable(lastWinKey);
       };
 
       if (drawCount >= 4) {
@@ -889,6 +925,7 @@
     function clearEV() {
       var el = document.getElementById('ev-line');
       if (el) { el.textContent = ''; el.className = 'ev-line'; }
+      lastProbs = {};
     }
 
     // ── Toggle Hold ────────────────────────────────────────────
@@ -995,6 +1032,12 @@
     }
 
     // ── Event Listeners ────────────────────────────────────────
+    document.getElementById('ev-line').addEventListener('click', function() {
+      if (!Object.keys(lastProbs).length) return;
+      showProbs = !showProbs;
+      renderPayTable(lastWinKey);
+    });
+
     document.getElementById('game-tabs').addEventListener('click', function(e) {
       var tab = e.target.closest('.game-tab');
       if (!tab || tab.disabled) return;
