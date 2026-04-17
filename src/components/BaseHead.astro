@@ -73,4 +73,12 @@ const { title, description, image = FallbackImage, ogType = 'website', pubDate, 
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={new URL(image.src, Astro.url)} />
 <script defer data-domain="mkumm.com" src="https://plausible.io/js/script.outbound-links.js"></script>
+<script is:inline>
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+      e.preventDefault();
+      window.location.href = '/dealt/';
+    }
+  });
+</script>
 <ClientRouter />

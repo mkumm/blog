@@ -597,7 +597,7 @@
     var currentGameKey = 'jb96';
     var lastProbs      = {};
     var lastWinKey     = null;
-    var showProbs      = false;
+    var tableMode      = 'payouts'; // 'payouts' | 'probs' | 'odds'
     // phases: 'idle' | 'holding' | 'result' | 'gameover'
     var phase          = 'idle';
 
@@ -780,15 +780,16 @@
     function renderPayTable(winKey) {
       lastWinKey = winKey;
       var game     = GAMES[currentGameKey];
-      var rows     = showProbs ? game.rows : game.rows.filter(function(r) { return r.keys !== 'NO_PAY'; });
+      var hasProbs = Object.keys(lastProbs).length > 0;
+      var rows     = (tableMode !== 'payouts' && hasProbs) ? game.rows : game.rows.filter(function(r) { return r.keys !== 'NO_PAY'; });
       var rowCount = Math.ceil(rows.length / 2);
       var html = rows.map(function(row) {
         var keys   = row.keys.split(',');
         var active = winKey && keys.indexOf(winKey) !== -1;
         var valText;
-        if (showProbs && Object.keys(lastProbs).length) {
+        if (tableMode !== 'payouts' && hasProbs) {
           var prob = keys.reduce(function(sum, k) { return sum + (lastProbs[k] || 0); }, 0);
-          valText = prob > 0 ? fmtProb(prob) : '—';
+          valText = prob > 0 ? (tableMode === 'odds' ? fmtOdds(prob) : fmtProb(prob)) : '\u2014';
         } else {
           var p = game.pays[keys[0]];
           valText = p ? p * bet : '\u2014';
@@ -872,6 +873,13 @@
       return pct.toFixed(4) + '%';
     }
 
+    function fmtOdds(p) {
+      if (p <= 0) return '\u2014';
+      var x = (1 - p) / p;
+      if (x < 1) return '1:' + (1 / x).toFixed(2);
+      return (x >= 1000 ? Math.round(x).toLocaleString() : x.toFixed(1)) + ':1';
+    }
+
     function calcEV() {
       var heldCards = hand.filter(function(_, i) { return held[i]; });
       var drawCount = 5 - heldCards.length;
@@ -907,7 +915,7 @@
         lastProbs = DRAW_ALL_PROBS;
         el.textContent = 'EV  ~' + (ev5 * bet).toFixed(4);
         el.className = 'ev-line';
-        if (showProbs) renderPayTable(lastWinKey);
+        if (tableMode !== 'payouts') renderPayTable(lastWinKey);
         return;
       }
 
@@ -916,7 +924,7 @@
         var evDisplay = (ev * bet).toFixed(4);
         el.textContent = 'EV  ' + evDisplay;
         el.className = 'ev-line' + (ev >= 2 ? ' ev-good' : ev >= 1 ? ' ev-pos' : '');
-        if (showProbs) renderPayTable(lastWinKey);
+        if (tableMode !== 'payouts') renderPayTable(lastWinKey);
       };
 
       if (drawCount >= 4) {
@@ -1040,7 +1048,13 @@
     // ── Event Listeners ────────────────────────────────────────
     document.getElementById('ev-line').addEventListener('click', function() {
       if (!Object.keys(lastProbs).length) return;
-      showProbs = !showProbs;
+      tableMode = (tableMode === 'probs') ? 'payouts' : 'probs';
+      renderPayTable(lastWinKey);
+    });
+
+    document.getElementById('paytable').addEventListener('click', function() {
+      if (!Object.keys(lastProbs).length) return;
+      tableMode = (tableMode === 'odds') ? 'payouts' : 'odds';
       renderPayTable(lastWinKey);
     });
 
