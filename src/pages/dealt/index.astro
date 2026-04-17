@@ -504,7 +504,8 @@
       ROYAL_FLUSH:  4/2598960,  STR_FLUSH:    36/2598960,
       FOUR_ACES:    48/2598960, FOUR_2_4:    144/2598960, FOUR_5_K:   432/2598960,
       FULL_HOUSE: 3744/2598960, FLUSH:       5108/2598960, STRAIGHT: 10200/2598960,
-      THREE_KIND:54912/2598960, TWO_PAIR:  123552/2598960, JACKS_BETTER:337920/2598960
+      THREE_KIND:54912/2598960, TWO_PAIR:  123552/2598960, JACKS_BETTER:337920/2598960,
+      NO_PAY:   2062860/2598960
     };
 
     var HAND_LABELS = {
@@ -529,6 +530,7 @@
           {keys:'THREE_KIND',            label:'THREE KIND'},
           {keys:'TWO_PAIR',              label:'TWO PAIR'},
           {keys:'JACKS_BETTER',          label:'JACKS/BETTER'},
+          {keys:'NO_PAY',                label:'NO PAY'},
         ]
       },
       jb85: {
@@ -581,6 +583,7 @@
           {keys:'THREE_KIND',  label:'THREE KIND'},
           {keys:'TWO_PAIR',    label:'TWO PAIR'},
           {keys:'JACKS_BETTER',label:'JACKS/BETTER'},
+          {keys:'NO_PAY',      label:'NO PAY'},
         ]
       }
     };
@@ -777,8 +780,9 @@
     function renderPayTable(winKey) {
       lastWinKey = winKey;
       var game     = GAMES[currentGameKey];
-      var rowCount = Math.ceil(game.rows.length / 2);
-      var html = game.rows.map(function(row) {
+      var rows     = showProbs ? game.rows : game.rows.filter(function(r) { return r.keys !== 'NO_PAY'; });
+      var rowCount = Math.ceil(rows.length / 2);
+      var html = rows.map(function(row) {
         var keys   = row.keys.split(',');
         var active = winKey && keys.indexOf(winKey) !== -1;
         var valText;
@@ -786,7 +790,8 @@
           var prob = keys.reduce(function(sum, k) { return sum + (lastProbs[k] || 0); }, 0);
           valText = prob > 0 ? fmtProb(prob) : '—';
         } else {
-          valText = (game.pays[keys[0]] || 0) * bet;
+          var p = game.pays[keys[0]];
+          valText = p ? p * bet : '\u2014';
         }
         return '<div class="pt-row' + (active ? ' active' : '') + '" data-keys="' + row.keys + '">'
              + '<span class="pt-name">' + row.label + '</span>'
@@ -883,7 +888,8 @@
         var drawn = idx.map(function(i) { return deck[i]; });
         var r = evaluate(heldCards.concat(drawn));
         total += r.payout;
-        if (r.key) lastProbs[r.key] = (lastProbs[r.key] || 0) + 1;
+        var pk = r.key || 'NO_PAY';
+        lastProbs[pk] = (lastProbs[pk] || 0) + 1;
         count++;
       });
       Object.keys(lastProbs).forEach(function(k) { lastProbs[k] /= count; });
