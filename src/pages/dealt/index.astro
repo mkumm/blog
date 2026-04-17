@@ -1046,15 +1046,9 @@
     }
 
     // ── Event Listeners ────────────────────────────────────────
-    document.getElementById('ev-line').addEventListener('click', function() {
-      if (!Object.keys(lastProbs).length) return;
-      tableMode = (tableMode === 'probs') ? 'payouts' : 'probs';
-      renderPayTable(lastWinKey);
-    });
-
     document.getElementById('paytable').addEventListener('click', function() {
       if (!Object.keys(lastProbs).length) return;
-      tableMode = (tableMode === 'odds') ? 'payouts' : 'odds';
+      tableMode = tableMode === 'payouts' ? 'probs' : tableMode === 'probs' ? 'odds' : 'payouts';
       renderPayTable(lastWinKey);
     });
 
