@@ -24,7 +24,7 @@ export const books: Book[] = [
 		image: '/now/crafting-interpreters.png',
 		note: 'As a functional programmer for the last 6 years, I have lost any imperative/OO instincts. Hoping to go down some rabbit holes working through this book.',
 		status: 'reading',
-		progress: 7,
+		progress: 9,
 	},
 	{
 		title: 'Penguin Book of Polish Short Stories',
