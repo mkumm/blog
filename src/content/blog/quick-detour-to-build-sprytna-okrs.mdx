@@ -1,0 +1,28 @@
+---
+title: 'Quick Detour To Build Sprytna OKRs'
+pubDate: 'Aug 08 2026'
+description: ''
+heroImage: '../../assets/blog/hero-okr-dashboard.png'
+---
+
+Launching a side project with a friend we quickly decided to use OKRs (Objectives and Key Results, checkout [WhatMatters.com](https://www.whatmatters.com/)). Although I was happy with a shared document approach, my friend suggested something a little more robust would be better. I checked out the existing marketplace for OKR Applications and quickly decided it would be easier to build our own - even at the cost of precious development time.
+
+Most OKR tools are built with way too much complexity, and most of them are miserable to use. Long learning curves, scoring models different derived numbers, dashboards that need their own dashboard. We just wanted a tool to help us deliver what's at the heart of OKRs and plainly see how we evaluated our progress towards our objectives.
+
+## Sprytna OKRs
+
+Sprytna OKRs is a small focused online tool: objectives, key results, weekly check-ins, a simple 0 - 1 score. No start/target/current-value math, no status field to remember to update — the score you give a key result *is* the color you see. Green, yellow, red, derived automatically. OKRs are not your project management tool. They are a central place to track the most important results your company decided to focus on this quarter. We did relent and add a basic task manager to capture critical todos during our check-in meetings. Generally it is bare bones - just perfect for our small team.
+
+It came together fast — maybe 6 hours total. Phoenix and LiveView, deployed to Fly.io and live with real users within a week. We just cut anything that didn't earn its complexity. An early version tracked start/target/current values per key result, Google-style. It got thrown out since it didn't add any real value and forced us to enter progress in more than one place.
+
+**nerdy part** The build wasn't friction-free. Deploying to Fly surfaced a genuinely nasty issue: the connection pooler in front of our Postgres cluster silently hung on both Oban's job coordination and Ecto's migration lock, and it looked exactly like pool exhaustion until it wasn't. The fix at this small size was to simply bypass the pooler .
+
+## We didn't set out to build OKR software
+
+We built this because agreeing and staying aligned on *the real objectives* is challenging. It helps to have a way to see, every week, whether we were actually moving toward our objectives or just staying busy. A critical communication tool to keep us both focused on what matters most for the project.
+
+If your team wants the same thing — objectives and key results without the ceremony, simple scoring, check-ins that take thirty seconds — Sprytna OKRs is in private beta now. Free to use as we build out additional features. We assume we will want cascading OKRs at some point, but at just 2 people we don't need that yet.
+
+**[Join the Sprytna OKRs waitlist →](https://sprytnaokrs.com)**
+
+![Sprytna OKRs Sample Page](/blog/okr-app/okrs-list.png)
