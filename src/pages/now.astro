@@ -234,6 +234,20 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 					gap: 0.65rem;
 				}
 			}
+			.captioned-image {
+				margin: 1.75rem 0;
+			}
+			.captioned-image img {
+				margin: 0;
+			}
+			.captioned-image figcaption {
+				margin-top: 0.6rem;
+				font-family: 'Lora', Georgia, serif;
+				font-style: italic;
+				font-size: 0.88rem;
+				color: rgb(var(--gray));
+				text-align: center;
+			}
 		</style>
 	</head>
 	<body>
@@ -262,6 +276,10 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 			<p>
 				Poland is more beautiful and more relaxed than any imagination I had when I was young. Living in Krakow gives me the luxury of walking to the cafe, riding my bike through any number of parks, maybe taking the tram into the square for a nice meal, then capping it off with a drink at our local beer garden — with live music on the weekends. The people are wonderful, laid back, and there is just a lack of manufactured stress for most people. I highly recommend a visit.
 			</p>
+			<figure class="captioned-image">
+				<img src="/now/park-1.png" alt="A park in Krakow" />
+				<figcaption>One of the parks I bike through in Krakow.</figcaption>
+			</figure>
 
 			<h2>🎰 Working at DraftKings 👑</h2>
 			<p>
