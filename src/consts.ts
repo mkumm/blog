@@ -4,3 +4,4 @@
 export const SITE_TITLE = 'Michael Kumm';
 export const SITE_DESCRIPTION = 'Senior software engineer specializing in Elixir, Phoenix, and functional programming. Writing on software, systems, and side projects.';
 export const SHORTS_PAGE_SIZE = 12;
+export const BLOG_PAGE_SIZE = 10;

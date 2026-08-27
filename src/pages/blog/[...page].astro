@@ -1,32 +1,43 @@
 ---
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { BLOG_PAGE_SIZE, SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-const posts = (await getCollection('blog'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.map((post) => ({
-		...post,
-		readingTime: Math.max(1, Math.ceil((post.body?.trim().split(/\s+/).length ?? 0) / 200)),
-	}));
+export const getStaticPaths = (async ({ paginate }) => {
+	const posts = (await getCollection('blog'))
+		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+		.map((post) => ({
+			...post,
+			readingTime: Math.max(1, Math.ceil((post.body?.trim().split(/\s+/).length ?? 0) / 200)),
+		}));
+	return paginate(posts, { pageSize: BLOG_PAGE_SIZE });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const isFirstPage = page.currentPage === 1;
+const pageTitle = isFirstPage
+	? `Blog — ${SITE_TITLE}`
+	: `Blog (Page ${page.currentPage} of ${page.lastPage}) — ${SITE_TITLE}`;
+const offset = (page.currentPage - 1) * page.size;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={`Blog — ${SITE_TITLE}`} description="Writing on software, systems, Elixir, and things I find interesting." />
+		<BaseHead title={pageTitle} description="Writing on software, systems, Elixir, and things I find interesting." />
 		<script type="application/ld+json" set:html={JSON.stringify({
 			"@context": "https://schema.org",
 			"@type": "ItemList",
 			"name": "Blog — Michael Kumm",
-			"url": "https://mkumm.com/blog/",
-			"itemListElement": posts.map((post, i) => ({
+			"url": `https://mkumm.com${page.url.current}`,
+			"itemListElement": page.data.map((post, i) => ({
 				"@type": "ListItem",
-				"position": i + 1,
+				"position": offset + i + 1,
 				"url": `https://mkumm.com/blog/${post.id}/`,
 				"name": post.data.title,
 			}))
@@ -78,7 +89,9 @@ const posts = (await getCollection('blog'))
 			ul li:nth-child(10) { animation-delay: 0.40s; }
 
 			ul li a {
-				display: block;
+				display: flex;
+				flex-direction: column;
+				height: 100%;
 				text-decoration: none;
 				color: inherit;
 				border-radius: 10px;
@@ -103,6 +116,9 @@ const posts = (await getCollection('blog'))
 				border-radius: 0;
 			}
 			.card-body {
+				display: flex;
+				flex-direction: column;
+				flex: 1;
 				padding: 1.25rem 1.25rem 1.1rem;
 			}
 			.card-date {
@@ -138,7 +154,34 @@ const posts = (await getCollection('blog'))
 			.card-read-time {
 				font-size: 0.75rem;
 				color: rgb(var(--gray));
-				margin-top: 0.6rem;
+				margin-top: auto;
+				padding-top: 0.6rem;
+			}
+			.pagination {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-top: 2.5rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			.pagination-link {
+				font-size: 0.85rem;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.07em;
+				color: var(--accent);
+				text-decoration: none;
+			}
+			.pagination-link:hover {
+				text-decoration: underline;
+			}
+			.pagination-spacer {
+				visibility: hidden;
+			}
+			.pagination-status {
+				font-size: 0.85rem;
+				color: rgb(var(--gray));
 			}
 			@media (max-width: 720px) {
 				main { width: 100%; max-width: 100%; }
@@ -158,7 +201,7 @@ const posts = (await getCollection('blog'))
 				<p>Writing on software, systems, and things I find interesting.</p>
 			</div>
 			<ul>
-				{posts.map((post) => (
+				{page.data.map((post) => (
 					<li>
 						<a href={`/blog/${post.id}/`}>
 							{post.data.heroImage && (
@@ -184,6 +227,17 @@ const posts = (await getCollection('blog'))
 					</li>
 				))}
 			</ul>
+			{page.lastPage > 1 && (
+				<nav class="pagination">
+					{page.url.prev ? (
+						<a href={page.url.prev} class="pagination-link">← Newer</a>
+					) : <span class="pagination-spacer pagination-link">← Newer</span>}
+					<span class="pagination-status">Page {page.currentPage} of {page.lastPage}</span>
+					{page.url.next ? (
+						<a href={page.url.next} class="pagination-link">Older →</a>
+					) : <span class="pagination-spacer pagination-link">Older →</span>}
+				</nav>
+			)}
 		</main>
 		<Footer />
 	</body>
