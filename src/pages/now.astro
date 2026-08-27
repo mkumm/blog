@@ -322,9 +322,9 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 			</ul>
 			<a href="/shorts/" class="see-all">See all shorts →</a>
 
-			<h2>Books and Music</h2>
 
-			<h3>Currently Reading</h3>
+
+			<h2>📖 Currently Reading</h2>
 			<ul class="item-list">
 				{readingBooks.map(book => (
 					<li>
@@ -345,7 +345,7 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				))}
 			</ul>
 
-			<h3>Just Finished</h3>
+			<h2>📚 Just Finished</h2>
 			<ul class="item-list">
 				{finishedBooks.map(book => (
 					<li>
@@ -367,7 +367,7 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				))}
 			</ul>
 
-			<h3>Currently Listening</h3>
+			<h2>🎶 Heavy Rotation</h2>
 			<ul class="item-list">
 				{albums.map(album => (
 					<li>
