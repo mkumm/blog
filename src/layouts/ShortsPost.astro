@@ -9,7 +9,9 @@ import Header from '../components/Header.astro';
 
 import '../styles/global.css'
 
-interface Props extends CollectionEntry<'shorts'>['data'] {
+type ShortsData = CollectionEntry<'shorts'>['data'];
+
+interface Props extends ShortsData {
 	prevPost?: CollectionEntry<'shorts'> | null;
 	nextPost?: CollectionEntry<'shorts'> | null;
 	readingTime?: number;

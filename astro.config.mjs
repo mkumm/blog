@@ -1,6 +1,7 @@
 // @ts-check
 
 import mdx from '@astrojs/mdx';
+import { unified } from '@astrojs/markdown-remark';
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
@@ -30,9 +31,10 @@ function rehypeMermaid() {
 export default defineConfig({
   site: 'https://mkumm.com',
   trailingSlash: 'always',
-  integrations: [mdx({ rehypePlugins: [rehypeMermaid] })],
+  integrations: [mdx()],
 
   markdown: {
+    processor: unified({ rehypePlugins: [rehypeMermaid] }),
     syntaxHighlight: {
       type: 'shiki',
       excludeLangs: ['mermaid'],

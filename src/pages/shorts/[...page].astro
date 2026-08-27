@@ -2,29 +2,40 @@
 import { Image } from 'astro:assets';
 import IndexHeroImage from '../../assets/shorts/hero-shorts.png';
 import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { SHORTS_PAGE_SIZE, SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-const posts = (await getCollection('shorts')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+export const getStaticPaths = (async ({ paginate }) => {
+	const posts = (await getCollection('shorts')).sort(
+		(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	);
+	return paginate(posts, { pageSize: SHORTS_PAGE_SIZE });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const isFirstPage = page.currentPage === 1;
+const pageTitle = isFirstPage
+	? `Shorts — ${SITE_TITLE}`
+	: `Shorts (Page ${page.currentPage} of ${page.lastPage}) — ${SITE_TITLE}`;
+const offset = (page.currentPage - 1) * page.size;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={`Shorts — ${SITE_TITLE}`} description="Short-form posts — photos, observations, and quick notes from day to day." />
+		<BaseHead title={pageTitle} description="Short-form posts — photos, observations, and quick notes from day to day." />
 		<script type="application/ld+json" set:html={JSON.stringify({
 			"@context": "https://schema.org",
 			"@type": "ItemList",
 			"name": "Shorts — Michael Kumm",
-			"url": "https://mkumm.com/shorts/",
-			"itemListElement": posts.map((post, i) => ({
+			"url": `https://mkumm.com${page.url.current}`,
+			"itemListElement": page.data.map((post, i) => ({
 				"@type": "ListItem",
-				"position": i + 1,
+				"position": offset + i + 1,
 				"url": `https://mkumm.com/shorts/${post.id}/`,
 				"name": post.data.title,
 			}))
@@ -145,6 +156,32 @@ const posts = (await getCollection('shorts')).sort(
 			ul li:hover .card-title {
 				color: var(--accent);
 			}
+			.pagination {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-top: 2.5rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			.pagination-link {
+				font-size: 0.85rem;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.07em;
+				color: var(--accent);
+				text-decoration: none;
+			}
+			.pagination-link:hover {
+				text-decoration: underline;
+			}
+			.pagination-spacer {
+				visibility: hidden;
+			}
+			.pagination-status {
+				font-size: 0.85rem;
+				color: rgb(var(--gray));
+			}
 			@media (max-width: 900px) {
 				ul { grid-template-columns: repeat(2, 1fr); }
 			}
@@ -170,7 +207,7 @@ const posts = (await getCollection('shorts')).sort(
 				<p>Brief thoughts, observations, and things worth sharing.</p>
 			</div>
 			<ul>
-				{posts.map((post) => (
+				{page.data.map((post) => (
 					<li>
 						<a href={`/shorts/${post.id}/`}>
 							{post.data.heroImage && (
@@ -194,6 +231,17 @@ const posts = (await getCollection('shorts')).sort(
 					</li>
 				))}
 			</ul>
+			{page.lastPage > 1 && (
+				<nav class="pagination">
+					{page.url.prev ? (
+						<a href={page.url.prev} class="pagination-link">← Newer</a>
+					) : <span class="pagination-spacer pagination-link">← Newer</span>}
+					<span class="pagination-status">Page {page.currentPage} of {page.lastPage}</span>
+					{page.url.next ? (
+						<a href={page.url.next} class="pagination-link">Older →</a>
+					) : <span class="pagination-spacer pagination-link">Older →</span>}
+				</nav>
+			)}
 		</main>
 		<Footer />
 	</body>

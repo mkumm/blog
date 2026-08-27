@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { SHORTS_PAGE_SIZE } from '../consts';
 
 const SITE = 'https://mkumm.com';
 
@@ -21,12 +22,22 @@ export async function GET() {
   const blogPosts = await getCollection('blog');
   const shorts = await getCollection('shorts');
 
+  const shortsPageCount = Math.max(1, Math.ceil(shorts.length / SHORTS_PAGE_SIZE));
+
   const staticEntries = [
     urlEntry(`${SITE}/`, undefined, '1.0', 'weekly'),
     urlEntry(`${SITE}/blog/`, undefined, '0.9', 'weekly'),
-    urlEntry(`${SITE}/shorts/`, undefined, '0.9', 'weekly'),
     urlEntry(`${SITE}/now/`, undefined, '0.7', 'monthly'),
   ];
+
+  const shortsIndexEntries = Array.from({ length: shortsPageCount }, (_, i) =>
+    urlEntry(
+      i === 0 ? `${SITE}/shorts/` : `${SITE}/shorts/${i + 1}/`,
+      undefined,
+      '0.9',
+      'weekly',
+    )
+  );
 
   const blogEntries = blogPosts.map((post) =>
     urlEntry(
@@ -48,7 +59,7 @@ export async function GET() {
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...staticEntries, ...blogEntries, ...shortsEntries].join('\n')}
+${[...staticEntries, ...shortsIndexEntries, ...blogEntries, ...shortsEntries].join('\n')}
 </urlset>`;
 
   return new Response(xml, {
