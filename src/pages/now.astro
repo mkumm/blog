@@ -1,5 +1,6 @@
 ---
 import NowHeroImage from "../assets/pages/hero-now.png";
+import ParkImage from "../assets/now/park-1.png";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import { SITE_TITLE } from "../consts";
@@ -277,7 +278,7 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				Poland is more beautiful and more relaxed than any imagination I had when I was young. Living in Krakow gives me the luxury of walking to the cafe, riding my bike through any number of parks, maybe taking the tram into the square for a nice meal, then capping it off with a drink at our local beer garden — with live music on the weekends. The people are wonderful, laid back, and there is just a lack of manufactured stress for most people. I highly recommend a visit.
 			</p>
 			<figure class="captioned-image">
-				<img src="/now/park-1.png" alt="A park in Krakow" />
+				<Image src={ParkImage} alt="A park in Krakow" loading="lazy" layout="constrained" width={1400} />
 				<figcaption>One of the parks I bike through in Krakow.</figcaption>
 			</figure>
 

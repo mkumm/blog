@@ -304,7 +304,7 @@ hr {
 	ul, ol { margin-left: 1rem; }
 	dt { margin-top: 1.25em; font-size: 1em; }
 	dd { margin-left: 0.75em; margin-bottom: 0.75em; }
-	main img {
+	.prose img {
 		margin-left: -1rem;
 		margin-right: -1rem;
 		width: calc(100% + 2rem);
