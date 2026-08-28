@@ -109,15 +109,15 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 			.nav-link-card {
 				display: block;
 				padding: 0.875rem 1rem;
-				border: 1px solid rgb(var(--gray-light));
+				border: none;
 				border-radius: 8px;
+				background: rgba(var(--accent-rgb), 0.05);
 				text-decoration: none;
 				color: inherit;
-				transition: border-color 0.15s ease, background 0.15s ease;
+				transition: background 0.15s ease;
 			}
 			.nav-link-card:hover {
-				border-color: var(--accent);
-				background: rgba(193, 116, 86, 0.04);
+				background: rgba(var(--accent-rgb), 0.1);
 			}
 			.nav-link-card .card-title {
 				display: block;
