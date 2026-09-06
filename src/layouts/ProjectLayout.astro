@@ -133,9 +133,7 @@ const { title, tagline, heroImage, liveUrl, liveLabel = 'Visit site', writingHre
 						<p class="tagline">{tagline}</p>
 						<div class="project-actions">
 							<a class="btn btn-primary" href={liveUrl} target={liveUrl.startsWith('http') ? '_blank' : undefined} rel={liveUrl.startsWith('http') ? 'noopener noreferrer' : undefined}>{liveLabel}</a>
-							{writingHref && (
-								<a class="btn btn-secondary" href={writingHref}>Read the full story</a>
-							)}
+
 						</div>
 						<hr />
 					</div>

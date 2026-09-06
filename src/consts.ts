@@ -8,7 +8,7 @@ export const WRITING_PAGE_SIZE = 10;
 // Writing post ids (src/content/writing/<id>.mdx) to feature on the homepage.
 // First entry is the lead card; the rest are shown smaller.
 export const FEATURED_POSTS = [
+	'vision-fidelity',
 	'growing-as-a-developer',
 	'quick-detour-to-build-sprytna-okrs',
-	'first-hops-with-rabbitmq',
 ];
