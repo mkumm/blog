@@ -1,3 +1,17 @@
+export interface Location {
+	label: string;
+	flag: string;
+	timeZone: string;
+}
+
+export const locations: Record<'detroit' | 'krakow', Location> = {
+	detroit: { label: 'Detroit', flag: '🇺🇸', timeZone: 'America/Detroit' },
+	krakow: { label: 'Krakow', flag: '🇵🇱', timeZone: 'Europe/Warsaw' },
+};
+
+// Flip this whenever you cross the ocean.
+export const currentLocation: keyof typeof locations = 'krakow';
+
 export interface Book {
 	title: string;
 	author?: string;

@@ -21,15 +21,21 @@ This is a personal blog built with **Astro 5** (static site generator), **Tailwi
 
 Content lives in `src/content/` and is defined by schemas in `src/content.config.ts`:
 
-- **`blog/`** — Long-form articles (MDX). URL: `/blog/[slug]/`
+- **`writing/`** — Long-form articles (MDX), collection name `writing`. URL: `/writing/[slug]/`
 - **`shorts/`** — Short-form posts (MDX), named `YYYYMMDD[a-z]-slug.mdx`. URL: `/shorts/[slug]/`
 - **`profiles/`** — Profile data
 
-All posts share the same frontmatter schema: `title`, `description`, `pubDate`, `updatedDate` (optional), `heroImage` (optional).
+All posts share the same frontmatter schema: `title`, `description`, `pubDate`, `updatedDate` (optional), `heroImage` (optional). The `writing` collection additionally supports `tags` (optional string array) — tagged posts get a `/writing/tags/[tag]/` archive page (`src/pages/writing/tags/[tag].astro`), generated for every tag actually in use.
+
+`/blog/*` permanently redirects to `/writing/*` in `netlify.toml` (the section used to be called "Blog").
+
+### Projects
+
+`/projects/` is a hand-written listing page (`src/pages/projects/index.astro`, not a content collection) linking to individual hand-written project pages (`src/pages/projects/<slug>/index.astro`), each built with the shared `src/layouts/ProjectLayout.astro` shell (hero image, tagline, live-site/play link, optional link back to a related `/writing/` post, freeform body via slot).
 
 ### Routing
 
-Dynamic routes use `[...slug].astro` in `src/pages/blog/` and `src/pages/shorts/`. `ShortsPost.astro` layout includes prev/next navigation between shorts posts. Reading time is calculated in each `[...slug].astro` from `post.body` (200 wpm) and passed as a prop to the layout.
+Dynamic routes use `[...slug].astro` in `src/pages/writing/` and `src/pages/shorts/`. `ShortsPost.astro` layout includes prev/next navigation between shorts posts. Reading time is calculated in each `[...slug].astro` from `post.body` (200 wpm) and passed as a prop to the layout.
 
 ### Styling
 
@@ -44,10 +50,11 @@ The header background uses `--header-bg` / `--header-bg-solid` CSS variables so 
 
 ### Pages
 
-- **`/`** — Homepage with hero image, profile photo (`/profiles/mkumm.png`) in a two-column intro block
-- **`/blog`** — 2-col card grid with hero images
+- **`/`** — Homepage with hero image, profile photo (`/profiles/mkumm.png`) in a two-column intro block, plus a featured-posts section (lead card + smaller cards) driven by `FEATURED_POSTS` in `src/consts.ts`
+- **`/writing`** — 2-col card grid with hero images (formerly `/blog`)
+- **`/projects`** — 3-col card grid linking to hand-written project pages
 - **`/shorts`** — 3-col card grid (→ 2-col tablet, → 1-col mobile) with hero images
-- **`/now`** — Standalone page matching the blog/shorts listing header style (left-aligned h1, subtitle, border-bottom)
+- **`/now`** — Standalone page matching the writing/shorts listing header style (left-aligned h1, subtitle, border-bottom)
 
 ### Constants
 
@@ -55,4 +62,4 @@ Site-wide title and description are in `src/consts.ts`. SEO metadata, OpenGraph 
 
 ### Redirects
 
-`netlify.toml` has permanent redirects: `/posts/*` and `/writings/*` → `/blog/:splat`.
+`netlify.toml` has permanent redirects: `/posts/*` and `/writings/*` → `/writing/:splat`, and `/blog/*` → `/writing/:splat`.

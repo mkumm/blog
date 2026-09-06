@@ -1,0 +1,99 @@
+---
+import { locations, currentLocation } from '../data/now';
+
+const entries = Object.entries(locations) as [keyof typeof locations, typeof locations[keyof typeof locations]][];
+---
+
+<div class="location-widget">
+	{entries.map(([key, loc], i) => (
+		<>
+			<div class:list={['location-card', { current: key === currentLocation }]}>
+				<span class="location-flag">{loc.flag}</span>
+				<span class="location-name">{loc.label}</span>
+				<span class="location-time" data-tz={loc.timeZone}>--:--</span>
+				{key === currentLocation && <span class="location-badge">📍 here now</span>}
+			</div>
+			{i === 0 && <span class="location-connector" aria-hidden="true">✈️</span>}
+		</>
+	))}
+</div>
+
+<script>
+	function updateClocks() {
+		document.querySelectorAll<HTMLElement>('.location-time').forEach((el) => {
+			const tz = el.dataset.tz;
+			if (!tz) return;
+			el.textContent = new Intl.DateTimeFormat('en-US', {
+				hour: 'numeric',
+				minute: '2-digit',
+				timeZone: tz,
+			}).format(new Date());
+		});
+	}
+	updateClocks();
+	setInterval(updateClocks, 15000);
+</script>
+
+<style>
+	.location-widget {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+		margin: 1.25rem 0 1.75rem;
+	}
+	.location-card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.15rem;
+		padding: 0.85rem 1.5rem;
+		border-radius: 12px;
+		border: 1px solid rgb(var(--gray-light));
+		background: var(--bg-secondary);
+		opacity: 0.55;
+		transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+	}
+	.location-card.current {
+		opacity: 1;
+		border-color: var(--accent);
+		background: rgba(var(--accent-rgb), 0.08);
+		transform: translateY(-2px);
+	}
+	.location-flag {
+		font-size: 1.5rem;
+		line-height: 1;
+	}
+	.location-name {
+		font-family: 'Lora', Georgia, serif;
+		font-weight: 600;
+		font-size: 1rem;
+		color: rgb(var(--black));
+	}
+	.location-time {
+		font-family: 'Courier New', Courier, monospace;
+		font-size: 0.8rem;
+		color: rgb(var(--gray));
+	}
+	.location-badge {
+		margin-top: 0.2rem;
+		font-size: 0.65rem;
+		font-weight: 600;
+		letter-spacing: 0.03em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	.location-connector {
+		font-size: 1.35rem;
+		color: rgb(var(--gray));
+		transform: rotate(0deg);
+	}
+	@media (max-width: 540px) {
+		.location-card {
+			padding: 0.7rem 1.1rem;
+		}
+		.location-flag {
+			font-size: 1.25rem;
+		}
+	}
+</style>

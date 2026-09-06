@@ -1,0 +1,16 @@
+---
+import ProjectLayout from '../../../layouts/ProjectLayout.astro';
+import HeroImage from '../../../assets/writing/hero-video-poker-with-ev-display.png';
+---
+
+<ProjectLayout
+	title="Dealt"
+	tagline="8-bit video poker with a live Expected Value display."
+	heroImage={HeroImage}
+	liveUrl="/dealt/"
+	liveLabel="Play it"
+	writingHref="/writing/video-poker-with-ev-display/"
+>
+	<p>An 8-bit video poker game with 4 different payout themes, each with payout-specific Expected Values based on your hold cards and bet.</p>
+	<p>Displaying the EV of your hold cards gives instant feedback on whether a hold raises or lowers your expected payout — higher is better.</p>
+</ProjectLayout>

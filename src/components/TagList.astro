@@ -1,0 +1,52 @@
+---
+import { tagToSlug } from '../utils/tags';
+
+interface Props {
+	tags?: string[];
+	/** Set to false when the list is already nested inside a link (e.g. a card), where a tag link would be invalid nested markup. */
+	asLinks?: boolean;
+}
+
+const { tags, asLinks = true } = Astro.props;
+---
+
+{tags && tags.length > 0 && (
+	<ul class="tag-list">
+		{tags.map((tag) => (
+			<li>
+				{asLinks ? (
+					<a href={`/writing/tags/${tagToSlug(tag)}/`} class="tag-pill">{tag}</a>
+				) : (
+					<span class="tag-pill">{tag}</span>
+				)}
+			</li>
+		))}
+	</ul>
+)}
+
+<style>
+	.tag-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.tag-pill {
+		display: inline-block;
+		font-size: 0.7rem;
+		font-weight: 500;
+		padding: 0.2rem 0.6rem;
+		border-radius: 999px;
+		background: rgba(var(--accent-rgb), 0.08);
+		color: var(--accent);
+		letter-spacing: 0.02em;
+		text-decoration: none;
+		transition: background 0.15s ease;
+	}
+	.tag-pill:hover {
+		background: rgba(var(--accent-rgb), 0.16);
+		text-decoration: none;
+	}
+</style>

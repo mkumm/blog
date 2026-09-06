@@ -2,18 +2,13 @@
 import NowHeroImage from "../assets/pages/hero-now.png";
 import ParkImage from "../assets/now/park-1.png";
 import { Image } from "astro:assets";
-import { getCollection } from "astro:content";
 import { SITE_TITLE } from "../consts";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import FormattedDate from "../components/FormattedDate.astro";
 import PersonLink from "../components/PersonLink.astro";
+import LocationWidget from "../components/LocationWidget.astro";
 import { books, albums } from "../data/now";
-
-const recentShorts = (await getCollection('shorts'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 3);
 
 const readingBooks = books.filter(b => b.status === 'reading');
 const finishedBooks = books.filter(b => b.status === 'finished');
@@ -74,52 +69,6 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 			}
 			@media (max-width: 720px) {
 				main { width: 100%; max-width: 100%; padding: 1.5rem 1rem; }
-			}
-			.shorts-list {
-				list-style: none;
-				padding: 0;
-				margin: 0 0 1rem 0;
-			}
-			.shorts-list li {
-				padding: 0.75rem 0;
-				border-bottom: 1px solid rgb(var(--gray-light));
-			}
-			.shorts-list li:first-child {
-				border-top: 1px solid rgb(var(--gray-light));
-			}
-			.shorts-list a {
-				display: flex;
-				gap: 1rem;
-				align-items: baseline;
-				text-decoration: none;
-				color: inherit;
-			}
-			.shorts-list a:hover .short-title {
-				color: var(--accent);
-			}
-			.short-date {
-				font-size: 0.78rem;
-				text-transform: uppercase;
-				letter-spacing: 0.07em;
-				font-weight: 500;
-				color: rgb(var(--gray));
-				white-space: nowrap;
-				flex-shrink: 0;
-			}
-			.short-title {
-				font-family: 'Lora', Georgia, serif;
-				font-weight: 600;
-				color: rgb(var(--black));
-				transition: color 0.15s ease;
-			}
-			.short-description {
-				font-size: 0.9rem;
-				color: rgb(var(--gray));
-				margin: 0.2rem 0 0 0;
-			}
-.see-all {
-				font-size: 0.95rem;
-				font-weight: 500;
 			}
 			.item-list {
 				list-style: none;
@@ -270,7 +219,8 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				/> has inspired <a href="https://nownownow.com/">a growing number of "nowers"</a> to create these. If you have your own site, you should consider adding a <b>Now page</b> too.
 			</p>
 
-			<h2>🛫 Detroit ⇄ Krakow 🛬</h2>
+			<h2>🌍 Where I Am</h2>
+			<LocationWidget />
 			<p>
 				I am an American traveling back and forth from Detroit to Krakow, Poland (yes, legally — I have my Polish Karta).
 			</p>
@@ -286,55 +236,6 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 			<p>
 				Claude and I write a lot of Elixir code these days at <a href="https://www.draftkings.com/">DraftKings</a>. Although I have the same job I had last year, I would not recognize my day to day work from a year ago. AI is here, like it or not — I choose to like it, and I am having more fun!
 			</p>
-
-			<h2>👨‍💻 Solo Projects 🖥️</h2>
-			<dl>
-				<dt>🏈 Sprytna League</dt>
-				<dd>
-					I am so excited for the start of the football season. Especially because of <a href="https://sprytnaleague.com">sprytnaleague.com</a>, a "price is right" style of weekly football fun. A friend and I prototyped it last year, and now we've automated the process and let others join.</dd>
-
-				<dt>📈 Sprytna OKRs</dt>
-				<dd>
-					I built my own OKR application. It does everything I want and nothing I don't, tailored to a minimalist take on OKRs (I have strong opinions on this): <a href="https://sprytnaokrs.com">sprytnaokrs.com</a>. If you use OKRs personally or with a small group, feel free to request an invite.</dd>
-
-				<dt>🎲 Any One Will Do</dt>
-				<dd>A randomizer built with the features I actually wanted: no ads, random group formation,
-				and a cleaner experience. I am seeing some really nice traction on repeat usage, half the visitors coming from direct links. If you are tired of "wheel of names" (a very good randomizer, but with ads) give <a href="https://anyonewilldo.com">anyonewilldo.com</a> a try.</dd>
-
-				<dt>📇 Sprytna Cards</dt>
-				<dd>I loved this little project — private-first NFC business cards. It helped me learn a lot about what to do and what not to do when launching a technical product. I still have active users, but the project is in maintenance mode: <a href="https://sprytna.cards/">sprytna.cards</a></dd>
-
-				<dt>📍 Sprytna Maps</dt>
-				<dd>A way to share your city with people who matter — build a personal map of your
-				favorite spots and send it to friends visiting your town. <a href="https://sprytnamaps.com">sprytnamaps.com</a></dd>
-
-				<dt>🧘‍♂️ Sprytna Meditation</dt>
-				<dd>My personal online (PWA) meditation timer. Minimalist design, no ads and all data is private and local. I use it every day. Help yourself at <a href="https://sprytnameditation.com">sprytnameditation.com</a>.</dd>
-
-				<dt>✅ 99 Days Of</dt>
-				<dd>My personal online (PWA) habit tracker. Built on my belief that habits can form in around 30 days, but they become fully integrated in 100 days. Minimalist design, no ads and all data is private and local. I use it every day. Help yourself at <a href="https://99daysof.com">99daysof.com</a>.</dd>
-			</dl>
-
-			<h2>Personal Writing</h2>
-			<p>
-				My <a href="/shorts/">Shorts</a> are the more personal corner of this site — quick notes,
-				observations, and things from daily life in Krakow, side projects, and whatever catches
-				my attention. Think of it as a personal blog in compact form.
-			</p>
-			<ul class="shorts-list">
-				{recentShorts.map((post) => (
-					<li>
-						<a href={`/shorts/${post.id}/`}>
-							<span class="short-date"><FormattedDate date={post.data.pubDate} /></span>
-							<span class="short-title">{post.data.title}</span>
-						</a>
-						{post.data.description && <p class="short-description">{post.data.description}</p>}
-					</li>
-				))}
-			</ul>
-			<a href="/shorts/" class="see-all">See all shorts →</a>
-
-
 
 			<h2>📖 Currently Reading</h2>
 			<ul class="item-list">

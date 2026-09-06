@@ -1,0 +1,148 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+interface Props {
+	title: string;
+	tagline: string;
+	heroImage: ImageMetadata;
+	liveUrl: string;
+	liveLabel?: string;
+	writingHref?: string;
+}
+
+const { title, tagline, heroImage, liveUrl, liveLabel = 'Visit site', writingHref } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={`${title} — Projects — ${SITE_TITLE}`} description={tagline} image={heroImage} ogType="article" />
+		<style>
+			main {
+				width: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			.hero-image img {
+				display: block;
+				width: 100%;
+				max-height: 460px;
+				object-fit: cover;
+				border-radius: 0;
+			}
+			@media (max-width: 720px) {
+				.hero-image img { max-height: 240px; }
+			}
+			.prose {
+				width: 700px;
+				max-width: calc(100% - 2rem);
+				margin: 0 auto;
+				padding: 3rem 0 4rem;
+				color: rgb(var(--gray-dark));
+			}
+			.project-header {
+				margin-bottom: 2.5rem;
+				text-align: center;
+			}
+			.project-header h1 {
+				margin: 0 0 0.5rem 0;
+				font-size: 2.5rem;
+				line-height: 1.15;
+			}
+			.project-header .tagline {
+				color: rgb(var(--gray));
+				font-size: 1.05rem;
+				margin: 0 0 1.5rem 0;
+			}
+			.project-actions {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 0.75rem;
+				flex-wrap: wrap;
+				margin-bottom: 1.5rem;
+			}
+			.btn {
+				display: inline-block;
+				padding: 0.6em 1.3em;
+				border-radius: 8px;
+				font-size: 0.9rem;
+				font-weight: 600;
+				text-decoration: none;
+				transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+			}
+			.btn-primary {
+				background: var(--accent);
+				color: #fff;
+			}
+			.btn-primary:hover {
+				background: var(--accent-dark);
+				text-decoration: none;
+			}
+			.btn-secondary {
+				border: 1px solid rgb(var(--gray-light));
+				color: rgb(var(--gray-dark));
+			}
+			.btn-secondary:hover {
+				border-color: var(--accent);
+				color: var(--accent);
+				text-decoration: none;
+			}
+			.project-header hr {
+				margin: 0;
+				border-top-color: rgb(var(--gray-light));
+			}
+			.back-link {
+				display: inline-block;
+				margin-bottom: 1.5rem;
+				font-size: 0.85rem;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.07em;
+				color: var(--accent);
+				text-decoration: none;
+			}
+			.back-link:hover {
+				text-decoration: underline;
+			}
+			@media (max-width: 720px) {
+				.prose {
+					padding: 1.5rem 1rem 3rem;
+					max-width: 100%;
+				}
+				.project-header h1 { font-size: 1.85rem; }
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+		<div class="hero-image">
+			<Image layout="constrained" src={heroImage} alt={title} loading="eager" />
+		</div>
+		<main>
+			<article>
+				<div class="prose">
+					<a class="back-link" href="/projects/">← All projects</a>
+					<div class="project-header">
+						<h1>{title}</h1>
+						<p class="tagline">{tagline}</p>
+						<div class="project-actions">
+							<a class="btn btn-primary" href={liveUrl} target={liveUrl.startsWith('http') ? '_blank' : undefined} rel={liveUrl.startsWith('http') ? 'noopener noreferrer' : undefined}>{liveLabel}</a>
+							{writingHref && (
+								<a class="btn btn-secondary" href={writingHref}>Read the full story</a>
+							)}
+						</div>
+						<hr />
+					</div>
+					<slot />
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>

@@ -1,19 +1,19 @@
-# Specific post that lives in shorts, not blog — must come before /posts/* catch-all
-[[redirects]]
-  from = "/posts/recipe-spicy-sausage-and-rice/"
-  to = "/shorts/20240610a-spicy-sausage-and-rice/"
-  status = 301
-  force = true
-
 [[redirects]]
   from = "/posts/*"
-  to = "/blog/:splat"
+  to = "/writing/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/writings/*"
-  to = "/blog/:splat"
+  to = "/writing/:splat"
+  status = 301
+  force = true
+
+# Blog renamed to Writing
+[[redirects]]
+  from = "/blog/*"
+  to = "/writing/:splat"
   status = 301
   force = true
 
@@ -51,10 +51,10 @@
   status = 301
   force = true
 
-# Old tag pages — redirect to blog index
+# Old tag pages — redirect to writing index
 [[redirects]]
   from = "/tags/*"
-  to = "/blog/"
+  to = "/writing/"
   status = 301
   force = true
 
@@ -66,27 +66,64 @@
   force = true
 
 [[redirects]]
-  from = "/now/typora/"
-  to = "/shorts/20250713a-typora-markdown-editor/"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/now/single-blade-shaving/"
-  to = "/shorts/20240824a-single-blade-shaving/"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/now/shorts/20251003a-where-to-meet/"
-  to = "/shorts/20251003a-where-to-meet/"
+  to = "/writing/where-to-meet/"
   status = 301
   force = true
 
-# Renamed short (date corrected in slug)
+# Shorts section retired — posts that were kept moved to /writing/,
+# everything else 404s.
 [[redirects]]
-  from = "/shorts/20250713a-newest-batch-of-cards/"
-  to = "/shorts/20250717a-newest-batch-of-cards/"
+  from = "/shorts/20260326a-vision-fidelity/"
+  to = "/writing/vision-fidelity/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/shorts/20260416a-video-poker-with-ev-display/"
+  to = "/writing/video-poker-with-ev-display/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/shorts/20260402a-30-day-launch-check-in/"
+  to = "/writing/30-day-launch-check-in/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/shorts/20260309a-any-one-will-do/"
+  to = "/writing/any-one-will-do/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/shorts/20251003a-where-to-meet/"
+  to = "/writing/where-to-meet/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/shorts/20250822a-building-grit/"
+  to = "/writing/building-grit/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/shorts/20260401a-string-days-in-krakow/"
+  to = "/writing/string-days-in-krakow/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/shorts/20250713a-typora-markdown-editor/"
+  to = "/writing/typora-markdown-editor/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/now/typora/"
+  to = "/writing/typora-markdown-editor/"
   status = 301
   force = true
 

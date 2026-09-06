@@ -1,0 +1,183 @@
+---
+import { Image } from 'astro:assets';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_TITLE } from '../../consts';
+import AnyOneWillDoImage from '../../assets/writing/hero-any-one-will-do.png';
+import DealtImage from '../../assets/writing/hero-video-poker-with-ev-display.png';
+import SprytnaOkrsImage from '../../assets/writing/hero-okr-dashboard.png';
+import SprytnaLeagueImage from '../../assets/writing/sprytna-league.png';
+import SprytnaCardsImage from '../../assets/writing/hero-hello-sprytna.png';
+
+const projects = [
+	{
+		slug: 'any-one-will-do',
+		title: 'Any One Will Do',
+		description: 'Randomly pick who goes next, or split a group into balanced teams.',
+		image: AnyOneWillDoImage,
+	},
+	{
+		slug: 'dealt',
+		title: 'Dealt',
+		description: '8-bit video poker with a live Expected Value display.',
+		image: DealtImage,
+	},
+	{
+		slug: 'sprytna-okrs',
+		title: 'Sprytna OKRs',
+		description: 'A bare-bones OKR tracking tool — objectives, key results, weekly check-ins.',
+		image: SprytnaOkrsImage,
+	},
+	{
+		slug: 'sprytna-league',
+		title: 'Sprytna League',
+		description: "A season-long fantasy prediction game — guess your team's final score each week.",
+		image: SprytnaLeagueImage,
+	},
+	{
+		slug: 'sprytna-cards',
+		title: 'Sprytna Cards',
+		description: 'A slightly smarter NFC business card.',
+		image: SprytnaCardsImage,
+	},
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`Projects — ${SITE_TITLE}`}
+			description="Side projects I've built and shipped — apps, games, and tools."
+		/>
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "ItemList",
+			"name": "Projects — Michael Kumm",
+			"url": "https://mkumm.com/projects/",
+			"itemListElement": projects.map((project, i) => ({
+				"@type": "ListItem",
+				"position": i + 1,
+				"url": `https://mkumm.com/projects/${project.slug}/`,
+				"name": project.title,
+			}))
+		})}></script>
+		<style>
+			main {
+				width: 1020px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 2.5rem 0;
+			}
+			.page-header {
+				margin-bottom: 2.5rem;
+				padding-bottom: 1.25rem;
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.page-header h1 {
+				margin: 0 0 0.25rem 0;
+				font-size: 2rem;
+			}
+			.page-header p {
+				margin: 0;
+				color: rgb(var(--gray));
+				font-size: 0.95rem;
+			}
+			ul {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 1.75rem;
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			ul li a {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				text-decoration: none;
+				color: inherit;
+				border-radius: 10px;
+				overflow: hidden;
+				background: var(--bg-secondary);
+				border: 1px solid rgba(var(--gray-light), 0.8);
+				transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+			}
+			ul li a:hover {
+				box-shadow: var(--box-shadow);
+				transform: translateY(-3px);
+				border-color: rgba(var(--accent-rgb), 0.3);
+				text-decoration: none;
+			}
+			ul li img {
+				display: block;
+				width: 100% !important;
+				height: 160px;
+				max-width: 100% !important;
+				margin: 0 !important;
+				object-fit: cover;
+				border-radius: 0;
+			}
+			.card-body {
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+				padding: 1.1rem 1.2rem 1.2rem;
+			}
+			.card-title {
+				font-family: 'Lora', Georgia, serif;
+				font-size: 1.1rem;
+				font-weight: 600;
+				color: rgb(var(--black));
+				line-height: 1.35;
+				margin: 0;
+				transition: color 0.15s ease;
+			}
+			ul li a:hover .card-title {
+				color: var(--accent);
+			}
+			.card-description {
+				font-size: 0.85rem;
+				color: rgb(var(--gray));
+				line-height: 1.5;
+				margin: 0.5rem 0 0;
+			}
+			@media (max-width: 900px) {
+				ul { grid-template-columns: repeat(2, 1fr); }
+			}
+			@media (max-width: 600px) {
+				ul { grid-template-columns: 1fr; }
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="page-header">
+				<h1>Projects</h1>
+				<p>Side projects I've built and shipped — apps, games, and tools.</p>
+			</div>
+			<ul>
+				{projects.map((project) => (
+					<li>
+						<a href={`/projects/${project.slug}/`}>
+							<Image
+								width={480}
+								height={280}
+								src={project.image}
+								alt={`image: ${project.title}`}
+								loading="eager"
+							/>
+							<div class="card-body">
+								<h4 class="card-title">{project.title}</h4>
+								<p class="card-description">{project.description}</p>
+							</div>
+						</a>
+					</li>
+				))}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>

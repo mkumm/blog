@@ -1,0 +1,129 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { SITE_TITLE } from "../consts";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`About — ${SITE_TITLE}`}
+			description="Software engineer, side-project builder, splitting time between Detroit and Krakow."
+		/>
+		<style>
+			main {
+				width: 700px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 2.5rem 0 4rem;
+			}
+			.page-header {
+				margin-bottom: 2.5rem;
+				padding-bottom: 1.25rem;
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.page-header h1 {
+				margin: 0 0 0.25rem 0;
+				font-size: 2rem;
+			}
+			.page-header p {
+				margin: 0;
+				color: rgb(var(--gray));
+				font-size: 0.95rem;
+			}
+			.intro {
+				display: flex;
+				align-items: center;
+				gap: 1.5rem;
+				margin-bottom: 2rem;
+			}
+			.intro-photo {
+				width: 96px !important;
+				max-width: 96px !important;
+				height: 96px;
+				flex-shrink: 0;
+				border-radius: 12px;
+				object-fit: cover;
+				object-position: center top;
+				margin: 0 !important;
+			}
+			.intro-text h2 {
+				margin: 0 0 0.15rem 0;
+				font-size: 1.25rem;
+			}
+			.intro-text p {
+				margin: 0;
+				color: rgb(var(--gray));
+				font-size: 0.925rem;
+			}
+			.prose p {
+				color: rgb(var(--gray-dark));
+				line-height: 1.7;
+				margin: 0 0 1.25rem 0;
+			}
+			.social-row {
+				display: flex;
+				gap: 1rem;
+				margin-top: 2rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			.social-row a {
+				font-size: 0.9rem;
+				font-weight: 500;
+				color: var(--accent);
+				text-decoration: none;
+			}
+			.social-row a:hover {
+				text-decoration: underline;
+			}
+			@media (max-width: 540px) {
+				.intro {
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 1rem;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+		<main>
+			<div class="page-header">
+				<h1>About</h1>
+				<p>A little more about me and what I'm doing here.</p>
+			</div>
+
+			<div class="intro">
+				<img src="/profiles/mkumm.png" alt="Michael Kumm" class="intro-photo" />
+				<div class="intro-text">
+					<h2>Michael Kumm</h2>
+					<p>Senior Software Engineer</p>
+				</div>
+			</div>
+
+			<div class="prose">
+				<p>
+					I'm a software engineer working mostly in Elixir and Phoenix, currently at <a href="https://www.draftkings.com/">DraftKings</a>.
+				</p><p>
+					I am an American traveling back and forth from Detroit to Krakow, Poland (yes, legally — I have my Polish Karta).
+				</p>
+				<p>
+					Outside of my day job I build small side projects — apps, games, and tools I wish already existed. You can see a few of them on the <a href="/projects/">Projects</a> page. I also write about software, side projects, and whatever else I'm learning over on <a href="/writing/">Writing</a>.
+				</p>
+				<p>
+					For a more day-to-day view of what I'm focused on right now, check out my <a href="/now/">Now page</a>.
+				</p>
+			</div>
+
+			<div class="social-row">
+				<a href="https://linkedin.com/in/mkumm" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+				<a href="https://github.com/mkumm" target="_blank" rel="noopener noreferrer">GitHub</a>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

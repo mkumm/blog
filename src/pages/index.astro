@@ -1,10 +1,17 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
 import Header from "../components/Header.astro";
 import IndexHeroImage from "../assets/pages/hero-index.png";
 import { Image } from "astro:assets";
-import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import { getEntry } from "astro:content";
+import { FEATURED_POSTS, SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+
+const featuredPosts = (
+	await Promise.all(FEATURED_POSTS.map((id) => getEntry("writing", id)))
+).filter((post) => post !== undefined);
+const [leadPost, ...restPosts] = featuredPosts;
 ---
 
 <!doctype html>
@@ -19,7 +26,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 			"url": "https://mkumm.com",
 			"jobTitle": "Senior Software Engineer",
 			"sameAs": [
-				"https://twitter.com/mkumm",
 				"https://linkedin.com/in/mkumm",
 				"https://github.com/mkumm"
 			]
@@ -182,6 +188,106 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 			.page-footer-note a:hover {
 				color: var(--accent);
 			}
+			.featured {
+				display: grid;
+				grid-template-columns: 1.3fr 1fr;
+				gap: 1.75rem;
+				margin: 2rem 0;
+			}
+			.featured-secondary {
+				display: flex;
+				flex-direction: column;
+				gap: 1.75rem;
+			}
+			.featured-card {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				text-decoration: none;
+				color: inherit;
+				border-radius: 10px;
+				overflow: hidden;
+				background: var(--bg-secondary);
+				border: 1px solid rgba(var(--gray-light), 0.8);
+				transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+			}
+			.featured-card:hover {
+				box-shadow: var(--box-shadow);
+				transform: translateY(-3px);
+				border-color: rgba(var(--accent-rgb), 0.3);
+				text-decoration: none;
+			}
+			.featured-card img {
+				display: block;
+				width: 100% !important;
+				max-width: 100% !important;
+				margin: 0 !important;
+				object-fit: cover;
+				border-radius: 0;
+			}
+			.featured-lead img {
+				height: 320px;
+			}
+			.featured-secondary .featured-card img {
+				height: 140px;
+			}
+			.featured-card .card-body {
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+				padding: 1.25rem 1.25rem 1.1rem;
+			}
+			.featured-secondary .card-body {
+				padding: 1rem 1.1rem 0.9rem;
+			}
+			.featured-card .card-date {
+				font-size: 0.78rem;
+				text-transform: uppercase;
+				letter-spacing: 0.07em;
+				font-weight: 500;
+				color: rgb(var(--gray));
+				margin-bottom: 0.4rem;
+			}
+			.featured-card .card-title {
+				font-family: 'Lora', Georgia, serif;
+				font-weight: 600;
+				color: rgb(var(--black));
+				line-height: 1.35;
+				margin: 0;
+				transition: color 0.15s ease;
+			}
+			.featured-lead .card-title {
+				font-size: 1.5rem;
+			}
+			.featured-secondary .card-title {
+				font-size: 1.05rem;
+			}
+			.featured-card:hover .card-title {
+				color: var(--accent);
+			}
+			.featured-card .card-description {
+				font-size: 0.9rem;
+				color: rgb(var(--gray));
+				line-height: 1.5;
+				margin: 0.6rem 0 0;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+			.featured-secondary .card-description {
+				font-size: 0.825rem;
+				margin-top: 0.4rem;
+				-webkit-line-clamp: 2;
+			}
+			@media (max-width: 720px) {
+				.featured {
+					grid-template-columns: 1fr;
+				}
+				.featured-lead img {
+					height: 220px;
+				}
+			}
 		</style>
 	</head>
 
@@ -193,52 +299,67 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 			)}
 		</div>
 		<main>
-			<div class="intro">
-				<img src="/profiles/mkumm.png" alt="Michael Kumm" class="intro-photo" />
-				<div class="intro-text">
-					<h1>Michael Kumm</h1>
-					<p class="intro-tagline">Senior Software Engineer <br />Krakow, PL & Detroit, MI</p>
-					<div class="tech-tags">
-						{["Elixir", "Phoenix", "LiveView", "Detroit, MI", "Krakow, PL", "Books", "Games"].map(tag => (
-							<span class="tech-tag">{tag}</span>
+
+
+				<div class="text-xl font-bold mx-0 block text-center py-6">
+				Software, side projects, and the ongoing work of getting better.
+				</div>
+
+			{leadPost && (
+				<div class="featured">
+					<a class="featured-card featured-lead" href={`/writing/${leadPost.id}/`}>
+						{leadPost.data.heroImage && (
+							<Image
+								width={720}
+								height={480}
+								src={leadPost.data.heroImage}
+								alt={"image: " + leadPost.data.title}
+								loading="eager"
+							/>
+						)}
+						<div class="card-body">
+							<p class="card-date">
+								<FormattedDate date={leadPost.data.pubDate} />
+							</p>
+							<h2 class="card-title">{leadPost.data.title}</h2>
+							{leadPost.data.description && (
+								<p class="card-description">{leadPost.data.description}</p>
+							)}
+						</div>
+					</a>
+					<div class="featured-secondary">
+						{restPosts.map((post) => (
+							<a class="featured-card" href={`/writing/${post.id}/`}>
+								{post.data.heroImage && (
+									<Image
+										width={480}
+										height={280}
+										src={post.data.heroImage}
+										alt={"image: " + post.data.title}
+										loading="eager"
+									/>
+								)}
+								<div class="card-body">
+									<p class="card-date">
+										<FormattedDate date={post.data.pubDate} />
+									</p>
+									<h3 class="card-title">{post.data.title}</h3>
+									{post.data.description && (
+										<p class="card-description">{post.data.description}</p>
+									)}
+								</div>
+							</a>
 						))}
 					</div>
 				</div>
-			</div>
+			)}
 
-			<p>If you're here, it's probably because you already know me and just want a quick look at what's happening in my life. This site is eclectic on purpose—posts range from life in Poland to building software in the age of AI. There's no single topic here, and no attempt to build an audience around one.</p>
 
-			<p>
-				For those who don't know me: I'm a senior software engineer who likes building systems with some elegance—recently that's meant <strong>LiveView</strong> interfaces, <strong>AI automation</strong> tooling, and diving deep into event streaming, with <strong>Terraform</strong> opening up new possibilities along the way.
-				Outside of work I build things for the fun of it—privacy-first, ad-free, as
-				close to free as possible. <a href="https://sprytna.com"><strong>Sprytna.com</strong></a> is a hub for those projects.
-			</p>
-			<p>
-				Away from the keyboard I split my time between <strong>Krakow and Michigan</strong>,
-				read and walk a lot, take photos, and am slowly learning <strong>Polish</strong>.
-				I have a soft spot for <strong>cask ales</strong> and a long-standing fascination
-				with <strong>probability and games of chance</strong>.
-			</p>
-
-			<div class="nav-links">
-				<a href="/blog/" class="nav-link-card">
-					<span class="card-title">Blog</span>
-					<span class="card-desc">Technical deep-dives and longer essays</span>
-				</a>
-				<a href="/shorts/" class="nav-link-card">
-					<span class="card-title">Shorts</span>
-					<span class="card-desc">Casual notes and personal observations</span>
-				</a>
-				<a href="/now/" class="nav-link-card">
-					<span class="card-title">Now</span>
-					<span class="card-desc">What I'm currently focused on</span>
-				</a>
-			</div>
 
 
 <p class="page-footer-note">
 				All photos on this site are my own, available under a Creative Commons license.
-				DM me on <a href="https://x.com/mkumm">Twitter</a> or <a href="https://www.instagram.com/mkumm/">Instagram</a> for full-resolution versions.
+				DM me on <a href="https://www.instagram.com/mkumm/">Instagram</a> for full-resolution versions.
 			</p>
 		</main>
 	</body>

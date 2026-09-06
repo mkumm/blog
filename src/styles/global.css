@@ -100,6 +100,10 @@
 	font-display: swap;
 }
 
+html {
+	scrollbar-gutter: stable;
+}
+
 body {
 	font-family: "Atkinson", system-ui, sans-serif;
 	margin: 0;

@@ -1,0 +1,16 @@
+---
+import ProjectLayout from '../../../layouts/ProjectLayout.astro';
+import HeroImage from '../../../assets/writing/hero-hello-sprytna.png';
+---
+
+<ProjectLayout
+	title="Sprytna Cards"
+	tagline="A slightly smarter NFC business card."
+	heroImage={HeroImage}
+	liveUrl="https://sprytna.cards"
+	liveLabel="Visit site"
+	writingHref="/writing/hello-sprytna-cards/"
+>
+	<p>Tap or scan a card to view a profile and download a vCard. Each user can hold multiple cards and multiple profiles, switching which one is visible on a tap — handy for a conference badge one day and a personal profile the next.</p>
+	<p>Built solo with Elixir/Phoenix/LiveView over about 3 months of nights and weekends.</p>
+</ProjectLayout>
