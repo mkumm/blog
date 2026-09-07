@@ -3,6 +3,9 @@ import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import { SITE_TITLE } from "../consts";
+import { Image } from "astro:assets";
+import ParkImage from "../assets/now/park-1.png";
+import AboutHeroImage from "../assets/pages/hero-about.png";
 ---
 
 <!doctype html>
@@ -13,6 +16,16 @@ import { SITE_TITLE } from "../consts";
 			description="Software engineer, side-project builder, splitting time between Detroit and Krakow."
 		/>
 		<style>
+			.hero-image img {
+				display: block;
+				width: 100%;
+				max-height: 440px;
+				object-fit: cover;
+				border-radius: 0;
+			}
+			@media (max-width: 720px) {
+				.hero-image img { max-height: 220px; }
+			}
 			main {
 				width: 700px;
 				max-width: calc(100% - 2em);
@@ -86,11 +99,37 @@ import { SITE_TITLE } from "../consts";
 					gap: 1rem;
 				}
 			}
+			.captioned-image {
+				margin: 1.75rem 0;
+			}
+			.captioned-image img {
+				margin: 0;
+			}
+			@media (max-width: 720px) {
+				.captioned-image img {
+					width: 100%;
+					max-width: 100%;
+					margin: 0;
+					border-radius: 8px;
+				}
+			}
+			.captioned-image figcaption {
+				margin-top: 0.6rem;
+				font-family: 'Lora', Georgia, serif;
+				font-style: italic;
+				font-size: 0.88rem;
+				color: rgb(var(--gray));
+				text-align: center;
+			}
+
 		</style>
 	</head>
 
 	<body>
 		<Header />
+		<div class="hero-image">
+			<Image src={AboutHeroImage} alt="About page hero" loading="eager" />
+		</div>
 		<main>
 			<div class="page-header">
 				<h1>About</h1>
@@ -106,17 +145,16 @@ import { SITE_TITLE } from "../consts";
 			</div>
 
 			<div class="prose">
-				<p>
-					I'm a software engineer working mostly in Elixir and Phoenix, currently at <a href="https://www.draftkings.com/">DraftKings</a>.
-				</p><p>
-					I am an American traveling back and forth from Detroit to Krakow, Poland (yes, legally — I have my Polish Karta).
-				</p>
-				<p>
-					Outside of my day job I build small side projects — apps, games, and tools I wish already existed. You can see a few of them on the <a href="/projects/">Projects</a> page. I also write about software, side projects, and whatever else I'm learning over on <a href="/writing/">Writing</a>.
-				</p>
-				<p>
-					For a more day-to-day view of what I'm focused on right now, check out my <a href="/now/">Now page</a>.
-				</p>
+<p>I'm a software engineer at DraftKings. Over a 30+ year career, I've moved between technology, leadership, and operations, but I find building software the most challenging and the most fun. </p>
+<p>I still build things for fun. Side projects give me an excuse to learn something new, revisit something I only half understand (a lot of material to choose there), or take a topic I already know and go much deeper. I set aside a good amount of time for learning, and I'm happiest when I'm working on something that deepens my understanding.</p>
+<p>Away from a computer, I like to read, cook, walk, take photos, create music, ride my bike, and play a variety of sports, non competitively. </p>
+<p>This site is where I write about some of that: software, projects, things I'm trying to understand, and whatever else - a personal eclectic mix of topics. </p>
+<p>I visit Poland often and I am very slowly working my way through learning the language.  </p>
+
+			<figure class="captioned-image">
+				<Image src={ParkImage} alt="A park in Krakow" loading="lazy" layout="constrained" width={1400} />
+				<figcaption>One of the many parks I bike through in Krakow.</figcaption>
+			</figure>
 			</div>
 
 			<div class="social-row">
