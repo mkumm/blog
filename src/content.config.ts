@@ -32,6 +32,7 @@ const projects = defineCollection({
 			liveUrl: z.string(),
 			liveLabel: z.string().default('Visit site'),
 			writingHref: z.string().optional(),
+			status: z.enum(['Active', 'Experiment', 'Archived', 'Just for fun']),
 			// Controls listing order on /projects/, lowest first.
 			order: z.number().default(99),
 		}),

@@ -92,6 +92,31 @@ const projects = (await getCollection('projects')).sort(
 				flex: 1;
 				padding: 1.1rem 1.2rem 1.2rem;
 			}
+			.status-badge {
+				display: inline-block;
+				align-self: flex-start;
+				margin-bottom: 0.5rem;
+				padding: 0.25em 0.7em;
+				border-radius: 999px;
+				font-size: 0.68rem;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.06em;
+				background: rgba(var(--gray-light), 0.5);
+				color: rgb(var(--gray-dark));
+			}
+			.status-badge[data-status='Active'] {
+				background: rgba(var(--accent-rgb), 0.15);
+				color: var(--accent-dark);
+			}
+			.status-badge[data-status='Just for fun'] {
+				background: rgba(234, 179, 8, 0.18);
+				color: #92650a;
+			}
+			.status-badge[data-status='Archived'] {
+				background: rgba(var(--gray-light), 0.6);
+				color: rgb(var(--gray));
+			}
 			.card-title {
 				font-family: 'Lora', Georgia, serif;
 				font-size: 1.1rem;
@@ -147,6 +172,7 @@ const projects = (await getCollection('projects')).sort(
 								/>
 							) : null}
 							<div class="card-body">
+								<span class="status-badge" data-status={project.data.status}>{project.data.status}</span>
 								<h4 class="card-title">{project.data.title}</h4>
 								<p class="card-description">{project.data.tagline}</p>
 							</div>

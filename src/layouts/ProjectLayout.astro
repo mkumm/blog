@@ -6,6 +6,8 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_TITLE } from '../consts';
 
+type ProjectStatus = 'Active' | 'Experiment' | 'Archived' | 'Just for fun';
+
 interface Props {
 	title: string;
 	tagline: string;
@@ -14,9 +16,10 @@ interface Props {
 	liveUrl: string;
 	liveLabel?: string;
 	writingHref?: string;
+	status: ProjectStatus;
 }
 
-const { title, tagline, heroImage, heroImageUrl, liveUrl, liveLabel = 'Visit site', writingHref } = Astro.props;
+const { title, tagline, heroImage, heroImageUrl, liveUrl, liveLabel = 'Visit site', writingHref, status } = Astro.props;
 // Astro's <Image> can't infer dimensions from a remote URL, so a fixed
 // hero aspect ratio (16:9) is requested for that case.
 const headImage: ImageMetadata | undefined =
@@ -62,6 +65,30 @@ const headImage: ImageMetadata | undefined =
 				color: rgb(var(--gray));
 				font-size: 1.05rem;
 				margin: 0 0 1.5rem 0;
+			}
+			.status-badge {
+				display: inline-block;
+				margin-bottom: 0.75rem;
+				padding: 0.3em 0.9em;
+				border-radius: 999px;
+				font-size: 0.75rem;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.06em;
+				background: rgba(var(--gray-light), 0.5);
+				color: rgb(var(--gray-dark));
+			}
+			.status-badge[data-status='Active'] {
+				background: rgba(var(--accent-rgb), 0.15);
+				color: var(--accent-dark);
+			}
+			.status-badge[data-status='Just for fun'] {
+				background: rgba(234, 179, 8, 0.18);
+				color: #92650a;
+			}
+			.status-badge[data-status='Archived'] {
+				background: rgba(var(--gray-light), 0.6);
+				color: rgb(var(--gray));
 			}
 			.project-actions {
 				display: flex;
@@ -138,6 +165,7 @@ const headImage: ImageMetadata | undefined =
 				<div class="prose">
 					<a class="back-link" href="/projects/">← All projects</a>
 					<div class="project-header">
+						<span class="status-badge" data-status={status}>{status}</span>
 						<h1>{title}</h1>
 						<p class="tagline">{tagline}</p>
 						<div class="project-actions">
