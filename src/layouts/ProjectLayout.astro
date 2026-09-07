@@ -9,18 +9,23 @@ import { SITE_TITLE } from '../consts';
 interface Props {
 	title: string;
 	tagline: string;
-	heroImage: ImageMetadata;
+	heroImage?: ImageMetadata;
+	heroImageUrl?: string;
 	liveUrl: string;
 	liveLabel?: string;
 	writingHref?: string;
 }
 
-const { title, tagline, heroImage, liveUrl, liveLabel = 'Visit site', writingHref } = Astro.props;
+const { title, tagline, heroImage, heroImageUrl, liveUrl, liveLabel = 'Visit site', writingHref } = Astro.props;
+// Astro's <Image> can't infer dimensions from a remote URL, so a fixed
+// hero aspect ratio (16:9) is requested for that case.
+const headImage: ImageMetadata | undefined =
+	heroImage ?? (heroImageUrl ? { src: heroImageUrl, width: 1600, height: 900, format: 'jpg' } : undefined);
 ---
 
 <html lang="en">
 	<head>
-		<BaseHead title={`${title} — Projects — ${SITE_TITLE}`} description={tagline} image={heroImage} ogType="article" />
+		<BaseHead title={`${title} — Projects — ${SITE_TITLE}`} description={tagline} image={headImage} ogType="article" />
 		<style>
 			main {
 				width: 100%;
@@ -122,7 +127,11 @@ const { title, tagline, heroImage, liveUrl, liveLabel = 'Visit site', writingHre
 	<body>
 		<Header />
 		<div class="hero-image">
-			<Image layout="constrained" src={heroImage} alt={title} loading="eager" />
+			{heroImage ? (
+				<Image layout="constrained" src={heroImage} alt={title} loading="eager" />
+			) : heroImageUrl ? (
+				<Image layout="constrained" src={heroImageUrl} width={1600} height={900} alt={title} loading="eager" />
+			) : null}
 		</div>
 		<main>
 			<article>

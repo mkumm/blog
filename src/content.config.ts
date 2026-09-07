@@ -17,4 +17,24 @@ const writing = defineCollection({
 		}),
 });
 
-export const collections = { writing };
+const projects = defineCollection({
+	// Load Markdown and MDX files in the `src/content/projects/` directory.
+	loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
+	schema: ({ image }) =>
+		z.object({
+			title: z.string(),
+			tagline: z.string(),
+			// Use ONE of these: heroImage for a local file (../../assets/... import
+			// path), heroImageUrl for a plain https:// URL — both get optimized
+			// (resized, converted to webp) the same way.
+			heroImage: image().optional(),
+			heroImageUrl: z.string().url().optional(),
+			liveUrl: z.string(),
+			liveLabel: z.string().default('Visit site'),
+			writingHref: z.string().optional(),
+			// Controls listing order on /projects/, lowest first.
+			order: z.number().default(99),
+		}),
+});
+
+export const collections = { writing, projects };

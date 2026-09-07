@@ -1,0 +1,32 @@
+---
+title: '99DaysOf'
+tagline: 'One intention. 99 days. Nothing else.'
+heroImage: '../../assets/writing/hero-99-days.png'
+liveUrl: 'https://99daysof.com'
+liveLabel: 'Try it'
+order: 1
+---
+
+## Why I Built It
+
+For 99 days in a row I completed at least a 30 minute walk. Rain, snow, injury, and even sheer laziness was not going to stop me from reaching my goal of walking 99 days in a row.
+
+Warming myself in my now regular coffee shop, celebrating the moment of completion with an Americano, I considered the last 99 days and if I wanted to cross over to 100. This +1 is mostly symbolic, although many ancient beliefs considered 100 days of practice to be something a little mystical. My belief is that after spending 99 days with a practice it becomes part of you. A known entity. It is at this point I can fully decide to fully convert the practice to a daily routine, drop it completely, or something in between.
+
+That moment was powerful and personal. It filled with agency to for what was next and what else I could do. I decided I wanted to share the process I took to get to that moment. You don't need an app for the experience, but I wish I had used 99DaysOf to look back and review my past thoughts and experiences.
+
+I have since used the 99 day threshold to experiment with many new habits that led to significant changes to my life. I finally created the 99DaysOf app to be as helpful, but out of the way as possible while leaving breadcrumbs for later reflection.
+
+## 99DayOf
+
+[99DaysOf.com](https://99daysof.com) is available as a paid web application ($9 a year). It comes with a 1-button, no questions asked refund policy. Try it out for 99 Days and then make your decision to make it a daily routine, drop it completely, or something in between.
+
+Privacy, like everything I do under the Sprytna name is first. All personal data is encrypted and there are no analytics on the application. There is also no "share on social media" button. I made this application for your personal journey and reflection. Not as another social app. I hope you enjoy it.
+
+## What I Learned
+
+The original version was created to be free and private, while using the user's browser's local storage. For various reasons, users could easily lose that data and the progress they made. I needed a different solution. I recreated the application from a JS-first application to a full server-backed web-application. I chose Elixir/Phoenix with a postgres database. The user entries are encoded and encrypted for extra privacy.
+
+Adding a database meant I had to keep the bots out. I added a user account system with Stripe with an upfront charge of $9 a year.
+
+The biggest challenge was getting the UI/UX to feel elegant, simple, but provide a powerful service. I am not quite there, but it's pretty close. One unexpected surprise was how nice the 11x9 (99) grid of dots worked as a daily tracker.

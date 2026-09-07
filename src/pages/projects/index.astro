@@ -1,47 +1,14 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_TITLE } from '../../consts';
-import AnyOneWillDoImage from '../../assets/writing/hero-any-one-will-do.png';
-import DealtImage from '../../assets/writing/hero-video-poker-with-ev-display.png';
-import SprytnaOkrsImage from '../../assets/writing/hero-okr-dashboard.png';
-import SprytnaLeagueImage from '../../assets/writing/sprytna-league.png';
-import SprytnaCardsImage from '../../assets/writing/hero-hello-sprytna.png';
 
-const projects = [
-	{
-		slug: 'any-one-will-do',
-		title: 'Any One Will Do',
-		description: 'Randomly pick who goes next, or split a group into balanced teams.',
-		image: AnyOneWillDoImage,
-	},
-	{
-		slug: 'dealt',
-		title: 'Dealt',
-		description: '8-bit video poker with a live Expected Value display.',
-		image: DealtImage,
-	},
-	{
-		slug: 'sprytna-okrs',
-		title: 'Sprytna OKRs',
-		description: 'A bare-bones OKR tracking tool — objectives, key results, weekly check-ins.',
-		image: SprytnaOkrsImage,
-	},
-	{
-		slug: 'sprytna-league',
-		title: 'Sprytna League',
-		description: "A season-long fantasy prediction game — guess your team's final score each week.",
-		image: SprytnaLeagueImage,
-	},
-	{
-		slug: 'sprytna-cards',
-		title: 'Sprytna Cards',
-		description: 'A slightly smarter NFC business card.',
-		image: SprytnaCardsImage,
-	},
-];
+const projects = (await getCollection('projects')).sort(
+	(a, b) => a.data.order - b.data.order,
+);
 ---
 
 <!doctype html>
@@ -59,8 +26,8 @@ const projects = [
 			"itemListElement": projects.map((project, i) => ({
 				"@type": "ListItem",
 				"position": i + 1,
-				"url": `https://mkumm.com/projects/${project.slug}/`,
-				"name": project.title,
+				"url": `https://mkumm.com/projects/${project.id}/`,
+				"name": project.data.title,
 			}))
 		})}></script>
 		<style>
@@ -161,17 +128,27 @@ const projects = [
 			<ul>
 				{projects.map((project) => (
 					<li>
-						<a href={`/projects/${project.slug}/`}>
-							<Image
-								width={480}
-								height={280}
-								src={project.image}
-								alt={`image: ${project.title}`}
-								loading="eager"
-							/>
+						<a href={`/projects/${project.id}/`}>
+							{project.data.heroImage ? (
+								<Image
+									width={480}
+									height={280}
+									src={project.data.heroImage}
+									alt={`image: ${project.data.title}`}
+									loading="eager"
+								/>
+							) : project.data.heroImageUrl ? (
+								<Image
+									width={480}
+									height={280}
+									src={project.data.heroImageUrl}
+									alt={`image: ${project.data.title}`}
+									loading="eager"
+								/>
+							) : null}
 							<div class="card-body">
-								<h4 class="card-title">{project.title}</h4>
-								<p class="card-description">{project.description}</p>
+								<h4 class="card-title">{project.data.title}</h4>
+								<p class="card-description">{project.data.tagline}</p>
 							</div>
 						</a>
 					</li>

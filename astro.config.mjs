@@ -33,6 +33,12 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [mdx()],
 
+  image: {
+    // Lets <Image> optimize a plain https:// URL the same way it optimizes
+    // a local imported file — resize, convert to webp, generate srcset.
+    remotePatterns: [{ protocol: 'https' }],
+  },
+
   markdown: {
     processor: unified({ rehypePlugins: [rehypeMermaid] }),
     syntaxHighlight: {
