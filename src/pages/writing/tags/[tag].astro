@@ -121,13 +121,19 @@ const { label, posts } = Astro.props;
 				flex: 1;
 				padding: 1.25rem 1.25rem 1.1rem;
 			}
+			.card-meta {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 0.75rem;
+				margin-bottom: 0.4rem;
+			}
 			.card-date {
 				font-size: 0.78rem;
 				text-transform: uppercase;
 				letter-spacing: 0.07em;
 				font-weight: 500;
 				color: rgb(var(--gray));
-				margin-bottom: 0.4rem;
 			}
 			.card-title {
 				font-family: 'Lora', Georgia, serif;
@@ -154,11 +160,10 @@ const { label, posts } = Astro.props;
 			.card-read-time {
 				font-size: 0.75rem;
 				color: rgb(var(--gray));
-				margin-top: auto;
-				padding-top: 0.6rem;
+				white-space: nowrap;
 			}
 			.card-body :global(.tag-list) {
-				margin-top: 0.6rem;
+				margin-top: 0.75rem;
 			}
 			@media (max-width: 720px) {
 				main { width: 100%; max-width: 100%; }
@@ -192,14 +197,16 @@ const { label, posts } = Astro.props;
 								/>
 							)}
 							<div class="card-body">
-								<p class="card-date">
-									<FormattedDate date={post.data.pubDate} />
-								</p>
+								<div class="card-meta">
+									<span class="card-date">
+										<FormattedDate date={post.data.pubDate} />
+									</span>
+									<span class="card-read-time">{post.readingTime} min read</span>
+								</div>
 								<h4 class="card-title">{post.data.title}</h4>
 								{post.data.description && (
 									<p class="card-description">{post.data.description}</p>
 								)}
-								<p class="card-read-time">{post.readingTime} min read</p>
 								<TagList tags={post.data.tags} asLinks={false} />
 							</div>
 						</a>
