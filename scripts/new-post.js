@@ -4,8 +4,8 @@ import fs from 'fs';
 import path from 'path';
 
 const DRAFTS_DIR = path.resolve('_drafts');
-const BLOG_DIR = path.resolve('src/content/blog');
-const ASSETS_DIR = path.resolve('src/assets/blog');
+const BLOG_DIR = path.resolve('src/content/writing');
+const ASSETS_DIR = path.resolve('src/assets/writing');
 const IMAGE_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.webp'];
 
 function slugify(title) {
@@ -53,12 +53,12 @@ const body = rawContent.replace(/^#\s+.+\n?/m, '').trimStart();
 // Build filenames
 const mdxFilename = `${slug}.mdx`;
 const imageExt = path.extname(imageFile).toLowerCase();
-const imageFilename = `${slug}${imageExt}`;
+const imageFilename = `hero-${slug}${imageExt}`;
 
 // Guard against overwriting an existing post
 const mdxPath = path.join(BLOG_DIR, mdxFilename);
 if (fs.existsSync(mdxPath)) {
-  console.error(`Post already exists: src/content/blog/${mdxFilename}`);
+  console.error(`Post already exists: src/content/writing/${mdxFilename}`);
   console.error('Rename the draft file or change the # heading to avoid a collision.');
   process.exit(1);
 }
@@ -71,7 +71,7 @@ const frontmatter = `---
 title: '${title.replace(/'/g, "\\'")}'
 pubDate: '${pubDate}'
 description: ''
-heroImage: '../../assets/blog/${imageFilename}'
+heroImage: '../../assets/writing/${imageFilename}'
 ---`;
 
 const mdxContent = `${frontmatter}\n\n${body}`;
@@ -88,5 +88,5 @@ fs.copyFileSync(imageSrc, imageDest);
 fs.unlinkSync(mdPath);
 fs.unlinkSync(imageSrc);
 
-console.log(`Created: src/content/blog/${mdxFilename}`);
-console.log(`Image:   src/assets/blog/${imageFilename}`);
+console.log(`Created: src/content/writing/${mdxFilename}`);
+console.log(`Image:   src/assets/writing/${imageFilename}`);
