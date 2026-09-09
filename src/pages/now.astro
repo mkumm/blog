@@ -8,6 +8,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import PersonLink from "../components/PersonLink.astro";
 import LocationWidget from "../components/LocationWidget.astro";
+import ProjectSpotlight from "../components/ProjectSpotlight.astro";
 import { books, albums } from "../data/now";
 
 const readingBooks = books.filter(b => b.status === 'reading');
@@ -71,16 +72,22 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				main { width: 100%; max-width: 100%; padding: 1.5rem 1rem; }
 			}
 			.item-list {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				column-gap: 1.75rem;
 				list-style: none;
 				padding: 0;
 				margin: 0;
+				border-top: 1px solid rgb(var(--gray-light));
 			}
 			.item-list li {
 				padding: 0.85rem 0;
 				border-bottom: 1px solid rgb(var(--gray-light));
 			}
-			.item-list li:first-child {
-				border-top: 1px solid rgb(var(--gray-light));
+			@media (max-width: 560px) {
+				.item-list {
+					grid-template-columns: 1fr;
+				}
 			}
 			.item-row {
 				display: flex;
@@ -123,7 +130,7 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				display: flex;
 				align-items: center;
 				gap: 0.35rem;
-				margin-top: 0.35rem;
+				margin: 0.35rem 0;
 				font-family: 'Courier New', Courier, monospace;
 				font-size: 0.78rem;
 				line-height: 1;
@@ -198,6 +205,17 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				color: rgb(var(--gray));
 				text-align: center;
 			}
+			.spotlight-row {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 1.75rem;
+				margin: 1.5rem 0;
+			}
+			@media (max-width: 600px) {
+				.spotlight-row {
+					grid-template-columns: 1fr;
+				}
+			}
 		</style>
 	</head>
 	<body>
@@ -211,6 +229,7 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				<p>A quick intro and what's going on "now" — last updated August 27, 2026.</p>
 			</div>
 
+			<div class="">
 			<p>
 				This is a <a href="https://nownownow.com/about">now page</a>. <PersonLink
 					img_src="/profiles/sivers.png"
@@ -219,10 +238,33 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				/> has inspired <a href="https://nownownow.com/">a growing number of "nowers"</a> to create these. If you have your own site, you should consider adding a <b>Now page</b> too.
 			</p>
 
-			<h2>🎰 Working at DraftKings 👑</h2>
+			<h2>🎰 Working at DraftKings</h2>
 			<p>
 				Claude and I write a lot of Elixir code these days at <a href="https://www.draftkings.com/">DraftKings</a>. Although I have the same job I had last year, I would not recognize my day to day work from a year ago. AI is here, like it or not — I choose to like it, and I am having more fun!
 			</p>
+
+			<h2>🏋️ Exercise</h2>
+			<p>
+				I am doing working towards having a (much) more active lifestyle. I start my mornings with <a href="https://thehappybody.com/">The Happy Body</a> exercises and spend about an hour a day either walking, riding a bike, playing outside. It helps a lot.
+			</p>
+
+			<h2>☕ Caffeine</h2>
+			<p>
+				My primary form of caffeine is from my beloved <a href="https://en.wikipedia.org/wiki/Moka_pot">Moka Pot</a>. If I am in a hurry I will get a quick cup from my Nespresso machine.</p>
+				<ul>
+				<li>
+					If you are in Krakow may I suggest you try <a href="https://kellerancoffee.pl/">Kelleran</a> for your beans - Columbia is my favorite.
+				</li>
+				<li>If you are in the Detroit area, give <a href="https://www.groundcontrolroasters.com/">Ground Control Roaster</a> a shot.
+					</li>
+			</ul>
+			</div>
+
+			<h2>🛠️ What I'm Building</h2>
+			<div class="spotlight-row">
+				<ProjectSpotlight slug="99-days-of" />
+				<ProjectSpotlight slug="any-one-will-do" />
+			</div>
 
 			<h2>📖 Currently Reading</h2>
 			<ul class="item-list">
@@ -234,11 +276,11 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 								<div class="item-header">
 									<a href={book.url} class="item-title">{book.title}</a>
 								</div>
-								{book.note && <p class="item-note">{book.note}</p>}
 								<div class="progress-bar">
 									<span class="progress-filled">{progressBar(book.progress!).filled}</span><span class="progress-empty">{progressBar(book.progress!).empty}</span>
 									<span class="progress-pct">{book.progress}%</span>
 								</div>
+								{book.note && <p class="item-note">{book.note}</p>}
 							</div>
 						</div>
 					</li>

@@ -1,0 +1,132 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+
+interface Props {
+	slug: string;
+	showTagline?: boolean;
+	showStatus?: boolean;
+}
+
+const { slug, showTagline = false, showStatus = false } = Astro.props;
+const project = await getEntry('projects', slug);
+
+if (!project) {
+	throw new Error(`ProjectSpotlight: no project found for slug "${slug}"`);
+}
+
+const { title, tagline, status, heroImage, heroImageUrl } = project.data;
+---
+
+<a class="project-spotlight" href={`/projects/${project.id}/`}>
+	{heroImage ? (
+		<Image
+			class="project-spotlight-image"
+			width={960}
+			height={540}
+			src={heroImage}
+			alt={`image: ${title}`}
+		/>
+	) : heroImageUrl ? (
+		<Image
+			class="project-spotlight-image"
+			width={960}
+			height={540}
+			src={heroImageUrl}
+			alt={`image: ${title}`}
+		/>
+	) : null}
+	<span class="project-spotlight-caption">
+		<span class="project-spotlight-heading">
+			<span class="project-spotlight-title">{title}</span>
+			{showStatus && (
+				<span class="status-badge" data-status={status}>{status}</span>
+			)}
+		</span>
+		{showTagline && tagline && (
+			<span class="project-spotlight-tagline">{tagline}</span>
+		)}
+		<span class="project-spotlight-arrow">View project &rarr;</span>
+	</span>
+</a>
+
+<style>
+	.project-spotlight {
+		display: block;
+		text-decoration: none;
+		color: inherit;
+	}
+	.project-spotlight-image {
+		display: block;
+		width: 100% !important;
+		max-width: 100% !important;
+		height: auto;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		margin: 0 !important;
+		border-radius: 0;
+		transition: opacity 0.2s ease;
+	}
+	.project-spotlight:hover .project-spotlight-image {
+		opacity: 0.9;
+	}
+	.project-spotlight-caption {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+		margin-top: 0.75rem;
+		padding-top: 0.6rem;
+		border-top: 1px solid rgb(var(--gray-light));
+	}
+	.project-spotlight-heading {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.5rem 0.75rem;
+	}
+	.project-spotlight-title {
+		font-family: 'Lora', Georgia, serif;
+		font-weight: 600;
+		font-size: 1.1rem;
+		color: rgb(var(--black));
+		transition: color 0.15s ease;
+	}
+	.project-spotlight:hover .project-spotlight-title {
+		color: var(--accent);
+	}
+	.status-badge {
+		display: inline-block;
+		flex-shrink: 0;
+		padding: 0.2em 0.65em;
+		border-radius: 999px;
+		font-size: 0.65rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		background: rgba(var(--gray-light), 0.5);
+		color: rgb(var(--gray-dark));
+	}
+	.status-badge[data-status='Active'] {
+		background: rgba(var(--accent-rgb), 0.15);
+		color: var(--accent-dark);
+	}
+	.status-badge[data-status='Just for fun'] {
+		background: rgba(234, 179, 8, 0.18);
+		color: #92650a;
+	}
+	.status-badge[data-status='Archived'] {
+		background: rgba(var(--gray-light), 0.6);
+		color: rgb(var(--gray));
+	}
+	.project-spotlight-tagline {
+		font-size: 0.85rem;
+		color: rgb(var(--gray));
+		line-height: 1.5;
+	}
+	.project-spotlight-arrow {
+		font-size: 0.78rem;
+		color: rgb(var(--gray));
+		white-space: nowrap;
+	}
+</style>

@@ -1,0 +1,123 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+import TagList from './TagList.astro';
+
+interface Props {
+	slug: string;
+}
+
+const { slug } = Astro.props;
+const post = await getEntry('writing', slug);
+
+if (!post) {
+	throw new Error(`PostSpotlight: no post found for slug "${slug}"`);
+}
+
+const { title, description, pubDate, heroImage, tags } = post.data;
+const readingTime = Math.max(1, Math.ceil((post.body?.trim().split(/\s+/).length ?? 0) / 200));
+---
+
+<a class="post-spotlight" href={`/writing/${post.id}/`}>
+	{heroImage && (
+		<Image
+			class="post-spotlight-image"
+			width={960}
+			height={540}
+			src={heroImage}
+			alt={`image: ${title}`}
+		/>
+	)}
+	<span class="post-spotlight-caption">
+		<span class="post-spotlight-top-row">
+			<span class="post-spotlight-meta">
+				<FormattedDate date={pubDate} />
+				<span class="post-spotlight-dot">&middot;</span>
+				<span>{readingTime} min read</span>
+			</span>
+			<TagList tags={tags} asLinks={false} />
+		</span>
+		<span class="post-spotlight-title">{title}</span>
+		{description && <span class="post-spotlight-description">{description}</span>}
+		<span class="post-spotlight-arrow">Read post &rarr;</span>
+	</span>
+</a>
+
+<style>
+	.post-spotlight {
+		display: block;
+		text-decoration: none;
+		color: inherit;
+	}
+	.post-spotlight-image {
+		display: block;
+		width: 100% !important;
+		max-width: 100% !important;
+		height: auto;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		margin: 0 !important;
+		border-radius: 0;
+		transition: opacity 0.2s ease;
+	}
+	.post-spotlight:hover .post-spotlight-image {
+		opacity: 0.9;
+	}
+	.post-spotlight-caption {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+		margin-top: 0.75rem;
+		padding-top: 0.6rem;
+		border-top: 1px solid rgb(var(--gray-light));
+	}
+	.post-spotlight-top-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		height: 1.3rem;
+		line-height: 1;
+	}
+	.post-spotlight-meta {
+		font-size: 0.78rem;
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		font-weight: 500;
+		color: rgb(var(--gray));
+		white-space: nowrap;
+	}
+	.post-spotlight-dot {
+		margin: 0 0.35em;
+	}
+	.post-spotlight-title {
+		font-family: 'Lora', Georgia, serif;
+		font-weight: 600;
+		font-size: 1.15rem;
+		color: rgb(var(--black));
+		line-height: 1.35;
+		transition: color 0.15s ease;
+	}
+	.post-spotlight:hover .post-spotlight-title {
+		color: var(--accent);
+	}
+	.post-spotlight-description {
+		font-size: 0.875rem;
+		color: rgb(var(--gray));
+		line-height: 1.5;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	.post-spotlight-top-row :global(.tag-list) {
+		flex-wrap: nowrap;
+		justify-content: flex-end;
+	}
+	.post-spotlight-arrow {
+		font-size: 0.78rem;
+		color: rgb(var(--gray));
+		margin-top: 0.1rem;
+	}
+</style>

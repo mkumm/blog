@@ -1,11 +1,12 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
+import ProjectSpotlight from '../../components/ProjectSpotlight.astro';
 import { SITE_TITLE } from '../../consts';
 import ProjectsHeroImage from '../../assets/pages/hero-projects.png';
+import { Image } from 'astro:assets';
 
 const projects = (await getCollection('projects')).sort(
 	(a, b) => a.data.order - b.data.order,
@@ -62,95 +63,14 @@ const projects = (await getCollection('projects')).sort(
 				color: rgb(var(--gray));
 				font-size: 0.95rem;
 			}
-			ul {
+			.spotlight-grid {
 				display: grid;
 				grid-template-columns: repeat(3, 1fr);
-				gap: 1.75rem;
-				list-style: none;
-				margin: 0;
-				padding: 0;
+				column-gap: 2.5rem;
+				row-gap: 3.5rem;
 			}
-			ul li a {
-				display: flex;
-				flex-direction: column;
-				height: 100%;
-				text-decoration: none;
-				color: inherit;
-				border-radius: 10px;
-				overflow: hidden;
-				background: var(--bg-secondary);
-				border: 1px solid rgba(var(--gray-light), 0.8);
-				transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-			}
-			ul li a:hover {
-				box-shadow: var(--box-shadow);
-				transform: translateY(-3px);
-				border-color: rgba(var(--accent-rgb), 0.3);
-				text-decoration: none;
-			}
-			ul li img {
-				display: block;
-				width: 100% !important;
-				height: 160px;
-				max-width: 100% !important;
-				margin: 0 !important;
-				object-fit: cover;
-				border-radius: 0;
-			}
-			.card-body {
-				display: flex;
-				flex-direction: column;
-				flex: 1;
-				padding: 1.1rem 1.2rem 1.2rem;
-			}
-			.status-badge {
-				display: inline-block;
-				align-self: flex-start;
-				margin-bottom: 0.5rem;
-				padding: 0.25em 0.7em;
-				border-radius: 999px;
-				font-size: 0.68rem;
-				font-weight: 600;
-				text-transform: uppercase;
-				letter-spacing: 0.06em;
-				background: rgba(var(--gray-light), 0.5);
-				color: rgb(var(--gray-dark));
-			}
-			.status-badge[data-status='Active'] {
-				background: rgba(var(--accent-rgb), 0.15);
-				color: var(--accent-dark);
-			}
-			.status-badge[data-status='Just for fun'] {
-				background: rgba(234, 179, 8, 0.18);
-				color: #92650a;
-			}
-			.status-badge[data-status='Archived'] {
-				background: rgba(var(--gray-light), 0.6);
-				color: rgb(var(--gray));
-			}
-			.card-title {
-				font-family: 'Lora', Georgia, serif;
-				font-size: 1.1rem;
-				font-weight: 600;
-				color: rgb(var(--black));
-				line-height: 1.35;
-				margin: 0;
-				transition: color 0.15s ease;
-			}
-			ul li a:hover .card-title {
-				color: var(--accent);
-			}
-			.card-description {
-				font-size: 0.85rem;
-				color: rgb(var(--gray));
-				line-height: 1.5;
-				margin: 0.5rem 0 0;
-			}
-			@media (max-width: 900px) {
-				ul { grid-template-columns: repeat(2, 1fr); }
-			}
-			@media (max-width: 600px) {
-				ul { grid-template-columns: 1fr; }
+			@media (max-width: 720px) {
+				.spotlight-grid { grid-template-columns: 1fr; }
 			}
 		</style>
 	</head>
@@ -164,36 +84,11 @@ const projects = (await getCollection('projects')).sort(
 				<h1>Projects</h1>
 				<p>Side projects I've built and shipped — apps, games, and tools.</p>
 			</div>
-			<ul>
+			<div class="spotlight-grid">
 				{projects.map((project) => (
-					<li>
-						<a href={`/projects/${project.id}/`}>
-							{project.data.heroImage ? (
-								<Image
-									width={480}
-									height={280}
-									src={project.data.heroImage}
-									alt={`image: ${project.data.title}`}
-									loading="eager"
-								/>
-							) : project.data.heroImageUrl ? (
-								<Image
-									width={480}
-									height={280}
-									src={project.data.heroImageUrl}
-									alt={`image: ${project.data.title}`}
-									loading="eager"
-								/>
-							) : null}
-							<div class="card-body">
-								<span class="status-badge" data-status={project.data.status}>{project.data.status}</span>
-								<h4 class="card-title">{project.data.title}</h4>
-								<p class="card-description">{project.data.tagline}</p>
-							</div>
-						</a>
-					</li>
+					<ProjectSpotlight slug={project.id} showTagline showStatus />
 				))}
-			</ul>
+			</div>
 		</main>
 		<Footer />
 	</body>
