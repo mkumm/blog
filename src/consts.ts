@@ -3,7 +3,7 @@
 
 export const SITE_TITLE = 'Michael Kumm';
 export const SITE_DESCRIPTION = 'Senior software engineer specializing in Elixir, Phoenix, and functional programming. Writing on software, systems, and side projects.';
-export const WRITING_PAGE_SIZE = 9;
+export const WRITING_PAGE_SIZE = 8;
 
 // Writing post ids (src/content/writing/<id>.mdx) to feature on the homepage.
 // First entry is the lead card; the rest are shown smaller.
