@@ -53,6 +53,20 @@ const [leadPost, ...restPosts] = featuredPosts;
 					max-width: 100%;
 				}
 			}
+			.page-header {
+				margin-bottom: 2.5rem;
+				padding-bottom: 1.25rem;
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.page-header h1 {
+				margin: 0 0 0.25rem 0;
+				font-size: 2rem;
+			}
+			.page-header p {
+				margin: 0;
+				color: rgb(var(--gray));
+				font-size: 0.95rem;
+			}
 			.hero-image {
 				width: 100%;
 			}
@@ -323,10 +337,13 @@ const [leadPost, ...restPosts] = featuredPosts;
 			)}
 		</div>
 		<main>
-				<h2>
-				Software, side projects, and the ongoing work of getting better.
-				</h2>
-				<p>A few selected posts</p>
+			<div class="page-header">
+				<h1>
+				Welcome
+				</h1>
+				<p>Personal website of Michael Kumm.</p>
+				<p>I write about software, side projects, and the ongoing work of being better.</p>
+				</div>
 
 			{leadPost && (
 				<div class="featured">
@@ -351,7 +368,7 @@ const [leadPost, ...restPosts] = featuredPosts;
 							<span class="card-arrow">Read post &rarr;</span>
 						</div>
 					</a>
-					<div class="featured-secondary">
+					<div class="featured-secondary pl-6">
 						{restPosts.map((post) => (
 							<a class="featured-card" href={`/writing/${post.id}/`}>
 								{post.data.heroImage && (
@@ -363,7 +380,7 @@ const [leadPost, ...restPosts] = featuredPosts;
 										loading="eager"
 									/>
 								)}
-								<div class="card-body">
+								<div class="card-body pb-6">
 									<p class="card-date">
 										<FormattedDate date={post.data.pubDate} />
 									</p>
