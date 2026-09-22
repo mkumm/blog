@@ -10,24 +10,22 @@ order: 1
 
 ## Why I Built It
 
-For 99 days in a row I completed at least a 30 minute walk. Rain, snow, injury, and even sheer laziness was not going to stop me from reaching my goal of walking 99 days in a row.
+For 99 days in a row I walked a minimum of 30 minutes. Heavy rain, blowing snow, injury, and even sheer laziness did not stop me from my daily walks. Something drove me to just show up.
 
-Warming myself in my now regular coffee shop, celebrating the moment of completion with an Americano, I considered the last 99 days and if I wanted to cross over to 100. This +1 is mostly symbolic, although many ancient beliefs considered 100 days of practice to be something a little mystical. My belief is that after spending 99 days with a practice it becomes part of you. A known entity. It is at this point I can fully decide to fully convert the practice to a daily routine, drop it completely, or something in between.
+Warming myself at my favorite coffee shop with an Americano, I considered the last 99 days and if I wanted to continue to day 100. This **+1 more day** is of course just an arbitrary number, but it is an appropriate point to contemplate the experience so far and decide "what's next?" _For 99 days I lived the life of someone who walks every day_. The experience, in its entirety, became my reference point for deciding whether I was going to adopt the habit as part of who I am.
 
-That moment was powerful and personal. It filled with agency to for what was next and what else I could do. I decided I wanted to share the process I took to get to that moment. You don't need an app for the experience, but I wish I had used 99DaysOf to look back and review my past thoughts and experiences.
+The moment was powerful and personal, filled with agency for what was next. I decided I wanted to share the process I used to get to that moment. You don't need an app for the experience, but I wish I had one to look back and review my past thoughts and experiences over those 99 days of walking.
 
-I have since used the 99 day threshold to experiment with many new habits that led to significant changes to my life. I finally created the 99DaysOf app to be as helpful, but out of the way as possible while leaving breadcrumbs for later reflection.
+I have since used the 99 day threshold to experiment with new habits that have led to significant changes to my life. I seek to understand "What's it like to be a person who shows up every day?" Is there something that I can take from that experience? Even if I don't fully commit to it after my experiment.
 
-## 99DayOf
+I made the **99DaysOf** app to help others gain similar experiences with their own experiments. The app was designed to serve a single purpose and then get out of the way as quickly as possible; leaving a history for later reflection.
 
-[99DaysOf.com](https://99daysof.com) is available as a paid web application ($9 a year). It comes with a 1-button, no questions asked refund policy. Try it out for 99 Days and then make your decision to make it a daily routine, drop it completely, or something in between.
+## 99DaysOf
 
-Privacy, like everything I do under the Sprytna name is first. All personal data is encrypted and there are no analytics on the application. There is also no "share on social media" button. I made this application for your personal journey and reflection. Not as another social app. I hope you enjoy it.
+[99DaysOf.com](https://99daysof.com) is available as a paid web application. It comes with  a 100-day, no-questions-asked refund — one click and you're done. Try it for 99 days, then decide: make it a daily practice, drop it completely, or something in between.
+
+Like every application I build, privacy is at the forefront. All the data is encrypted. And absolutely no data sharing on the actual application. I don't even use analytics with 99DaysOf.
 
 ## What I Learned
 
-The original version was created to be free and private, while using the user's browser's local storage. For various reasons, users could easily lose that data and the progress they made. I needed a different solution. I recreated the application from a JS-first application to a full server-backed web-application. I chose Elixir/Phoenix with a postgres database. The user entries are encoded and encrypted for extra privacy.
-
-Adding a database meant I had to keep the bots out. I added a user account system with Stripe with an upfront charge of $9 a year.
-
-The biggest challenge was getting the UI/UX to feel elegant, simple, but provide a powerful service. I am not quite there, but it's pretty close. One unexpected surprise was how nice the 11x9 (99) grid of dots worked as a daily tracker.
+The original version was created to be free, private, using only your own browser's local storage. After a couple of test users lost data, I decided to make it a proper database-backed web application. Doing so also opened up the option of usiąng it on multiple devices. Adding a database meant my costs were no longer basically zero. As a result I charge $9 a year which helps cover costs and works as a decently effective tool for keeping bots away — the ones that like to fill up databases for fun and no profit.
