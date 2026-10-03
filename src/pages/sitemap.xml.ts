@@ -21,18 +21,29 @@ function urlEntry(loc: string, lastmod?: string, priority = '0.8', changefreq = 
 export async function GET() {
   const writingPosts = await getCollection('writing');
   const projects = await getCollection('projects');
+  const labs = await getCollection('labs');
 
   const writingPageCount = Math.max(1, Math.ceil(writingPosts.length / WRITING_PAGE_SIZE));
 
   const staticEntries = [
     urlEntry(`${SITE}/`, undefined, '1.0', 'weekly'),
     urlEntry(`${SITE}/projects/`, undefined, '0.8', 'monthly'),
+    urlEntry(`${SITE}/labs/`, undefined, '0.8', 'monthly'),
     urlEntry(`${SITE}/about/`, undefined, '0.6', 'yearly'),
     urlEntry(`${SITE}/now/`, undefined, '0.7', 'monthly'),
   ];
 
   const projectEntries = projects.map((project) =>
     urlEntry(`${SITE}/projects/${project.id}/`, undefined, '0.7', 'monthly')
+  );
+
+  const labEntries = labs.map((lab) =>
+    urlEntry(
+      `${SITE}/labs/${lab.id}/`,
+      toLastmod(lab.data.updatedDate ?? lab.data.pubDate),
+      '0.8',
+      'monthly',
+    )
   );
 
   const writingIndexEntries = Array.from({ length: writingPageCount }, (_, i) =>
@@ -55,7 +66,7 @@ export async function GET() {
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...staticEntries, ...writingIndexEntries, ...writingEntries, ...projectEntries].join('\n')}
+${[...staticEntries, ...writingIndexEntries, ...writingEntries, ...labEntries, ...projectEntries].join('\n')}
 </urlset>`;
 
   return new Response(xml, {

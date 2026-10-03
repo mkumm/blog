@@ -38,4 +38,24 @@ const projects = defineCollection({
 		}),
 });
 
-export const collections = { writing, projects };
+const labs = defineCollection({
+	// Load Markdown and MDX files in the `src/content/labs/` directory.
+	loader: glob({ base: './src/content/labs', pattern: '**/*.{md,mdx}' }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		pubDate: z.coerce.date(),
+		updatedDate: z.coerce.date().optional(),
+		// Short name of the subject, shown large on the lab's cover (e.g. "grep").
+		topic: z.string(),
+		level: z.enum(['Beginner', 'Intermediate', 'Advanced']),
+		// Minutes the lab takes to work through.
+		duration: z.number().default(45),
+		audience: z.string(),
+		// Where the reader starts, and what they can do by the end.
+		levelFrom: z.string(),
+		levelTo: z.string(),
+	}),
+});
+
+export const collections = { writing, projects, labs };

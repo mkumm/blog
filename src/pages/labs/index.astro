@@ -1,0 +1,133 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import LabCover from '../../components/LabCover.astro';
+import { SITE_TITLE } from '../../consts';
+
+const labs = (await getCollection('labs')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const description = 'Hands-on, 45-minute walkthroughs: one topic, one skill level, start to finish.';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Labs — ${SITE_TITLE}`} description={description} />
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "ItemList",
+			"name": "Labs — Michael Kumm",
+			"url": "https://mkumm.com/labs/",
+			"itemListElement": labs.map((lab, i) => ({
+				"@type": "ListItem",
+				"position": i + 1,
+				"url": `https://mkumm.com/labs/${lab.id}/`,
+				"name": lab.data.title,
+			}))
+		})}></script>
+		<style>
+			main {
+				width: 760px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+			}
+			.page-header {
+				margin-bottom: 2.5rem;
+				padding-bottom: 1.25rem;
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.page-header h1 {
+				margin: 0 0 0.25rem 0;
+				font-size: 2rem;
+			}
+			.page-header p {
+				margin: 0;
+				color: rgb(var(--gray));
+				font-size: 0.95rem;
+			}
+			.lab-grid {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				column-gap: 3rem;
+				row-gap: 3.5rem;
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			.lab-card {
+				display: block;
+				text-decoration: none;
+				color: inherit;
+			}
+			.lab-card :global(.lab-cover) {
+				transition: opacity 0.2s ease;
+			}
+			.lab-card:hover :global(.lab-cover) {
+				opacity: 0.85;
+			}
+			.lab-card-caption {
+				display: flex;
+				flex-direction: column;
+				gap: 0.4rem;
+				margin-top: 0.75rem;
+				padding-top: 0.6rem;
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			.lab-card-title {
+				font-family: 'Lora', Georgia, serif;
+				font-weight: 600;
+				font-size: 1.15rem;
+				color: rgb(var(--black));
+				line-height: 1.35;
+				transition: color 0.15s ease;
+			}
+			.lab-card:hover .lab-card-title {
+				color: var(--accent);
+			}
+			.lab-card-description {
+				font-size: 0.875rem;
+				color: rgb(var(--gray));
+				line-height: 1.5;
+			}
+			.lab-card-arrow {
+				font-size: 0.78rem;
+				color: rgb(var(--gray));
+				margin-top: 0.1rem;
+			}
+			@media (max-width: 720px) {
+				main { width: 100%; max-width: 100%; }
+				.lab-grid {
+					grid-template-columns: 1fr;
+					row-gap: 2.5rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="page-header">
+				<h1>Labs</h1>
+				<p>{description}</p>
+			</div>
+			<ul class="lab-grid">
+				{labs.map((lab) => (
+					<li>
+						<a class="lab-card" href={`/labs/${lab.id}/`}>
+							<LabCover topic={lab.data.topic} level={lab.data.level} duration={lab.data.duration} />
+							<span class="lab-card-caption">
+								<span class="lab-card-title">{lab.data.title}</span>
+								<span class="lab-card-description">{lab.data.description}</span>
+								<span class="lab-card-arrow">Start lab &rarr;</span>
+							</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>

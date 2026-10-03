@@ -1,0 +1,229 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import LabCover from '../components/LabCover.astro';
+
+import '../styles/global.css'
+
+type Props = CollectionEntry<'labs'>['data'];
+
+const { title, description, pubDate, updatedDate, topic, level, duration, audience, levelFrom, levelTo } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} ogType="article" pubDate={pubDate} updatedDate={updatedDate} />
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "LearningResource",
+			"name": title,
+			"description": description,
+			"about": topic,
+			"learningResourceType": "Hands-on lab",
+			"educationalLevel": level,
+			"timeRequired": `PT${duration}M`,
+			"datePublished": pubDate.toISOString(),
+			"dateModified": (updatedDate ?? pubDate).toISOString(),
+			"author": {
+				"@type": "Person",
+				"name": "Michael Kumm",
+				"url": "https://mkumm.com"
+			},
+			"url": Astro.url.href
+		})}></script>
+		<style>
+			main {
+				width: 100%;
+				max-width: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			.prose {
+				width: 720px;
+				max-width: calc(100% - 2rem);
+				margin: 0 auto;
+				padding: 2.5rem 0 4rem;
+				color: rgb(var(--gray-dark));
+			}
+			.post-header {
+				margin-bottom: 2.5rem;
+			}
+			.post-meta {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 0.75rem;
+				margin-bottom: 0.75rem;
+				color: rgb(var(--gray));
+				font-size: 0.8rem;
+				text-transform: uppercase;
+				letter-spacing: 0.07em;
+				font-weight: 500;
+			}
+			.post-meta a {
+				font-weight: 700;
+				text-decoration: none;
+			}
+			.post-meta .sep { opacity: 0.4; }
+			.post-header h1 {
+				margin: 0 0 1.5rem 0;
+				font-size: 2.5rem;
+				line-height: 1.15;
+			}
+
+			/* Who it's for / where you start / where you end up */
+			.lab-brief {
+				display: grid;
+				grid-template-columns: max-content 1fr;
+				gap: 0.6rem 1.25rem;
+				margin: 0;
+				padding: 1.1rem 1.25rem;
+				background: var(--bg-secondary);
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 8px;
+				font-size: 0.95rem;
+				line-height: 1.5;
+			}
+			.lab-brief dt {
+				margin: 0;
+				font-family: inherit;
+				font-size: 0.75rem;
+				font-weight: 700;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+				line-height: 2;
+				color: var(--accent);
+			}
+			.lab-brief dd { margin: 0; }
+
+			/* Tables */
+			.prose :global(table) {
+				margin: 0 0 1.75em;
+				border-collapse: collapse;
+				font-size: 0.95rem;
+				line-height: 1.5;
+			}
+			.prose :global(th) {
+				text-align: left;
+				font-size: 0.75rem;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+				color: rgb(var(--gray));
+				border-bottom: 2px solid rgb(var(--gray-light));
+			}
+			.prose :global(th),
+			.prose :global(td) {
+				padding: 0.5rem 0.75rem 0.5rem 0;
+				vertical-align: top;
+			}
+			.prose :global(td) {
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.prose :global(td code) { white-space: nowrap; }
+			.prose :global(pre) {
+				margin: 0 0 1.75em;
+				font-size: 0.9rem;
+				line-height: 1.6;
+			}
+
+			/* Callouts (see src/plugins/rehype-callouts.mjs) */
+			.prose :global(.callout) {
+				margin: 0 0 1.75em;
+				padding: 0.9rem 1.1rem;
+				border-left: 3px solid rgb(var(--gray));
+				border-radius: 0 6px 6px 0;
+				background: var(--bg-secondary);
+				font-size: 0.98rem;
+			}
+			.prose :global(.callout-title) {
+				margin: 0;
+				font-size: 0.78rem;
+				font-weight: 700;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+				color: rgb(var(--gray));
+			}
+			.prose :global(.callout-body > *) { margin-top: 0.6rem; }
+			.prose :global(.callout-body > :last-child) { margin-bottom: 0; }
+			.prose :global(.callout p) { font-size: inherit; margin-bottom: 0.75em; }
+			.prose :global(.callout pre) { margin-bottom: 0.75em; }
+
+			.prose :global(.callout-warning),
+			.prose :global(.callout-tip) {
+				border-left-color: var(--accent);
+				background: rgba(var(--accent-rgb), 0.07);
+			}
+			.prose :global(.callout-warning > .callout-title),
+			.prose :global(.callout-tip > .callout-title) {
+				color: var(--accent-dark);
+			}
+
+			/* Collapsed callouts: the solutions */
+			.prose :global(details.callout) {
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 6px;
+				background: var(--bg-primary);
+			}
+			.prose :global(details.callout > summary) {
+				cursor: pointer;
+				color: var(--accent);
+			}
+			.prose :global(details.callout > summary:hover) { color: var(--accent-dark); }
+			.prose :global(details.callout:not([open]) > summary::after) {
+				content: ' (click to reveal)';
+				font-weight: 400;
+				text-transform: none;
+				letter-spacing: 0;
+				color: rgb(var(--gray));
+			}
+
+			.last-updated-on { font-style: italic; }
+			@media (max-width: 720px) {
+				.prose {
+					padding: 1.5rem 1rem 3rem;
+					max-width: 100%;
+				}
+				.post-header h1 { font-size: 1.75rem; }
+				.lab-brief { grid-template-columns: 1fr; gap: 0 1rem; }
+				.lab-brief dd { margin-bottom: 0.6rem; }
+				.prose :global(table) {
+					display: block;
+					overflow-x: auto;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+		<LabCover topic={topic} level={level} duration={duration} variant="banner" />
+		<main>
+			<article>
+				<div class="prose">
+					<div class="post-header">
+						<div class="post-meta">
+							<a href="/labs/">Labs</a>
+							<span class="sep">·</span>
+							<FormattedDate date={pubDate} />
+							{updatedDate && <><span class="sep">·</span><span class="last-updated-on">Updated <FormattedDate date={updatedDate} /></span></>}
+						</div>
+						<h1>{title}</h1>
+						<dl class="lab-brief">
+							<dt>For</dt>
+							<dd>{audience}</dd>
+							<dt>You start</dt>
+							<dd>{levelFrom}</dd>
+							<dt>You finish</dt>
+							<dd>{levelTo}</dd>
+						</dl>
+					</div>
+					<slot />
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>

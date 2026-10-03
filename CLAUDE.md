@@ -24,10 +24,17 @@ Content lives in `src/content/` and is defined by schemas in `src/content.config
 - **`writing/`** — Long-form articles (MDX), collection name `writing`. URL: `/writing/[slug]/`
 - **`shorts/`** — Short-form posts (MDX), named `YYYYMMDD[a-z]-slug.mdx`. URL: `/shorts/[slug]/`
 - **`profiles/`** — Profile data
+- **`labs/`** — 45-minute hands-on walkthroughs (plain `.md`), collection name `labs`. URL: `/labs/[slug]/`
 
 All posts share the same frontmatter schema: `title`, `description`, `pubDate`, `updatedDate` (optional), `heroImage` (optional). The `writing` collection additionally supports `tags` (optional string array) — tagged posts get a `/writing/tags/[tag]/` archive page (`src/pages/writing/tags/[tag].astro`), generated for every tag actually in use.
 
 `/blog/*` permanently redirects to `/writing/*` in `netlify.toml` (the section used to be called "Blog").
+
+### Labs
+
+Labs are written in Obsidian (`~/Obsidian/Sprytna/Labs/`, via the `45-min-lesson` skill) and copied into `src/content/labs/<slug>.md`. To add one: copy the note, drop its `# Title` line, and replace the Obsidian frontmatter with the site's — `title`, `description`, `pubDate` (from `created`), `topic` (short, shown large on the cover), `level` (`Beginner` | `Intermediate` | `Advanced`), `duration` (minutes, default 45), `audience`, `levelFrom` / `levelTo` (from `level_from` / `level_to`). The body needs no changes: Obsidian callouts (`> [!tip] Title`, collapsed `> [!success]- Solution`, nested) are converted by `src/plugins/rehype-callouts.mjs` and styled in `src/layouts/LabPost.astro`.
+
+Labs have no hero image file. `src/components/LabCover.astro` draws the cover in CSS from `topic`, `level` and `duration` (a `card` variant on `/labs/`, a `banner` variant on the lab page). Social share previews use the site's default image.
 
 ### Projects
 
@@ -52,6 +59,7 @@ The header background uses `--header-bg` / `--header-bg-solid` CSS variables so 
 
 - **`/`** — Homepage with hero image, profile photo (`/profiles/mkumm.png`) in a two-column intro block, plus a featured-posts section (lead card + smaller cards) driven by `FEATURED_POSTS` in `src/consts.ts`
 - **`/writing`** — 2-col card grid with hero images (formerly `/blog`)
+- **`/labs`** — 2-col card grid of CSS-drawn lab covers, no page hero image
 - **`/projects`** — 3-col card grid linking to hand-written project pages
 - **`/shorts`** — 3-col card grid (→ 2-col tablet, → 1-col mobile) with hero images
 - **`/now`** — Standalone page matching the writing/shorts listing header style (left-aligned h1, subtitle, border-bottom)

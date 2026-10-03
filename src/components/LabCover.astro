@@ -1,0 +1,102 @@
+---
+// The "hero image" for a lab, drawn in CSS so every lab gets the same cover
+// from its frontmatter alone: graph-paper background, topic in large type.
+interface Props {
+	topic: string;
+	level: string;
+	duration: number;
+	/** `card` is a 16:9 tile for listings; `banner` is the full-width band on a lab page. */
+	variant?: 'card' | 'banner';
+}
+
+const { topic, level, duration, variant = 'card' } = Astro.props;
+// Longer topics get smaller type so they still fit on one or two lines.
+const size = topic.length <= 6 ? 'short' : topic.length <= 14 ? 'medium' : 'long';
+---
+
+<div class:list={['lab-cover', `lab-cover-${variant}`, `lab-cover-${size}`]}>
+	<div class="lab-cover-inner">
+		<span class="lab-cover-row">
+			<span class="lab-cover-label">Lab</span>
+			<span>{duration} min</span>
+		</span>
+		<span class="lab-cover-topic">{topic}</span>
+		<span class="lab-cover-row">
+			<span>{level}</span>
+		</span>
+	</div>
+</div>
+
+<style>
+	.lab-cover {
+		display: block;
+		container-type: inline-size;
+		background-color: var(--surface);
+		background-image:
+			linear-gradient(rgba(var(--accent-rgb), 0.14) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(var(--accent-rgb), 0.14) 1px, transparent 1px);
+		background-size: 24px 24px;
+		background-position: -1px -1px;
+	}
+	.lab-cover-inner {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+	.lab-cover-row {
+		display: flex;
+		justify-content: space-between;
+		font-size: 0.78rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		line-height: 1;
+		color: rgb(var(--gray));
+	}
+	.lab-cover-label {
+		color: var(--accent);
+	}
+	.lab-cover-topic {
+		font-family: 'Lora', Georgia, serif;
+		font-weight: 700;
+		letter-spacing: -0.03em;
+		line-height: 1;
+		/* room for descenders above the bottom row */
+		padding-bottom: 0.12em;
+		color: rgb(var(--black));
+	}
+
+	/* Card: 16:9 tile with a notebook-spine edge */
+	.lab-cover-card {
+		aspect-ratio: 16 / 9;
+		border-left: 6px solid var(--accent);
+	}
+	.lab-cover-card .lab-cover-inner {
+		height: 100%;
+		padding: 1.1rem 1.25rem;
+	}
+	.lab-cover-card.lab-cover-short .lab-cover-topic { font-size: 24cqw; }
+	.lab-cover-card.lab-cover-medium .lab-cover-topic { font-size: 13cqw; }
+	.lab-cover-card.lab-cover-long .lab-cover-topic { font-size: 9cqw; }
+
+	/* Banner: full-width band, content aligned to the article column */
+	.lab-cover-banner {
+		border-bottom: 1px solid rgb(var(--gray-light));
+	}
+	.lab-cover-banner .lab-cover-inner {
+		width: 720px;
+		max-width: calc(100% - 2rem);
+		min-height: 300px;
+		margin: 0 auto;
+		padding: 2rem 0;
+		border-left: 6px solid var(--accent);
+		padding-left: 1.5rem;
+	}
+	.lab-cover-banner.lab-cover-short .lab-cover-topic { font-size: clamp(4.5rem, 20cqw, 10rem); }
+	.lab-cover-banner.lab-cover-medium .lab-cover-topic { font-size: clamp(3rem, 11cqw, 6.5rem); }
+	.lab-cover-banner.lab-cover-long .lab-cover-topic { font-size: clamp(2.25rem, 7cqw, 4.5rem); }
+	@media (max-width: 720px) {
+		.lab-cover-banner .lab-cover-inner { min-height: 200px; padding: 1.5rem 0 1.5rem 1rem; }
+	}
+</style>

@@ -6,6 +6,8 @@ import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
+import rehypeCallouts from './src/plugins/rehype-callouts.mjs';
+
 /** @type {import('unified').Plugin} */
 function rehypeMermaid() {
   return (tree) => {
@@ -40,7 +42,7 @@ export default defineConfig({
   },
 
   markdown: {
-    processor: unified({ rehypePlugins: [rehypeMermaid] }),
+    processor: unified({ rehypePlugins: [rehypeMermaid, rehypeCallouts] }),
     syntaxHighlight: {
       type: 'shiki',
       excludeLangs: ['mermaid'],
