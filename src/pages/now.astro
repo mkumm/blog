@@ -1,6 +1,7 @@
 ---
 import NowHeroImage from "../assets/pages/hero-now.png";
 import ParkImage from "../assets/now/park-1.png";
+import SiversImage from "../assets/profiles/sivers.png";
 import { Image } from "astro:assets";
 import { SITE_TITLE } from "../consts";
 import BaseHead from "../components/BaseHead.astro";
@@ -232,7 +233,7 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 			<div class="">
 			<p>
 				This is a <a href="https://nownownow.com/about">now page</a>. <PersonLink
-					img_src="/profiles/sivers.png"
+					img_src={SiversImage}
 					name="Derek Sivers"
 					link="https://sive.rs/"
 				/> has inspired <a href="https://nownownow.com/">a growing number of "nowers"</a> to create these. If you have your own site, you should consider adding a <b>Now page</b> too.
@@ -271,7 +272,7 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				{readingBooks.map(book => (
 					<li>
 						<div class="item-row">
-							<img src={book.image} class="item-thumb book" alt={`${book.title} cover`} />
+							<Image src={book.image} width={72} densities={[1, 2]} class="item-thumb book" alt={`${book.title} cover`} />
 							<div class="item-content">
 								<div class="item-header">
 									<a href={book.url} class="item-title">{book.title}</a>
@@ -292,7 +293,7 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				{finishedBooks.map(book => (
 					<li>
 						<div class="item-row">
-							<img src={book.image} class="item-thumb book" alt={`${book.title} cover`} />
+							<Image src={book.image} width={72} densities={[1, 2]} class="item-thumb book" alt={`${book.title} cover`} />
 							<div class="item-content">
 								<div class="item-header">
 									<a href={book.url} class="item-title">{book.title}</a>
@@ -314,7 +315,7 @@ function starSegments(rating: number): Array<'full' | 'half' | 'empty'> {
 				{albums.map(album => (
 					<li>
 						<div class="item-row">
-							<img src={album.image} class="item-thumb music" alt={`${album.title} album art`} />
+							<Image src={album.image} width={72} densities={[1, 2]} class="item-thumb music" alt={`${album.title} album art`} />
 							<div class="item-content">
 								<div class="item-header">
 									<a href={album.url} class="item-title">{album.title}</a>

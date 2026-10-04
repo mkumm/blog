@@ -6,6 +6,7 @@ import { SITE_TITLE } from "../consts";
 import { Image } from "astro:assets";
 import ParkImage from "../assets/now/park-1.png";
 import AboutHeroImage from "../assets/pages/hero-about.png";
+import ProfileImage from "../assets/profiles/mkumm.png";
 ---
 
 <!doctype html>
@@ -137,7 +138,7 @@ import AboutHeroImage from "../assets/pages/hero-about.png";
 			</div>
 
 			<div class="intro">
-				<img src="/profiles/mkumm.png" alt="Michael Kumm" class="intro-photo" />
+				<Image src={ProfileImage} width={96} densities={[1, 2]} alt="Michael Kumm" class="intro-photo" />
 				<div class="intro-text">
 					<h2>Michael Kumm</h2>
 					<p>Senior Software Engineer · Elixir/Beam <br />Building software and sharing what it teaches me</p>

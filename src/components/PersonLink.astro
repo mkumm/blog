@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
+
 interface Props {
-  img_src: string;
+  img_src: ImageMetadata;
   name: string;
   link: string;
 }
@@ -11,7 +13,7 @@ const { img_src, name, link } = Astro.props;
 
    <a href={link}>{name}</a>&nbsp;
   <a href={link}>
-    <img src={img_src} class="inline-img w-6 h-6 rounded-full inline hover:scale-150 transition" alt={"profile " + name + " "} /></a>
+    <Image src={img_src} width={36} densities={[1, 2]} class="inline-img w-6 h-6 rounded-full inline hover:scale-150 transition" alt={"profile " + name + " "} /></a>
 
 
 <style>

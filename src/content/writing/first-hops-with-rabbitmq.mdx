@@ -54,17 +54,17 @@ We asked Docker to run the official [RabbitMQ Container](https://hub.docker.com/
 
 Assuming everything went well, you should see your new and running container in your Docker Desktop.
 
-![docker](/writing/first-hops/image1.png)
+![docker](../../assets/writing/first-hops/image1.png)
 
 ## 3. Log into the RabbitMQ Admin
 
 With our RabbitMQ container still running, go to [localhost:15675](http://localhost:15675) and log in with the default Username ("guest") and Password ("guest").
 
-![RabbitMQ Log In](/writing/first-hops/image2.png)
+![RabbitMQ Log In](../../assets/writing/first-hops/image2.png)
 
 Once you are logged in you will see the Overview Page.
 
-![RabbitMQ Admin](/writing/first-hops/image3.png)
+![RabbitMQ Admin](../../assets/writing/first-hops/image3.png)
 
 **Don't Panic!**
 
@@ -121,15 +121,15 @@ Let's leave the console up running while we create some messages for this consum
 
 Let's get to work and open Livebook. We will start by clicking the big "+ New notebook" button.
 
-![livebook screenshot](/writing/first-hops/image4.png)
+![livebook screenshot](../../assets/writing/first-hops/image4.png)
 
 And you should have a brand new empty project page.
 
-![livebook](/writing/first-hops/image5.png)
+![livebook](../../assets/writing/first-hops/image5.png)
 
 Hover over "Notebook dependencies and setup" and add our `:amqp` dependency.
 
-![livebook](/writing/first-hops/image6.png)
+![livebook](../../assets/writing/first-hops/image6.png)
 
 Next we will add a section to take care of our connection
 
@@ -143,7 +143,7 @@ Notice that we create our options with a custom port and explicitly pass the use
 
 After clicking "evaluate", our Livebook should look like this and confirm `{:ok, ...}` that we have an active connection.
 
-![livebook](/writing/first-hops/image7.png)
+![livebook](../../assets/writing/first-hops/image7.png)
 
 Let's make sure our queue exists (or make it if it doesn't) by adding.
 
@@ -151,7 +151,7 @@ Let's make sure our queue exists (or make it if it doesn't) by adding.
 AMQP.Queue.declare(channel, "sneakers")
 ```
 
-![livebook](/writing/first-hops/image8.png)
+![livebook](../../assets/writing/first-hops/image8.png)
 
 Our response is pretty interesting this time. Not only does our queue already exist, we see there is 1 consumer waiting for messages - our running `consumer.js` script.
 
@@ -165,7 +165,7 @@ AMQP.Basic.publish(channel, "", "sneakers", "Setec Astronomy")
 
 Our entire Livebook should look something like this!
 
-![livebook](/writing/first-hops/image9.png)
+![livebook](../../assets/writing/first-hops/image9.png)
 
 Once we evaluate that last entry in Livebook, our message ("Setec Astronomy") will be routed through RabbitMQ's to the Queue ("sneakers") we designated. Since `consumer.js` was still running and connected the same queue, we should see the new message in our terminal!
 

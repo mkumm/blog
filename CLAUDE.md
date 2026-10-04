@@ -57,9 +57,9 @@ The header background uses `--header-bg` / `--header-bg-solid` CSS variables so 
 
 ### Pages
 
-- **`/`** — Homepage with hero image, profile photo (`/profiles/mkumm.png`) in a two-column intro block, plus a featured-posts section (lead card + smaller cards) driven by `FEATURED_POSTS` in `src/consts.ts`
+- **`/`** — Homepage with hero image, profile photo in a two-column intro block, plus a featured-posts section (lead card + smaller cards) driven by `FEATURED_POSTS` in `src/consts.ts`
 - **`/writing`** — 2-col card grid with hero images (formerly `/blog`)
-- **`/labs`** — 2-col card grid of CSS-drawn lab covers, no page hero image
+- **`/labs`** — 2-col card grid of CSS-drawn lab covers, with a page hero image (`src/assets/pages/hero-labs.png`)
 - **`/projects`** — 3-col card grid linking to hand-written project pages
 - **`/shorts`** — 3-col card grid (→ 2-col tablet, → 1-col mobile) with hero images
 - **`/now`** — Standalone page matching the writing/shorts listing header style (left-aligned h1, subtitle, border-bottom)
