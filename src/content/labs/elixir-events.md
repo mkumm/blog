@@ -230,6 +230,16 @@ end
 
 All the rules live in `decide/3`, and it never changes anything. It only answers the question "if we did this, what would happen?" Notice that a single `{:select, slot}` can produce two events, a sale and the change. The `now` argument defaults to the current time but can be passed in, which makes `decide/3` easy to test.
 
+Because `decide/3` always returns a list, give `evolve/2` a clause that takes one too. Put it above the event clauses:
+
+```elixir
+def evolve(state, events) when is_list(events) do
+  Enum.reduce(events, state, fn event, state -> evolve(state, event) end)
+end
+```
+
+That is the same reduce as `replay/1`, but it starts from any state, not just `new()`. `replay(events)` is now simply `evolve(new(), events)`.
+
 Try it against the real state:
 
 ```elixir
@@ -239,15 +249,23 @@ iex> Vending.decide(state, {:select, "A1"})
 {:error, :sold_out}
 iex> Vending.decide(state, {:select, "A3"})
 {:error, {:insert_more, 175}}
-iex> {:ok, [inserted]} = Vending.decide(state, {:insert, 200})
-iex> state = Vending.evolve(state, inserted)
-iex> Vending.decide(state, {:select, "A3"})
+iex> {:ok, events} = Vending.decide(state, {:insert, 200})
+iex> state = Vending.evolve(state, events)
+iex> {:ok, events} = Vending.decide(state, {:select, "A3"})
 {:ok,
  [
    %Vend.Events.ItemSold{slot: "A3", price: 175, at: ~U[...]},
    %Vend.Events.ChangeReturned{amount: 25, at: ~U[...]}
  ]}
+iex> Vending.evolve(state, events)
+%Vend.Vending{
+  cash: 6800,
+  credit: 0,
+  stock: %{"A1" => 0, "A2" => 2, "A3" => 3, "B1" => 4, "B2" => 5, "B3" => 1}
+}
 ```
+
+Two events from one command, applied in one call. The machine kept $1.75 of the $2.00, and A3 is down by one.
 
 Nothing has been saved yet. You've been passing state around by hand. Part 5 wraps this in a process.
 
@@ -301,7 +319,7 @@ defmodule Vend.Machine do
     case Vending.decide(vending, command) do
       {:ok, events} ->
         {:ok, _count} = EventStore.append(id, events)
-        vending = Enum.reduce(events, vending, &Vending.evolve(&2, &1))
+        vending = Vending.evolve(vending, events)
         {:reply, {:ok, events}, %{state | vending: vending}}
 
       {:error, _reason} = error ->
@@ -485,7 +503,7 @@ The owner says the machine was short on Wednesday at noon. Write `as_of(events, 
 | --- | --- |
 | Read a stream | `EventStore.read("lobby")` |
 | Rebuild current state | `Vending.replay(events)` |
-| Apply one event | `Vending.evolve(state, event)` |
+| Apply one event, or a list | `Vending.evolve(state, event_or_events)` |
 | Check a command without saving | `Vending.decide(state, command)` |
 | Run a command for real | `Machine.execute("lobby", command)` |
 | See every intermediate state | `Enum.scan(events, Vending.new(), &Vending.evolve(&2, &1))` |
@@ -504,6 +522,7 @@ The owner says the machine was short on Wednesday at noon. Write `as_of(events, 
 ## Going further
 
 - **Snapshots.** Replaying 782 events is instant. Replaying 5 million is not. Save the state every N events, and on startup load the newest snapshot and replay only what came after it. The events stay the source of truth, and a snapshot can always be thrown away.
+- **Slot capacity.** Nothing stops `{:restock, "A1", 500, 95}` today. Give each slot a capacity in `Catalog` and have `decide/3` reject a restock that would overfill it. The rule lives only in `decide/3`, so no events or `evolve/2` clauses change, and old over-full restocks still replay exactly as they happened.
 - **Optimistic concurrency.** One GenServer per stream keeps writes in order on one node. Across several nodes, add an `expected_version` to `append/2` and reject the write if the stream has grown since you read it.
 - **Live projections.** Here the reports read the whole stream on demand. In a larger system, projections subscribe to new events (with `Phoenix.PubSub` or `Registry`) and keep their own read tables up to date.
 - **Changing an event's shape.** Events are never edited, so when a struct gains a field, old rows don't have it. Handle this by "upcasting" in `EventStore.read/1`: fill in a default as each old event is loaded.
