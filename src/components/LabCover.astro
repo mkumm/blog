@@ -1,6 +1,8 @@
 ---
 // The "hero image" for a lab, drawn in CSS so every lab gets the same cover
 // from its frontmatter alone: a terminal window with the topic typed at the prompt.
+import { getCollection } from 'astro:content';
+
 interface Props {
 	topic: string;
 	level: string;
@@ -10,9 +12,10 @@ interface Props {
 }
 
 const { topic, level, duration, variant = 'card' } = Astro.props;
-// Monospace, so the topic's length decides how large it can be and still fit on one line.
-// Short topics are sized as if six characters long, so they do not crowd the window.
-const chars = Math.max(topic.length, 6);
+// Monospace, so the longest topic decides how large every topic can be and still fit
+// on one line. All covers share that size, so a short topic is not shouted.
+const labs = await getCollection('labs');
+const chars = Math.max(topic.length, ...labs.map((lab) => lab.data.topic.length), 6);
 ---
 
 <div class:list={['lab-cover', `lab-cover-${variant}`]}>
@@ -123,10 +126,10 @@ const chars = Math.max(topic.length, 6);
 	}
 	.term-cursor {
 		display: inline-block;
-		width: 0.55em;
-		height: 0.95em;
-		margin-left: 0.08em;
-		vertical-align: -0.12em;
+		width: 0.08em;
+		height: 1em;
+		margin-left: 0.06em;
+		vertical-align: -0.14em;
 		background: var(--accent);
 	}
 
